@@ -1,0 +1,8 @@
+{
+    "/js/apiEndpoints.js": "/js/apiEndpoints.js",
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/jsonAnaliser.js": "/js/jsonAnaliser.js",
+    "/js/products.js": "/js/products.js",
+    "/js/webhookEvents.js": "/js/webhookEvents.js"
+}

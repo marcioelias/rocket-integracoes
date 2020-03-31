@@ -1,0 +1,120 @@
+//  =================
+//      Imports
+//  =================
+
+@import "../base/base"; // Base Variables
+
+div#load_screen {
+    background: $m-color_1;
+    opacity: 1;
+    position: fixed;
+    z-index: 999999;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    .loader {
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .loader-content {
+        right: 0;
+        align-self: center;
+        height: 100vh;
+    }
+
+    svg {
+        width: 119px;
+        height: 231px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto auto;
+
+        path {
+            width: 100px;
+            height: 20px;
+            fill: $primary;
+            animation: animate_path 5s;
+        }
+
+        circle {
+            width: 100px;
+            height: 20px;
+            fill: $info;
+            animation: animate_circle 5s;
+            &.st2 {
+                fill: $l-primary;
+                opacity: 1;
+                animation: animate_circle_one 3s;
+            }
+
+            &.st4 {
+                fill: $dark;
+                animation: animate_circle_three 5s;
+            }
+        }
+    }
+}
+
+@keyframes animate_path /* Safari and Chrome */ {
+    0% {
+        fill: $primary;
+    }
+
+    50% {
+        fill: $dark;
+    }
+
+    100% {
+        fill: $primary;
+    }
+}
+
+@keyframes animate_circle /* Safari and Chrome */ {
+    0% {
+        fill: $info;
+    }
+
+    50% {
+        fill: $m-color_15;
+    }
+
+    100% {
+        fill: $info;
+    }
+}
+
+@keyframes animate_circle_one /* Safari and Chrome */ {
+    0% {
+        fill: $l-primary;
+    }
+
+    50% {
+        fill: $primary;
+    }
+
+    100% {
+        fill: $l-primary;
+    }
+}
+
+@keyframes animate_circle_three /* Safari and Chrome */ {
+    0% {
+        fill: $dark;
+    }
+
+    50% {
+        fill: $l-dark;
+    }
+
+    100% {
+        fill: $dark;
+    }
+}
