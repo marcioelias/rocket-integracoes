@@ -80,7 +80,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return View('events.edit')->withModel($event);
     }
 
     /**
