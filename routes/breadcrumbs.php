@@ -125,7 +125,7 @@ Breadcrumbs::for('events.create', function ($trail) {
 // Cadastros > Eventos > edit > Evento
 Breadcrumbs::for('events.edit', function ($trail, $model) {
     $trail->parent('events.index');
-    $trail->push($model->label, route('events.edit', $model->id));
+    $trail->push($model->name, route('events.edit', $model->id));
 });
 
 
