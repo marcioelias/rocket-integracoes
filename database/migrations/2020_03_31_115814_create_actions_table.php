@@ -19,6 +19,7 @@ class CreateActionsTable extends Migration
             $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('api_endpoint_id');
             $table->integer('delay')->default(0);
+            $table->enum('delay_type', ['minute', 'hour', 'day'])->default('minute');
             $table->text('message');
             $table->boolean('active')->default(true);
             $table->foreign('product_id')->references('id')->on('products');

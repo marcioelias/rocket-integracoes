@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Action;
+use App\Api;
+use App\DataTables\ActionsDataTable;
+use App\Event;
+use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ActionController extends Controller
 {
@@ -12,9 +17,9 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ActionsDataTable $dataTable)
     {
-        //
+        return $dataTable->render('layouts.index');
     }
 
     /**
@@ -24,7 +29,14 @@ class ActionController extends Controller
      */
     public function create()
     {
-        //
+        $products = Product::Ordered()->get();
+        $events = Event::Ordered()->get();
+        $apis = Api::with('endpoints')->Ordered()->get();
+
+        return View('actions.create')
+                ->withProducts($products)
+                ->withEvents($events)
+                ->withApis($apis);
     }
 
     /**
@@ -35,7 +47,29 @@ class ActionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
+        $this->validate($request, [
+            'product_id' => 'required',
+            'event_id' => "required|unique:actions,event_id,NULL,NULL,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
+            'delay' =>  'required|integer|min:0',
+            'delay_type' => 'required',
+            'api_endpoint_id' => 'required',
+            'data' => 'required|json'
+        ]);
+
+        $action = new Action([
+            'product_id' => $request->product_id,
+            'event_id' => $request->event_id,
+            'delay' => $request->delay,
+            'delay_type' => $request->delay_type,
+            'api_endpoint_id' => $request->api_endpoint_id,
+            'data' => $request->data,
+            'active' => $request->active
+        ]);
+
+        $action->save();
+
+        return response()->json(['redirect' => route('actions.index')]);
     }
 
     /**
@@ -57,7 +91,8 @@ class ActionController extends Controller
      */
     public function edit(Action $action)
     {
-        //
+        Log::debug($action);
+        return View('actions.edit')->withModel($action);
     }
 
     /**
@@ -69,7 +104,30 @@ class ActionController extends Controller
      */
     public function update(Request $request, Action $action)
     {
-        //
+        //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
+        Log::debug($action);
+        $this->validate($request, [
+            'product_id' => 'required',
+            'event_id' => "required|unique:actions,event_id,$action->id,id,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
+            'delay' =>  'required|integer|min:0',
+            'delay_type' => 'required',
+            'api_endpoint_id' => 'required',
+            'data' => 'required|json'
+        ]);
+
+        $action->fill([
+            'product_id' => $request->product_id,
+            'event_id' => $request->event_id,
+            'delay' => $request->delay,
+            'delay_type' => $request->delay_type,
+            'api_endpoint_id' => $request->api_endpoint_id,
+            'data' => $request->data,
+            'active' => $request->active
+        ]);
+
+        $action->save();
+
+        return response()->json(['redirect' => route('actions.index')]);
     }
 
     /**
@@ -80,6 +138,15 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        //
+        return response()->json($action->delete());
+    }
+
+    public function toggleActive(Action $action) {
+        $action->active = !$action->active;
+        $action->save();
+    }
+
+    public function getAction(Action $action) {
+        return response()->json($action->load('api_endpoint', 'event'));
     }
 }

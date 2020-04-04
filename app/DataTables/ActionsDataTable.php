@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Integration;
+use App\Action;
 use App\traits\DatatableTrait;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -10,8 +10,9 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class IntegrationDataTable extends DataTable
+class ActionsDataTable extends DataTable
 {
+
     use DatatableTrait;
 
     /**
@@ -24,18 +25,18 @@ class IntegrationDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'integrations.action');
+            ->addColumn('action', 'actions.action');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Integration $model
+     * @param \App\Action $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Integration $model)
+    public function query(Action $model)
     {
-        return $model->with(['webhook', 'apiEndpoint.api'])->newQuery();
+        return $model->with(['product', 'event', 'api_endpoint.api'])->newQuery();
     }
 
     /**
@@ -67,10 +68,13 @@ class IntegrationDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('name')->title('Nome'),
-            Column::make('webhook.name')->title('Webhook'),
-            Column::make('api_endpoint.api.name')->title('API'),
-            Column::make('api_endpoint.name')->title('Endpoint'),
+            Column::make('product.name')->title('Produto'),
+            Column::make('event.name')->title('Evento'),
+            //Column::make('delay')->title('Atraso'),
+            Column::make('active')
+                //->render('(data) ? \'Ativo\' : \'Inativo\'')
+                ->render('(data) ? \'<a href="JavaScript: $.post(\\\'/json/actions/\'+full.id+\'/active/toggle\\\', function() {window.LaravelDataTables[\\\'alter_pagination\\\'].draw();});" data-toggle="tooltip" title="Ativar/Desativar"><i class="far fa-check-square fa-lg text-success"></i></a>\' : \'<a href="JavaScript: $.post(\\\'/json/actions/\'+full.id+\'/active/toggle\\\', function() {window.LaravelDataTables[\\\'alter_pagination\\\'].draw();});" data-toggle="tooltip" title="Ativar/Desativar"><i class="far fa-square fa-lg text-danger"></i></a>\'')
+                ->title('Ativo'),
             Column::computed('action')
                   ->title('Ações')
                   ->exportable(false)
@@ -87,6 +91,6 @@ class IntegrationDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Integration_' . date('YmdHis');
+        return 'Actions_' . date('YmdHis');
     }
 }

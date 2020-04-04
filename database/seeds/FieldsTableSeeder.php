@@ -64,6 +64,6 @@ class FieldsTableSeeder extends Seeder
     }
 
     public function clearSystemFields() {
-        DB::table('fields')->where('system_field')->delete();
+        DB::table('fields')->where('system_field', true)->delete();
     }
 }

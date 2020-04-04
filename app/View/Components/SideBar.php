@@ -80,6 +80,11 @@ class SideBar extends Component
                         'route' => route('events.index'),
                         'active' => request()->is('events*'),
                     ],
+                    [
+                        'name' => 'Ações',
+                        'route' => route('actions.index'),
+                        'active' => request()->is('actions*'),
+                    ],
                 ]
             ]
         ];
@@ -97,7 +102,8 @@ class SideBar extends Component
             (request()->is('integrations*')) ||
             (request()->is('fields*')) ||
             (request()->is('products*')) ||
-            (request()->is('events*'))
+            (request()->is('events*')) ||
+            (request()->is('actions*'))
         ) ? $this->dataActive : '';
     }
 

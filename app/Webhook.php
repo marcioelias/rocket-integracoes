@@ -18,10 +18,6 @@ class Webhook extends Model
         return $this->hasMany(WebhookCall::class);
     }
 
-    public function integrations() {
-        return $this->hasMany(Integration::class);
-    }
-
     public function products() {
         return $this->hasMany(Product::class);
     }

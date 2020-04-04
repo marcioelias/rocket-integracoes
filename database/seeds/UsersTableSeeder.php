@@ -12,11 +12,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $this->clearUsers();
+
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@app.com',
             'username' => 'admin',
             'password' => bcrypt('admin')
         ]);
+    }
+
+    public function clearUsers() {
+        DB::table('users')->truncate();
     }
 }

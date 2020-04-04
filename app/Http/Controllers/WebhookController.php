@@ -22,7 +22,7 @@ class WebhookController extends Controller
      */
     public function index(WebhooksDataTable $dataTable)
     {
-        return $dataTable->render('webhooks.index');
+        return $dataTable->render('layouts.index');
     }
 
     /**

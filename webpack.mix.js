@@ -15,5 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
    .js('resources/js/jsonAnaliser.js', 'public/js')
    .js('resources/js/webhookEvents.js', 'public/js')
    .js('resources/js/apiEndpoints.js', 'public/js')
-   .js('resources/js/products.js', 'public/js')
+   .js('resources/js/actions.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');

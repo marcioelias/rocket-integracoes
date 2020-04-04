@@ -65,8 +65,18 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <!-- campo -->
-                        <label for="field">Campo</label>
-                        <input id="field" name="field" type="text" class="form-control" v-model="fieldName">
+                        <label for="field">Campo</label> <small>(<i class="fas fa-toggle-on"></i> Meta campo?)</small>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="switch s-success mb-0"  data-toggle="tooltip" title="Meta campo">
+                                        <input type="checkbox" v-model="metaField">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input id="field" name="field" type="text" class="form-control" v-model="fieldName">
+                        </div>
                         <span v-if="fieldErrors.fieldName != ''" class="invalid-feedback" style="display: block">
                             <strong>{{ fieldErrors.fieldName }}</strong>
                         </span>
@@ -75,9 +85,9 @@
                         <!-- campo -->
                         <label for="value">Valor</label>
                         <div class="input-group">
-                            <input ref="inputSearch" id="value" name="value" type="text" class="form-control" v-model="fieldValue" tabindex="1">
+                            <input ref="inputSearch" id="value" name="value" type="text" class="form-control" v-model="fieldValue" tabindex="1" :disabled="this.metaField">
                             <div class="input-group-append" data-toggle="modal" data-target="#modalVariables">
-                                <button class="btn btn-warning" type="button" data-toggle="tooltip" title="Variáveis" @click="initSearch()">
+                                <button class="btn btn-warning" type="button" data-toggle="tooltip" title="Variáveis" @click="initSearch()" :disabled="this.metaField">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
                             </div>
@@ -94,7 +104,14 @@
                 </div>
                 <div class="form-row mb-0 mt-2" v-for="(field, index) in fields" :key="index">
                     <div class="form-group col-md-6 mb-0">
-                        <div class="form-control">{{ field.name }}</div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" :class="{'text-success': field.meta, 'text-secondary': !field.meta, }">
+                                    <i class="fas" :class="{'fa-check-square': field.meta, 'fa-square': !field.meta, }"></i>
+                                </div>
+                            </div>
+                            <div class="form-control">{{ field.name }}</div>
+                        </div>
                     </div>
                     <div class="form-group col-md-6 mb-0">
                         <div class="input-group">
@@ -144,11 +161,11 @@
             <a href="/api_endpoints" class="btn mt-3 mr-3">Cancelar</a>
             <button type="button" class="btn btn-secondary mt-3" data-toggle="tooltip" titlte="Salvar" @click.prevent="storeApiEndpoint ">Salvar</button>
         </div>
-        <div class="modal fade" id="modalVariables" tabindex="-1" role="dialog" aria-labelledby="modalVariablesLabel" aria-hidden="true">
+        <div class="modal fade" id="modalVariables" ref="modalVariables" tabindex="-1" role="dialog" aria-labelledby="modalVariablesLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <input type="text" name="searchVar" id="searchVar" class="form-control" placeholder="Pesquisar..." v-model="searchVariable">
+                        <input type="text" ref="searchVariableCtrl" name="searchVar" id="searchVar" class="form-control" placeholder="Pesquisar..." v-model="searchVariable">
                     </div>
                     <div class="modal-body">
                         <div style="overflow-y: scroll; height: 400px;">
@@ -182,6 +199,8 @@ export default {
         return {
             fieldName: '',
             fieldValue: '',
+            metaField: false,
+            curPos: 0,
             fieldErrors: {
                 fieldName: '',
                 fieldValue: ''
@@ -189,6 +208,7 @@ export default {
         }
     },
     mounted() {
+        $(this.$refs['modalVariables']).on('shown.bs.modal', () => $(this.$refs['searchVariableCtrl'].focus()))
         this.loadApis()
         this.loadVariables()
         if (this.apiEndpointId) {
@@ -207,11 +227,7 @@ export default {
         ]),
         initSearch() {
             this.searchVariable = ''
-            let self = this
-            this.$nextTick()
-                .then(() => self.$refs.inputSearch.focus())
-            ///this.$refs["inputSearch"].focus()
-            //this.$nextTick(() => this.$refs.input.focus())
+            this.curPos = this.$refs['inputSearch'].selectionStart
         },
         addField() {
             if (!this.validateFields()) {
@@ -220,7 +236,8 @@ export default {
 
             let field = {
                 name: this.fieldName,
-                value: this.fieldValue
+                value: this.metaField ? `{ ${this.fieldName} }` : this.fieldValue,
+                meta: this.metaField
             }
             this.$store.commit('endpoints/addField', field)
 
@@ -234,13 +251,14 @@ export default {
         },
         validateFields() {
             this.fieldErrors.fieldName = !this.fieldName ? 'Campo não informado' : ''
-            this.fieldErrors.fieldValue = !this.fieldValue ? 'Valor não informado' : ''
+            this.fieldErrors.fieldValue = !this.fieldValue && !this.metaField ? 'Valor não informado' : ''
 
             return this.fieldErrors.fieldName == '' && this.fieldErrors.fieldValue == ''
         },
         clearFieldsForm() {
             this.fieldName = ''
             this.fieldValue = ''
+            this.metaField = false
             this.fieldErrors = {
                 fieldName: '',
                 fieldValue: ''

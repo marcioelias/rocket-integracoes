@@ -35,7 +35,7 @@ class EventsDataTable extends DataTable
      */
     public function query(Event $model)
     {
-        return $model->with('webhook')->newQuery();
+        return $model->NotSystemEvent()->with('webhook')->newQuery();
     }
 
     /**

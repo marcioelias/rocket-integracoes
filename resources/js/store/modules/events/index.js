@@ -43,36 +43,82 @@ const actions = {
             await axios.put('/events/'+state.eventId, event)
                 .then(r => {
                     if (r.status === 200) {
-                        window.location =  r.data.redirect
+                        swal({
+                            title: 'Sucesso!',
+                            text: 'Registro alterado.',
+                            type: 'success',
+                            confirmButtonText: 'Ok',
+                            padding: '2em'
+                        }).then(function(result) {
+                            window.location =  r.data.redirect
+                        })
                     }
                 })
                 .catch(e => {
                     switch (e.response.status) {
                         case 422:
-                            commit('setHttpErrors', e.response.data.errors)
+                            swal({
+                                title: 'Ooops!',
+                                text: 'Algo deu errado.',
+                                type: 'error',
+                                confirmButtonText: 'Ok',
+                                padding: '2em'
+                            }).then(function(result) {
+                                commit('setHttpErrors', e.response.data.errors)
+                            })
                             break;
 
                         default:
+                            swal({
+                                title: 'Ooops!',
+                                text: 'Algo deu errado.',
+                                type: 'error',
+                                confirmButtonText: 'Ok',
+                                padding: '2em'
+                            })
                             break;
                     }
                 })
         } else {
             await axios.post('/events', event)
-                .then(r => {
-                    if (r.status === 200) {
+            .then(r => {
+                if (r.status === 200) {
+                    swal({
+                        title: 'Sucesso!',
+                        text: 'Registro incluído.',
+                        type: 'success',
+                        confirmButtonText: 'Ok',
+                        padding: '2em'
+                    }).then(function(result) {
                         window.location =  r.data.redirect
-                    }
-                })
-                .catch(e => {
-                    switch (e.response.status) {
-                        case 422:
+                    })
+                }
+            })
+            .catch(e => {
+                switch (e.response.status) {
+                    case 422:
+                        swal({
+                            title: 'Ooops!',
+                            text: 'Algo deu errado.',
+                            type: 'error',
+                            confirmButtonText: 'Ok',
+                            padding: '2em'
+                        }).then(function(result) {
                             commit('setHttpErrors', e.response.data.errors)
-                            break;
+                        })
+                        break;
 
-                        default:
-                            break;
-                    }
-                })
+                    default:
+                        swal({
+                            title: 'Ooops!',
+                            text: 'Algo deu errado.',
+                            type: 'error',
+                            confirmButtonText: 'Ok',
+                            padding: '2em'
+                        })
+                        break;
+                }
+            })
         }
     }
 }

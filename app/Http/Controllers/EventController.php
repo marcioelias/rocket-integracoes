@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\DataTables\EventsDataTable;
 use App\Event;
+use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
@@ -16,7 +18,7 @@ class EventController extends Controller
      */
     public function index(EventsDataTable $dataTable)
     {
-        return $dataTable->render('events.index');
+        return $dataTable->render('layouts.index');
     }
 
     /**
@@ -102,5 +104,13 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+    public function getEventsByProduct(Product $product) {
+        $events = Event::where('webhook_id', $product->webhook_id)
+                        ->orWhere('system_event', true)
+                        ->orderBy('name', 'asc')
+                        ->get();
+        return response()->json($events);
     }
 }

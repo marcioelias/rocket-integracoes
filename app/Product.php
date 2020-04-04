@@ -13,4 +13,12 @@ class Product extends Model
     public function webhook() {
         return $this->belongsTo(Webhook::class);
     }
+
+    public function actions() {
+        return $this->hasMany(Action::class);
+    }
+
+    public function scopeOrdered($query) {
+        return $query->orderBy('name', 'asc');
+    }
 }

@@ -14,7 +14,15 @@ class ApiEndpoint extends Model
         return $this->belongsTo(Api::class);
     }
 
-    public function integrations() {
-        return $this->hasMany(Integration::class);
+    public function actions() {
+        return $this->hasMany(Action::class);
+    }
+
+    public function scopeOrdered($query) {
+        return $query->orderBy('name', 'asc');
+    }
+
+    public function scopeByApi($query, Api $api) {
+        return $query->where('api_id', $api->id);
     }
 }

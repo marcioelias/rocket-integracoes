@@ -15,7 +15,7 @@ class FieldController extends Controller
      */
     public function index(FieldsDataTable $dataTable)
     {
-        return $dataTable->render('fields.index');
+        return $dataTable->render('layouts.index');
     }
 
     /**

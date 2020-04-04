@@ -7,6 +7,7 @@
         'csrfToken' => csrf_token(),
     ]) !!};
 </script>
+<script src="{{ asset('template/plugins/sweetalerts/promise-polyfill.js') }}"></script>
 @endpush
 
 @push('styles')
@@ -14,6 +15,12 @@
 <link href="{{ asset('template/assets/css/elements/tooltip.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('template/assets/css/elements/popover.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('template/assets/css/components/custom-modal.css" rel="stylesheet')}} " type="text/css">
+<link href="{{ asset('template/assets/css/forms/theme-checkbox-radio.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('template/assets/css/forms/switches.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('template/plugins/animate/animate.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('template/plugins/sweetalerts/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('template/plugins/sweetalerts/sweetalert.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('template/assets/css/components/custom-sweetalert.css') }}" rel="stylesheet" type="text/css">
 {{-- <link href="{{ asset('template/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" /> --}}
 @endpush
 
@@ -39,7 +46,7 @@
     <!--  BEGIN CONTENT AREA  -->
     <div id="content" class="main-content">
         <div class="layout-px-spacing">
-            <div class="row layout-top-spacing">
+            <div class="row layout-top-spacing pb-3">
                 @yield('content')
             </div>
         </div>
@@ -59,10 +66,12 @@
             App.init();
         });
     </script>
-{{--     <script src="{{ asset('template/plugins/highlight/highlight.pack.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/plugins/highlight/highlight.pack.js') }}"></script> --}}
     <script src="{{ asset('template/assets/js/custom.js') }}" ></script>
     {{-- <script src="{{ asset('template/assets/js/elements/tooltip.js') }}"></script> --}}
     <script src="{{ asset('template/assets/js/elements/popovers.js') }}"></script>
+    <script src="{{ asset('template/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('template/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
     {{-- <script>
         $('[data-toggle="tooltip"]').tooltip();
     </script> --}}

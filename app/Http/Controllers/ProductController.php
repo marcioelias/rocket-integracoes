@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index(ProductsDataTable $dataTable)
     {
-        return $dataTable->render('products.index');
+        return $dataTable->render('layouts.index');
     }
 
     /**
@@ -94,8 +94,13 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
+        return response()->json($product->delete());
 
-        return redirect()->action('ProductController@index');
+        //return response()->json(Product::all());
+        //return redirect()->action('ProductController@index');
+    }
+
+    public function getProducts() {
+        return response()->json(Product::Ordered()->get());
     }
 }

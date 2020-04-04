@@ -127,3 +127,22 @@ Breadcrumbs::for('events.edit', function ($trail, $model) {
     $trail->parent('events.index');
     $trail->push($model->label, route('events.edit', $model->id));
 });
+
+
+// Cadastros > Ações
+Breadcrumbs::for('actions.index', function ($trail) {
+    $trail->parent('cadastros');
+    $trail->push('Ações', route('actions.index'));
+});
+
+// Cadastros > Ações > Create
+Breadcrumbs::for('actions.create', function ($trail) {
+    $trail->parent('actions.index');
+    $trail->push('Novo', route('actions.create'));
+});
+
+// Cadastros > Ações > edit > Ação
+Breadcrumbs::for('actions.edit', function ($trail, $model) {
+    $trail->parent('actions.index');
+    $trail->push($model->product->name.' - '.$model->event->name, route('actions.edit', $model->id));
+});

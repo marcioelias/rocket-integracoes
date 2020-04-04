@@ -17,7 +17,7 @@ class ApiEndpointController extends Controller
      */
     public function index(ApiEndpointDataTable $dataTable)
     {
-        return $dataTable->render('api_endpoints.index');
+        return $dataTable->render('layouts.index');
     }
 
     /**
@@ -142,5 +142,9 @@ class ApiEndpointController extends Controller
     public function getApiEndpoint(ApiEndpoint $apiEndpoint) {
         Log::debug($apiEndpoint);
         return response()->json($apiEndpoint);
+    }
+
+    public function getApiEndpointsByApi(Api $api) {
+        return response()->json(ApiEndpoint::ByApi($api)->Ordered()->get());
     }
 }

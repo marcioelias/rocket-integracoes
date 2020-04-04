@@ -15,7 +15,7 @@ class ApiController extends Controller
      */
     public function index(ApiDataTable $dataTable)
     {
-        return $dataTable->render('apis.index');
+        return $dataTable->render('layouts.index');
     }
 
     /**

@@ -58,6 +58,12 @@ Route::middleware(['auth:web'])->group(function() {
     Route::get('/json/webhook/{webhook}', 'WebhookController@getWebhook');
     Route::get('/json/api_endpoint/{api_endpoint}', 'ApiEndpointController@getApiEndpoint');
     Route::get('/json/apis', 'ApiController@getApis');
+    Route::get('/json/products', 'ProductController@getProducts');
+    Route::get('/json/api_endpoints/api/{api}', 'ApiEndpointController@getApiEndpointsByApi');
+    Route::get('/json/actions/{action}', 'ActionController@getAction');
+    Route::get('/json/events/product/{product}', 'EventController@getEventsByProduct');
+
+    Route::post('/json/actions/{action}/active/toggle', 'ActionController@toggleActive');
 
     Route::resource('/users', 'UserController');
     Route::resource('/webhooks', 'WebhookController');
@@ -68,6 +74,7 @@ Route::middleware(['auth:web'])->group(function() {
     Route::resource('/fields', 'FieldController');
     Route::resource('/products', 'ProductController');
     Route::resource('/events', 'EventController');
+    Route::resource('/actions', 'ActionController');
 });
 
 Route::post('/webhook/{name}', 'WebhookController@webhook')->name('wehbook_route');

@@ -61,16 +61,39 @@ const actions = {
             await axios.put('/api_endpoints/'+state.apiEndpointId, endpoint)
                 .then(r => {
                     if (r.status === 200) {
-                        window.location =  r.data.redirect
+                        swal({
+                            title: 'Sucesso!',
+                            text: 'Registro alterado.',
+                            type: 'success',
+                            confirmButtonText: 'Ok',
+                            padding: '2em'
+                        }).then(function(result) {
+                            window.location =  r.data.redirect
+                        })
                     }
                 })
                 .catch(e => {
                     switch (e.response.status) {
                         case 422:
-                            commit('setHttpErrors', e.response.data.errors)
+                            swal({
+                                title: 'Ooops!',
+                                text: 'Algo deu errado.',
+                                type: 'error',
+                                confirmButtonText: 'Ok',
+                                padding: '2em'
+                            }).then(function(result) {
+                                commit('setHttpErrors', e.response.data.errors)
+                            })
                             break;
 
                         default:
+                            swal({
+                                title: 'Ooops!',
+                                text: 'Algo deu errado.',
+                                type: 'error',
+                                confirmButtonText: 'Ok',
+                                padding: '2em'
+                            })
                             break;
                     }
                 })
@@ -78,23 +101,45 @@ const actions = {
             await axios.post('/api_endpoints', endpoint)
                 .then(r => {
                     if (r.status === 200) {
-                        window.location =  r.data.redirect
+                        swal({
+                            title: 'Sucesso!',
+                            text: 'Registro incluído.',
+                            type: 'success',
+                            confirmButtonText: 'Ok',
+                            padding: '2em'
+                        }).then(function(result) {
+                            window.location =  r.data.redirect
+                        })
                     }
                 })
                 .catch(e => {
                     switch (e.response.status) {
                         case 422:
-                            commit('setHttpErrors', e.response.data.errors)
+                            swal({
+                                title: 'Ooops!',
+                                text: 'Algo deu errado.',
+                                type: 'error',
+                                confirmButtonText: 'Ok',
+                                padding: '2em'
+                            }).then(function(result) {
+                                commit('setHttpErrors', e.response.data.errors)
+                            })
                             break;
 
                         default:
+                            swal({
+                                title: 'Ooops!',
+                                text: 'Algo deu errado.',
+                                type: 'error',
+                                confirmButtonText: 'Ok',
+                                padding: '2em'
+                            })
                             break;
                     }
                 })
         }
     },
     async loadApiEndpoint({commit}, id) {
-        console.log(id);
         await Axios.get('/json/api_endpoint/'+id)
                 .then(r => {
                     if (r.status === 200) {
@@ -159,6 +204,9 @@ const mutations = {
     },
     setCodeOk(state, payload) {
         state.codeOk = payload
+    },
+    setSearchVariable(state, payload) {
+        state.searchVariable = payload
     }
 
 }

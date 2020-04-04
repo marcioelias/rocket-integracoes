@@ -18004,6 +18004,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_modules_webhooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/modules/webhooks */ "./resources/js/store/modules/webhooks/index.js");
 /* harmony import */ var _store_modules_events__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/modules/events */ "./resources/js/store/modules/events/index.js");
 /* harmony import */ var _store_modules_endpoints__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/modules/endpoints */ "./resources/js/store/modules/endpoints/index.js");
+/* harmony import */ var _store_modules_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/modules/actions */ "./resources/js/store/modules/actions/index.js");
+
 
 
 
@@ -18014,9 +18016,453 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   modules: {
     webhooks: _store_modules_webhooks__WEBPACK_IMPORTED_MODULE_2__["default"],
     events: _store_modules_events__WEBPACK_IMPORTED_MODULE_3__["default"],
-    endpoints: _store_modules_endpoints__WEBPACK_IMPORTED_MODULE_4__["default"]
+    endpoints: _store_modules_endpoints__WEBPACK_IMPORTED_MODULE_4__["default"],
+    actions: _store_modules_actions__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/actions/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/actions/index.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/validation */ "./resources/js/mixins/validation.js");
+
+
+var _objectSpread2;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var state = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationState"], {
+  actionId: null,
+  productId: null,
+  eventId: null,
+  apiId: null,
+  endpointId: null,
+  actionData: {},
+  triggerData: '',
+  active: true,
+  products: [],
+  events: [],
+  apis: [],
+  endpoints: [],
+  searchVariable: '',
+  variables: [],
+  delay: 0,
+  delayType: 'minute',
+  delayTypes: [{
+    type: 'minute',
+    label: 'Minutos',
+    multiplier: 60
+  }, {
+    type: 'hour',
+    label: 'Horas',
+    multiplier: 3600
+  }, {
+    type: 'day',
+    label: 'Dias',
+    multiplier: 86400
+  }],
+  productLoading: false,
+  eventLoading: false,
+  apiLoading: false,
+  endpointLoading: false
+});
+
+var getters = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationGetters"], {
+  selectedEvent: function selectedEvent(state) {
+    return state.events.find(function (e) {
+      return e.id == state.eventId;
+    });
+  },
+  selectedEndpoint: function selectedEndpoint(state) {
+    return state.endpoints.find(function (e) {
+      return e.id == state.endpointId;
+    });
+  },
+  filteredVariables: function filteredVariables(state) {
+    if (state.searchVariable.length >= 2) {
+      return state.variables.filter(function (v) {
+        return v.field_name.toLowerCase().search(state.searchVariable.toLowerCase()) >= 0 || v.label.toLowerCase().search(state.searchVariable.toLowerCase()) >= 0;
+      });
+    } else {
+      return state.variables;
+    }
+  },
+  getMetaFields: function getMetaFields(state, getters) {
+    var ep = getters.selectedEndpoint;
+    var m = ep ? JSON.parse(ep.json) : [];
+    return m.filter(function (e) {
+      return e.meta == true;
+    });
+  }
+});
+
+var actions = {
+  storeAction: function storeAction(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit, action;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              action = {
+                product_id: state.productId,
+                event_id: state.eventId,
+                delay: state.delay,
+                delay_type: state.delayType,
+                api_endpoint_id: state.endpointId,
+                data: JSON.stringify(state.actionData),
+                active: state.active
+              };
+
+              if (!state.actionId) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 5;
+              return axios.put('/actions/' + state.actionId, action).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 5:
+              _context.next = 9;
+              break;
+
+            case 7:
+              _context.next = 9;
+              return axios.post('/actions', action).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  loadAction: function loadAction(_ref2, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit, dispatch;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, dispatch = _ref2.dispatch;
+              _context2.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/actions/' + id).then(function (r) {
+                if (r.status === 200) {
+                  console.log(r.data);
+                  dispatch('selectProduct', r.data.product_id);
+                  commit('setEventId', r.data.event_id);
+                  dispatch('selectApi', r.data.api_endpoint.api_id);
+                  commit('setEndpointId', r.data.api_endpoint_id);
+                  commit('setDelay', r.data.delay);
+                  commit('setDelayType', r.data.delay_type);
+                  commit('setActionData', JSON.parse(r.data.data));
+                  commit('setActive', r.data.active);
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  loadProducts: function loadProducts(_ref3) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+              commit('setProductLoading', true);
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/products').then(function (r) {
+                commit('setProducts', r.data);
+                commit('setProductLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  },
+  loadEvents: function loadEvents(_ref4, product) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit;
+              commit('setEventLoading', true);
+              _context4.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/events/product/' + product).then(function (r) {
+                commit('setEvents', r.data);
+                commit('setEventLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  },
+  loadApis: function loadApis(_ref5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit;
+              commit('setApiLoading', true);
+              _context5.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/apis').then(function (r) {
+                commit('setApis', r.data);
+                commit('setApiLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
+  loadEndpoints: function loadEndpoints(_ref6, api) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              commit = _ref6.commit;
+              commit('setEndpointLoading', true);
+              _context6.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/api_endpoints/api/' + api).then(function (r) {
+                commit('setEndpoints', r.data);
+                commit('setEndpointLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }))();
+  },
+  loadVariables: function loadVariables(_ref7) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              commit = _ref7.commit;
+              _context7.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/fields/all').then(function (r) {
+                commit('setVariables', r.data);
+              });
+
+            case 3:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }))();
+  },
+  selectProduct: function selectProduct(_ref8, id) {
+    var commit = _ref8.commit,
+        dispatch = _ref8.dispatch;
+    commit('setProductId', id);
+    dispatch('loadEvents', id);
+  },
+  selectApi: function selectApi(_ref9, id) {
+    var commit = _ref9.commit,
+        dispatch = _ref9.dispatch;
+    commit('setApiId', id);
+    dispatch('loadEndpoints', id);
+  }
+};
+
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], (_objectSpread2 = {
+  setProductId: function setProductId(state, payload) {
+    state.productId = payload;
+  },
+  setEventId: function setEventId(state, payload) {
+    state.eventId = payload;
+  },
+  setApiId: function setApiId(state, payload) {
+    state.apiId = payload;
+  },
+  setEndpointId: function setEndpointId(state, payload) {
+    state.endpointId = payload;
+  },
+  setActionData: function setActionData(state, payload) {
+    state.actionData = payload;
+  },
+  setActive: function setActive(state, payload) {
+    state.active = payload;
+  },
+  setDelay: function setDelay(state, payload) {
+    state.delay = payload;
+  },
+  setDelayType: function setDelayType(state, payload) {
+    state.delayType = payload;
+  },
+  setProducts: function setProducts(state, payload) {
+    state.products = payload;
+  },
+  setEvents: function setEvents(state, payload) {
+    state.events = payload;
+  },
+  setApis: function setApis(state, payload) {
+    state.apis = payload;
+  },
+  setEndpoints: function setEndpoints(state, payload) {
+    state.endpoints = payload;
+  },
+  setVariables: function setVariables(state, payload) {
+    state.variables = payload;
+  },
+  setTriggerData: function setTriggerData(state, payload) {
+    state.triggerData = payload;
+  },
+  setSearchVariable: function setSearchVariable(state, payload) {
+    state.searchVariable = payload;
+  },
+  setProductLoading: function setProductLoading(state, payload) {
+    state.productLoading = payload;
+  },
+  setEventLoading: function setEventLoading(state, payload) {
+    state.eventLoading = payload;
+  },
+  setApiLoading: function setApiLoading(state, payload) {
+    state.apitLoading = payload;
+  },
+  setEndpointLoading: function setEndpointLoading(state, payload) {
+    state.endpointLoading = payload;
+  }
+}, _defineProperty(_objectSpread2, "setActionData", function setActionData(state, payload) {
+  state.actionData = payload;
+}), _defineProperty(_objectSpread2, "setActionId", function setActionId(state, payload) {
+  state.actionId = payload;
+}), _objectSpread2));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
 
 /***/ }),
 
@@ -18150,15 +18596,38 @@ var actions = {
               _context3.next = 5;
               return axios.put('/api_endpoints/' + state.apiEndpointId, endpoint).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -18171,15 +18640,38 @@ var actions = {
               _context3.next = 9;
               return axios.post('/api_endpoints', endpoint).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -18200,8 +18692,7 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref4.commit;
-              console.log(id);
-              _context4.next = 4;
+              _context4.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/api_endpoint/' + id).then(function (r) {
                 if (r.status === 200) {
                   commit('setApiEndpointId', r.data.id);
@@ -18217,7 +18708,7 @@ var actions = {
                 }
               });
 
-            case 4:
+            case 3:
             case "end":
               return _context4.stop();
           }
@@ -18227,7 +18718,7 @@ var actions = {
   }
 };
 
-var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], {
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], _defineProperty({
   setName: function setName(state, payload) {
     state.name = payload;
   },
@@ -18273,7 +18764,9 @@ var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2_
   setCodeOk: function setCodeOk(state, payload) {
     state.codeOk = payload;
   }
-});
+}, "setSearchVariable", function setSearchVariable(state, payload) {
+  state.searchVariable = payload;
+}));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
@@ -18387,15 +18880,38 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               _context2.next = 6;
               return axios.put('/events/' + state.eventId, event).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -18408,15 +18924,38 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               _context2.next = 10;
               return axios.post('/events', event).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -18572,15 +19111,38 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               _context.next = 5;
               return axios.put('/webhooks/' + state.webhookId, webhook).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -18593,15 +19155,38 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               _context.next = 9;
               return axios.post('/webhooks', webhook).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
