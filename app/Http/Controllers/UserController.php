@@ -81,7 +81,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return View('users.edit')->withUser($user);
+        return View('users.edit')->withModel($user);
     }
 
     /**
@@ -96,15 +96,16 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|string|email|max:255|unique:users,id,'.$user->id,
-            'password' => 'nullable|min:8|confirmed'
         ]);
 
-        $user->fill($request->all());
-        if($request->password) {
-            $user->password = bcrypt($request->password);
-        }
+        $user->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'active' => $request->active
+        ]);
+
         $user->save();
-        return redirect()->action('UserController@index');
+        return response()->json(['redirect' => route('users.index')]);
     }
 
     /**
@@ -121,6 +122,17 @@ class UserController extends Controller
                 ->setStatusCode(403);
         else {
             $this->destroyModel($user);
+        }
+    }
+
+    public function getUser(User $user) {
+        return response()->json($user);
+    }
+
+    public function toggleActive(User $user) {
+        if ($user->id != Auth::user()->id) {
+            $user->active = !$user->active;
+            $user->save();
         }
     }
 }

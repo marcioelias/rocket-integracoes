@@ -33,19 +33,19 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="username">Usuário</label>
-                <input type="text" name="username" id="username" class="form-control" v-model="username">
+                <input type="text" name="username" id="username" class="form-control" v-model="username" :disabled="this.userId">
                 <span v-if="getHttpErrors.username" class="invalid-feedback" style="display: block">
                     <strong v-for="(error, index) in getHttpErrors.username" :key="index">{{ error }}</strong>
                 </span>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4" v-if="!this.userId">
                 <label for="password">Senha</label>
                 <input type="password" name="password" id="password" class="form-control" v-model="password">
                 <span v-if="getHttpErrors.password" class="invalid-feedback" style="display: block">
                     <strong v-for="(error, index) in getHttpErrors.password" :key="index">{{ error }}</strong>
                 </span>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4" v-if="!this.userId">
                 <label for="password_confirmation">Confirmação de Senha</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" v-model="passwordConfirmation">
                 <span v-if="getHttpErrors.password_confirmation" class="invalid-feedback" style="display: block">
@@ -128,7 +128,7 @@ export default {
                 return this.$store.state.users.active
             },
             set(value) {
-                this.$store.commit('users/setActive')
+                this.$store.commit('users/setActive', value)
             }
         }
     }

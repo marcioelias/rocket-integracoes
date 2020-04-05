@@ -15,35 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-//Route::view('teste', 'teste');
-
-Route::view('eventos', 'teste');
-
-Route::get('teste', function() {
-    $nomeCompleto = 'Márcio Elias Hahn do Nascimento';
-    $variavel = 'VARIAVEL';
-
-    $txt = 'Esse é o código do @firstName({{ nome }}) e essa é uma {{ variavel }}';
-
-
-    $var = 'nomeCompleto';
-    //$variaveisRegex = '~\{\{(\s\b'.$var.'\b\s)\}\}~';
-    $variaveisRegex = '~\{\{([\s\w]*)\}\}~';
-    $firstNameRegex = '~\@(\bfirstName\(\b)([(\s\w"{})]*)(\))~';
-
-    $txt1 = preg_replace_callback($variaveisRegex, function($match) {
-        return strtoupper($match[1]);
-    }, $txt);
-
-    return View('teste')->withTexto($txt1);
-
-    $txt = preg_replace_callback($firstNameRegex, function($match) {
-        return explode(' ', $match[2])[0];
-    }, $txt);
-
-
-});
-
 Route::middleware(['auth:web'])->group(function() {
 
     Route::get('/', 'HomeController@index')->name('home');
@@ -60,6 +31,7 @@ Route::middleware(['auth:web'])->group(function() {
     Route::get('/json/api_endpoint/{api_endpoint}', 'ApiEndpointController@getApiEndpoint');
     Route::get('/json/apis', 'ApiController@getApis');
     Route::get('/json/apis/{api}', 'ApiController@getApi');
+    Route::get('/json/users/{user}', 'UserController@getUser');
     Route::get('/json/products', 'ProductController@getProducts');
     Route::get('/json/products/{product}', 'ProductController@getProduct');
     Route::get('/json/api_endpoints/api/{api}', 'ApiEndpointController@getApiEndpointsByApi');
@@ -68,6 +40,7 @@ Route::middleware(['auth:web'])->group(function() {
     Route::get('/json/events/{event}', 'EventController@getEvent');
 
     Route::post('/json/actions/{action}/active/toggle', 'ActionController@toggleActive');
+    Route::post('/json/users/{user}/active/toggle', 'UserController@toggleActive');
 
     Route::resource('/users', 'UserController');
     Route::resource('/webhooks', 'WebhookController');

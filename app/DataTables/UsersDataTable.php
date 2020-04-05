@@ -70,8 +70,9 @@ class UsersDataTable extends DataTable
             Column::make('name')->title('Nome'),
             Column::make('email')->title('E-mail'),
             Column::make('username')->title('Usuário'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('active')
+                ->render('(data) ? \'<a href="JavaScript: $.post(\\\'/json/users/\'+full.id+\'/active/toggle\\\', function() {window.LaravelDataTables[\\\'alter_pagination\\\'].draw();});" data-toggle="tooltip" title="Ativar/Desativar"><i class="far fa-check-square fa-lg text-success"></i></a>\' : \'<a href="JavaScript: $.post(\\\'/json/users/\'+full.id+\'/active/toggle\\\', function() {window.LaravelDataTables[\\\'alter_pagination\\\'].draw();});" data-toggle="tooltip" title="Ativar/Desativar"><i class="far fa-square fa-lg text-danger"></i></a>\'')
+                ->title('Ativo'),
             Column::computed('action')
                   ->title('Ações')
                   ->exportable(false)

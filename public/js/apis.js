@@ -19067,6 +19067,7 @@ var actions = {
                   commit('setUserId', r.data.id);
                   commit('setName', r.data.name);
                   commit('setEmail', r.data.email);
+                  commit('setUsername', r.data.username);
                   commit('setActive', r.data.active);
                 }
               });

@@ -70,9 +70,7 @@ class ActionsDataTable extends DataTable
             Column::make('id')->title('ID'),
             Column::make('product.name')->title('Produto'),
             Column::make('event.name')->title('Evento'),
-            //Column::make('delay')->title('Atraso'),
             Column::make('active')
-                //->render('(data) ? \'Ativo\' : \'Inativo\'')
                 ->render('(data) ? \'<a href="JavaScript: $.post(\\\'/json/actions/\'+full.id+\'/active/toggle\\\', function() {window.LaravelDataTables[\\\'alter_pagination\\\'].draw();});" data-toggle="tooltip" title="Ativar/Desativar"><i class="far fa-check-square fa-lg text-success"></i></a>\' : \'<a href="JavaScript: $.post(\\\'/json/actions/\'+full.id+\'/active/toggle\\\', function() {window.LaravelDataTables[\\\'alter_pagination\\\'].draw();});" data-toggle="tooltip" title="Ativar/Desativar"><i class="far fa-square fa-lg text-danger"></i></a>\'')
                 ->title('Ativo'),
             Column::computed('action')

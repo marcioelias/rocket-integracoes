@@ -2049,7 +2049,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return this.$store.state.users.active;
       },
       set: function set(value) {
-        this.$store.commit('users/setActive');
+        this.$store.commit('users/setActive', value);
       }
     }
   })
@@ -3440,7 +3440,12 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { type: "text", name: "username", id: "username" },
+          attrs: {
+            type: "text",
+            name: "username",
+            id: "username",
+            disabled: this.userId
+          },
           domProps: { value: _vm.username },
           on: {
             input: function($event) {
@@ -3467,94 +3472,98 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "password" } }, [_vm._v("Senha")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.password,
-              expression: "password"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "password", name: "password", id: "password" },
-          domProps: { value: _vm.password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      !this.userId
+        ? _c("div", { staticClass: "form-group col-md-4" }, [
+            _c("label", { attrs: { for: "password" } }, [_vm._v("Senha")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password,
+                  expression: "password"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "password", name: "password", id: "password" },
+              domProps: { value: _vm.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.password = $event.target.value
+                }
               }
-              _vm.password = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.getHttpErrors.password
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
-              },
-              _vm._l(_vm.getHttpErrors.password, function(error, index) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
-      ]),
+            }),
+            _vm._v(" "),
+            _vm.getHttpErrors.password
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "invalid-feedback",
+                    staticStyle: { display: "block" }
+                  },
+                  _vm._l(_vm.getHttpErrors.password, function(error, index) {
+                    return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
+                  }),
+                  0
+                )
+              : _vm._e()
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "password_confirmation" } }, [
-          _vm._v("Confirmação de Senha")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.passwordConfirmation,
-              expression: "passwordConfirmation"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "password",
-            name: "password_confirmation",
-            id: "password_confirmation"
-          },
-          domProps: { value: _vm.passwordConfirmation },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.passwordConfirmation = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.getHttpErrors.password_confirmation
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
+      !this.userId
+        ? _c("div", { staticClass: "form-group col-md-4" }, [
+            _c("label", { attrs: { for: "password_confirmation" } }, [
+              _vm._v("Confirmação de Senha")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordConfirmation,
+                  expression: "passwordConfirmation"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "password",
+                name: "password_confirmation",
+                id: "password_confirmation"
               },
-              _vm._l(_vm.getHttpErrors.password_confirmation, function(
-                error,
-                index
-              ) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
-      ])
+              domProps: { value: _vm.passwordConfirmation },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.passwordConfirmation = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.getHttpErrors.password_confirmation
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "invalid-feedback",
+                    staticStyle: { display: "block" }
+                  },
+                  _vm._l(_vm.getHttpErrors.password_confirmation, function(
+                    error,
+                    index
+                  ) {
+                    return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
+                  }),
+                  0
+                )
+              : _vm._e()
+          ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "mt-3" }, [
@@ -18836,6 +18845,7 @@ var actions = {
                   commit('setUserId', r.data.id);
                   commit('setName', r.data.name);
                   commit('setEmail', r.data.email);
+                  commit('setUsername', r.data.username);
                   commit('setActive', r.data.active);
                 }
               });
