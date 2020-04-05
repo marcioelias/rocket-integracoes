@@ -13,61 +13,76 @@ Breadcrumbs::for('cadastros', function ($trail) {
     $trail->push('Cadastros');
 });
 
-// Cadastros > Webhooks
+// Integrações
+Breadcrumbs::for('integracoes', function ($trail) {
+    $trail->push('Integrações');
+});
+
+// Configurações
+Breadcrumbs::for('configuracoes', function ($trail) {
+    $trail->push('Configurações');
+});
+
+// Acesso
+Breadcrumbs::for('acesso', function ($trail) {
+    $trail->push('Acesso');
+});
+
+// Integrações > Webhooks
 Breadcrumbs::for('webhooks.index', function ($trail) {
-    $trail->parent('cadastros');
+    $trail->parent('integracoes');
     $trail->push('Webhooks', route('webhooks.index'));
 });
 
-// Cadastros > Webhooks > show
+// Integrações > Webhooks > show
 Breadcrumbs::for('webhooks.show', function ($trail) {
     $trail->parent('webhooks.index');
     $trail->push('Webhook', route('webhooks.index'));
 });
 
-// Cadastros > Webhooks > Create
+// Integrações > Webhooks > Create
 Breadcrumbs::for('webhooks.create', function ($trail) {
     $trail->parent('webhooks.index');
     $trail->push('Novo', route('webhooks.create'));
 });
 
-// Cadastros > Webhooks > edit > webhook
+// Integrações > Webhooks > edit > webhook
 Breadcrumbs::for('webhooks.edit', function ($trail, $model) {
     $trail->parent('webhooks.index');
     $trail->push($model->name, route('webhooks.edit', $model->id));
 });
 
-// Cadastros > Apis
+// Integrações > Apis
 Breadcrumbs::for('apis.index', function ($trail) {
-    $trail->parent('cadastros');
+    $trail->parent('integracoes');
     $trail->push('Apis', route('apis.index'));
 });
 
-// Cadastros > Apis > Create
+// Integrações > Apis > Create
 Breadcrumbs::for('apis.create', function ($trail) {
     $trail->parent('apis.index');
     $trail->push('Novo', route('apis.create'));
 });
 
-// Cadastros > Apis > edit > api
+// Integrações > Apis > edit > api
 Breadcrumbs::for('apis.edit', function ($trail, $model) {
     $trail->parent('apis.index');
     $trail->push($model->name, route('api_endpoints.edit', $model->id));
 });
 
-// Cadastros > EndPoints
+// Integrações > EndPoints
 Breadcrumbs::for('api_endpoints.index', function ($trail) {
-    $trail->parent('cadastros');
+    $trail->parent('integracoes');
     $trail->push('Endpoints', route('api_endpoints.index'));
 });
 
-// Cadastros > EndPoints > Create
+// Integrações > EndPoints > Create
 Breadcrumbs::for('api_endpoints.create', function ($trail) {
     $trail->parent('api_endpoints.index');
     $trail->push('Novo', route('api_endpoints.create'));
 });
 
-// Cadastros > EndPoints > edit > endpoins
+// Integrações > EndPoints > edit > endpoins
 Breadcrumbs::for('api_endpoints.edit', function ($trail, $model) {
     $trail->parent('api_endpoints.index');
     $trail->push($model->name, route('api_endpoints.edit', $model->id));
@@ -110,39 +125,57 @@ Breadcrumbs::for('products.edit', function ($trail, $model) {
 });
 
 
-// Cadastros > Eventos
+// Configurações > Eventos
 Breadcrumbs::for('events.index', function ($trail) {
-    $trail->parent('cadastros');
+    $trail->parent('configuracoes');
     $trail->push('Eventos', route('events.index'));
 });
 
-// Cadastros > Eventos > Create
+// Configurações > Eventos > Create
 Breadcrumbs::for('events.create', function ($trail) {
     $trail->parent('events.index');
     $trail->push('Novo', route('events.create'));
 });
 
-// Cadastros > Eventos > edit > Evento
+// Configurações > Eventos > edit > Evento
 Breadcrumbs::for('events.edit', function ($trail, $model) {
     $trail->parent('events.index');
     $trail->push($model->name, route('events.edit', $model->id));
 });
 
 
-// Cadastros > Ações
+// Configurações > Ações
 Breadcrumbs::for('actions.index', function ($trail) {
-    $trail->parent('cadastros');
+    $trail->parent('configuracoes');
     $trail->push('Ações', route('actions.index'));
 });
 
-// Cadastros > Ações > Create
+// Configurações > Ações > Create
 Breadcrumbs::for('actions.create', function ($trail) {
     $trail->parent('actions.index');
     $trail->push('Novo', route('actions.create'));
 });
 
-// Cadastros > Ações > edit > Ação
+// Configurações > Ações > edit > Ação
 Breadcrumbs::for('actions.edit', function ($trail, $model) {
     $trail->parent('actions.index');
     $trail->push($model->product->name.' - '.$model->event->name, route('actions.edit', $model->id));
+});
+
+// Acesso > Users
+Breadcrumbs::for('users.index', function ($trail) {
+    $trail->parent('acesso');
+    $trail->push('Usuários', route('users.index'));
+});
+
+// Acesso > Users > Create
+Breadcrumbs::for('users.create', function ($trail) {
+    $trail->parent('users.index');
+    $trail->push('Novo', route('users.create'));
+});
+
+// Acesso > Users > edit > User
+Breadcrumbs::for('users.edit', function ($trail, $model) {
+    $trail->parent('users.index');
+    $trail->push($model->name, route('users.edit', $model->id));
 });
