@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Api;
 use App\DataTables\ApiDataTable;
+use App\traits\UtilsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -88,7 +91,6 @@ class ApiController extends Controller
     public function update(Request $request, Api $api)
     {
          //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
-        Log::debug($api);
         $this->validate($request, [
             'name' => "required|unique:apis,name,$api->id,id",
             'base_url' => "required|url|unique:apis,base_url,$api->id,id",
@@ -116,7 +118,7 @@ class ApiController extends Controller
      */
     public function destroy(Api $api)
     {
-        return response()->json($api->delete());
+        return $this->destroyModel($api);
     }
 
     public function getApis() {

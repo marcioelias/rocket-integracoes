@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Api;
 use App\ApiEndpoint;
 use App\DataTables\ApiEndpointDataTable;
+use App\traits\UtilsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ApiEndpointController extends Controller
 {
+
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +31,7 @@ class ApiEndpointController extends Controller
      */
     public function create()
     {
-        $apis = Api::orderBy('name', 'asc')->get();
-        return View('api_endpoints.create')->withApis($apis);
+        return View('api_endpoints.create');
     }
 
     /**
@@ -134,13 +137,10 @@ class ApiEndpointController extends Controller
      */
     public function destroy(ApiEndpoint $apiEndpoint)
     {
-        $apiEndpoint->delete();
-
-        return redirect()->action('ApiEndpointController@index');
+        return $this->destroyModel($apiEndpoint);
     }
 
     public function getApiEndpoint(ApiEndpoint $apiEndpoint) {
-        Log::debug($apiEndpoint);
         return response()->json($apiEndpoint);
     }
 

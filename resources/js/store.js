@@ -8,6 +8,7 @@ import actions from './store/modules/actions'
 import apis from './store/modules/apis'
 import fields from './store/modules/fields'
 import products from './store/modules/products'
+import users from './store/modules/users'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
         actions,
         apis,
         fields,
-        products
+        products,
+        users
     }
 })

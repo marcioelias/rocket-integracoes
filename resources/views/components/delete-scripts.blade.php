@@ -25,7 +25,7 @@
                 .catch(function(e) {
                     swal(
                     'Ooops!',
-                    'Não foi possível remover esse registro!',
+                    e.response.data.message,
                     'error'
                     )
                 })

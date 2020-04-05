@@ -64,22 +64,14 @@ class CallWebhookActions
 
             if ($dispatch) {
                 /* se todas as condições foram satisfeitas, processa o disparo do evento */
-                //dispara o evento
-                //Log::info($event->name);
-                //Log::info('Condição verdadeira');
                 $this->callActionsForEvent($webhook, $webhookCall, $event);
             } else {
                 /* caso algum condição não tenha sido satisfeita, o evento não é disparado */
-                //Log::info($event->name);
-                //Log::info('Condição falsa');
             }
 
             //reinicia a variável dispatch
             $dispatch = false;
         }
-
-        //Log::debug($event->webhookCall);
-
     }
 
     public function conditionIsTrue(stdClass $condition, stdClass $data) {
@@ -131,7 +123,6 @@ class CallWebhookActions
         foreach ($actions as $action) {
             $endpoint = ApiEndpoint::with('api')->find($action->api_endpoint_id);
             $reqFields = json_decode($endpoint->json, true);
-            //Log::debug($reqFields);
             $variables = $this->loadVars($webhook, $endpoint->api, $webhookCall, $action);
 
             $req = array();
@@ -146,8 +137,6 @@ class CallWebhookActions
 
     private function callApi(ApiEndpoint $endpoint, array $data) {
         $url = $endpoint->api->base_url . '/' . $endpoint->relative_url;
-        Log::debug($url);
-        Log::debug($data);
         switch ($endpoint->method) {
             case 'GET':
                 $response = Http::get($url, $data);
@@ -169,7 +158,6 @@ class CallWebhookActions
                 $response = Http::delete($url, $data);
                 break;
         }
-        Log::debug($response);
     }
 
     private function replaceVar($data, $variables) {

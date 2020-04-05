@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
+use App\traits\UtilsTrait;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -44,10 +49,17 @@ class UserController extends Controller
             'password' => 'required|min:8|confirmed'
         ]);
 
-        $user = new User($request->all());
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'active' => $request->active
+        ]);
+
         $user->password = bcrypt($request->password);
         $user->save();
-        return redirect()->action('UserController@index');
+
+        return response()->json(['redirect' => route('users.index')]);
     }
 
     /**
@@ -103,7 +115,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->action('UserController@index');
+        if ($user->id == Auth::user()->id)
+            return response()
+                ->json(['message' => 'Não é possível remover o usuário atualmente logado.'])
+                ->setStatusCode(403);
+        else {
+            $this->destroyModel($user);
+        }
     }
 }

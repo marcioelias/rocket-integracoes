@@ -7,11 +7,15 @@ use App\Api;
 use App\DataTables\ActionsDataTable;
 use App\Event;
 use App\Product;
+use App\traits\UtilsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ActionController extends Controller
 {
+
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -91,7 +95,6 @@ class ActionController extends Controller
      */
     public function edit(Action $action)
     {
-        Log::debug($action);
         return View('actions.edit')->withModel($action);
     }
 
@@ -105,7 +108,6 @@ class ActionController extends Controller
     public function update(Request $request, Action $action)
     {
         //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
-        Log::debug($action);
         $this->validate($request, [
             'product_id' => 'required',
             'event_id' => "required|unique:actions,event_id,$action->id,id,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
@@ -138,7 +140,7 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        return response()->json($action->delete());
+        return $this->destroyModel($action);
     }
 
     public function toggleActive(Action $action) {

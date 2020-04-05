@@ -189,9 +189,6 @@ class WebhookController extends Controller
 
             //se houver boleto, cadastra o mesmo
 
-
-            //Log::debug($webhookCall);
-
             $webhookCall->save();
         } catch (\Exception $e) {
             Log::emergency($e);
@@ -205,7 +202,6 @@ class WebhookController extends Controller
 
         $mappings = json_decode($webhook->json_mapping, true);
         foreach ($mappings as $mapping) {
-            //Log::debug($mapping);
             $aux = $this->parseStdAttr($data, $mapping['remoteField']);
             if ($mapping['function']) {
                 switch ($mapping['function']) {
@@ -221,9 +217,6 @@ class WebhookController extends Controller
                 $result[$mapping['localField']['field_name']] = $aux;
             }
         }
-
-        Log::debug($result);
-
         return json_encode($result);
     }
 

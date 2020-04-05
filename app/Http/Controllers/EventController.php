@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\DataTables\EventsDataTable;
 use App\Event;
 use App\Product;
+use App\traits\UtilsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
+
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -39,12 +43,11 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        Log::debug($request);
-
+        //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
         $this->validate($request, [
-            'name' => 'required',
+            'name' => "required|unique:events,name,NULL,NULL,webhook_id,$request->webhook_id",
             'webhook_id' => 'required',
-            'conditions' => 'required'
+            'conditions' => 'required|json'
         ]);
 
         $event = new Event([
@@ -89,7 +92,22 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
+        $this->validate($request, [
+            'name' => "required|unique:events,name,$event->id,id,webhook_id,$request->webhook_id",
+            'webhook_id' => 'required',
+            'conditions' => 'required|json'
+        ]);
+
+        $event->fill([
+            'name' => $request->name,
+            'webhook_id' => $request->webhook_id,
+            'conditions' => $request->conditions
+        ]);
+
+        $event->save();
+
+        return response()->json(['redirect' => route('events.index')]);
     }
 
     /**
@@ -100,7 +118,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        return $this->destroyModel($event);
     }
 
     public function getEventsByProduct(Product $product) {

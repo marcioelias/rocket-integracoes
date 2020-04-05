@@ -7,5 +7,6 @@
     "/js/fields.js": "/js/fields.js",
     "/js/jsonAnaliser.js": "/js/jsonAnaliser.js",
     "/js/products.js": "/js/products.js",
+    "/js/users.js": "/js/users.js",
     "/js/webhookEvents.js": "/js/webhookEvents.js"
 }

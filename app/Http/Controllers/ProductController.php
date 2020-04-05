@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\DataTables\ProductsDataTable;
 use App\Product;
+use App\traits\UtilsTrait;
 use App\Webhook;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 
 class ProductController extends Controller
 {
+
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -112,7 +116,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        return response()->json($product->delete());
+        return $this->destroyModel($product)
     }
 
     public function getProducts() {

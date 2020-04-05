@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\DataTables\FieldsDataTable;
 use App\Field;
+use App\traits\UtilsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class FieldController extends Controller
 {
+
+    use UtilsTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -37,8 +41,6 @@ class FieldController extends Controller
      */
     public function store(Request $request)
     {
-        Log::debug($request);
-
         $this->validate($request, [
             'label' => 'required|unique:fields',
             'field_name' => 'required|unique:fields'
@@ -108,7 +110,7 @@ class FieldController extends Controller
      */
     public function destroy(Field $field)
     {
-        return response()->json($field->delete());
+        return $this->destroyModel($field);
     }
 
     /* retorna somente os campos não reservados */
