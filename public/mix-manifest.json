@@ -6,5 +6,6 @@
     "/css/app.css": "/css/app.css",
     "/js/fields.js": "/js/fields.js",
     "/js/jsonAnaliser.js": "/js/jsonAnaliser.js",
+    "/js/products.js": "/js/products.js",
     "/js/webhookEvents.js": "/js/webhookEvents.js"
 }

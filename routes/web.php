@@ -61,6 +61,7 @@ Route::middleware(['auth:web'])->group(function() {
     Route::get('/json/apis', 'ApiController@getApis');
     Route::get('/json/apis/{api}', 'ApiController@getApi');
     Route::get('/json/products', 'ProductController@getProducts');
+    Route::get('/json/products/{product}', 'ProductController@getProduct');
     Route::get('/json/api_endpoints/api/{api}', 'ApiEndpointController@getApiEndpointsByApi');
     Route::get('/json/actions/{action}', 'ActionController@getAction');
     Route::get('/json/events/product/{product}', 'EventController@getEventsByProduct');

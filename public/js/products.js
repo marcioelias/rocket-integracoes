@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1911,6 +1911,107 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCrudForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductCrudForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    productId: {
+      type: Number,
+      "default": null
+    }
+  },
+  mounted: function mounted() {
+    this.loadWebhooks();
+
+    if (this.productId) {
+      this.loadProduct(this.productId);
+    }
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('products', ['storeProduct', 'loadProduct', 'loadWebhooks'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('products', ['getHttpErrors']), {
+    name: {
+      get: function get() {
+        return this.$store.state.products.name;
+      },
+      set: function set(value) {
+        this.$store.commit('products/setName', value);
+      }
+    },
+    productCode: {
+      get: function get() {
+        return this.$store.state.products.productCode;
+      },
+      set: function set(value) {
+        this.$store.commit('products/setProductCode', value);
+      }
+    },
+    webhookId: {
+      get: function get() {
+        return this.$store.state.products.webhookId;
+      },
+      set: function set(value) {
+        this.$store.commit('products/setWebhookId', value);
+      }
+    },
+    webhooks: function webhooks() {
+      return this.$store.state.products.webhooks;
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -3116,6 +3217,315 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (this && this.clearImmediate);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCrudForm.vue?vue&type=template&id=6e8969d4&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductCrudForm.vue?vue&type=template&id=6e8969d4& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "webhook_id" } }, [_vm._v("Webhook")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.webhookId,
+                expression: "webhookId"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: "webhook_id", name: "webhook_id" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.webhookId = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.webhooks, function(wh) {
+            return _c("option", { key: wh.id, domProps: { value: wh.id } }, [
+              _vm._v(_vm._s(wh.name))
+            ])
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.getHttpErrors.hasOwnProperty("webhook_id"),
+                expression: "getHttpErrors.hasOwnProperty('webhook_id')"
+              }
+            ],
+            staticClass: "invalid-feedback",
+            staticStyle: { display: "block" }
+          },
+          _vm._l(_vm.getHttpErrors.webhook_id, function(error, index) {
+            return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "product_code" } }, [_vm._v("Código")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.productCode,
+              expression: "productCode"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "product_code", id: "product_code" },
+          domProps: { value: _vm.productCode },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.productCode = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.getHttpErrors.hasOwnProperty("product_code"),
+                expression: "getHttpErrors.hasOwnProperty('product_code')"
+              }
+            ],
+            staticClass: "invalid-feedback",
+            staticStyle: { display: "block" }
+          },
+          _vm._l(_vm.getHttpErrors.product_code, function(error, index) {
+            return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "form-group col" }, [
+        _c("label", { attrs: { for: "name" } }, [_vm._v("Nome")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.name,
+              expression: "name"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "name", id: "name" },
+          domProps: { value: _vm.name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.name = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.getHttpErrors.hasOwnProperty("name"),
+                expression: "getHttpErrors.hasOwnProperty('name')"
+              }
+            ],
+            staticClass: "invalid-feedback",
+            staticStyle: { display: "block" }
+          },
+          _vm._l(_vm.getHttpErrors.name, function(error, index) {
+            return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mt-3" }, [
+      _c("a", { staticClass: "btn mt-3 mr-3", attrs: { href: "/products" } }, [
+        _vm._v("Cancelar")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary mt-3",
+          attrs: { type: "button", "data-toggle": "tooltip", titlte: "Salvar" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.storeProduct($event)
+            }
+          }
+        },
+        [_vm._v("Salvar")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
 
 /***/ }),
 
@@ -16208,6 +16618,75 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "./resources/js/components/ProductCrudForm.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/ProductCrudForm.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductCrudForm_vue_vue_type_template_id_6e8969d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductCrudForm.vue?vue&type=template&id=6e8969d4& */ "./resources/js/components/ProductCrudForm.vue?vue&type=template&id=6e8969d4&");
+/* harmony import */ var _ProductCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductCrudForm.vue?vue&type=script&lang=js& */ "./resources/js/components/ProductCrudForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProductCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductCrudForm_vue_vue_type_template_id_6e8969d4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProductCrudForm_vue_vue_type_template_id_6e8969d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ProductCrudForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductCrudForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/ProductCrudForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductCrudForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCrudForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductCrudForm.vue?vue&type=template&id=6e8969d4&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/ProductCrudForm.vue?vue&type=template&id=6e8969d4& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCrudForm_vue_vue_type_template_id_6e8969d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductCrudForm.vue?vue&type=template&id=6e8969d4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductCrudForm.vue?vue&type=template&id=6e8969d4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCrudForm_vue_vue_type_template_id_6e8969d4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCrudForm_vue_vue_type_template_id_6e8969d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/mixins/json.js":
 /*!*************************************!*\
   !*** ./resources/js/mixins/json.js ***!
@@ -16333,13 +16812,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var _components_ProductCrudForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ProductCrudForm.vue */ "./resources/js/components/ProductCrudForm.vue");
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$csrf_token = $('meta[name="csrf-token"]').attr('content');
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#product-crud',
   store: _store__WEBPACK_IMPORTED_MODULE_1__["default"],
-  components: {//
+  components: {
+    ProductCrudForm: _components_ProductCrudForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -16360,6 +16842,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_modules_webhooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/modules/webhooks */ "./resources/js/store/modules/webhooks/index.js");
 /* harmony import */ var _store_modules_events__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/modules/events */ "./resources/js/store/modules/events/index.js");
 /* harmony import */ var _store_modules_endpoints__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/modules/endpoints */ "./resources/js/store/modules/endpoints/index.js");
+/* harmony import */ var _store_modules_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/modules/actions */ "./resources/js/store/modules/actions/index.js");
+/* harmony import */ var _store_modules_apis__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store/modules/apis */ "./resources/js/store/modules/apis/index.js");
+/* harmony import */ var _store_modules_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/modules/fields */ "./resources/js/store/modules/fields/index.js");
+/* harmony import */ var _store_modules_products__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store/modules/products */ "./resources/js/store/modules/products/index.js");
+
+
+
+
 
 
 
@@ -16370,9 +16860,690 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   modules: {
     webhooks: _store_modules_webhooks__WEBPACK_IMPORTED_MODULE_2__["default"],
     events: _store_modules_events__WEBPACK_IMPORTED_MODULE_3__["default"],
-    endpoints: _store_modules_endpoints__WEBPACK_IMPORTED_MODULE_4__["default"]
+    endpoints: _store_modules_endpoints__WEBPACK_IMPORTED_MODULE_4__["default"],
+    actions: _store_modules_actions__WEBPACK_IMPORTED_MODULE_5__["default"],
+    apis: _store_modules_apis__WEBPACK_IMPORTED_MODULE_6__["default"],
+    fields: _store_modules_fields__WEBPACK_IMPORTED_MODULE_7__["default"],
+    products: _store_modules_products__WEBPACK_IMPORTED_MODULE_8__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/actions/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/actions/index.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/validation */ "./resources/js/mixins/validation.js");
+
+
+var _objectSpread2;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var state = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationState"], {
+  actionId: null,
+  productId: null,
+  eventId: null,
+  apiId: null,
+  endpointId: null,
+  actionData: {},
+  triggerData: '',
+  active: true,
+  products: [],
+  events: [],
+  apis: [],
+  endpoints: [],
+  searchVariable: '',
+  variables: [],
+  delay: 0,
+  delayType: 'minute',
+  delayTypes: [{
+    type: 'minute',
+    label: 'Minutos',
+    multiplier: 60
+  }, {
+    type: 'hour',
+    label: 'Horas',
+    multiplier: 3600
+  }, {
+    type: 'day',
+    label: 'Dias',
+    multiplier: 86400
+  }],
+  productLoading: false,
+  eventLoading: false,
+  apiLoading: false,
+  endpointLoading: false
+});
+
+var getters = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationGetters"], {
+  selectedEvent: function selectedEvent(state) {
+    return state.events.find(function (e) {
+      return e.id == state.eventId;
+    });
+  },
+  selectedEndpoint: function selectedEndpoint(state) {
+    return state.endpoints.find(function (e) {
+      return e.id == state.endpointId;
+    });
+  },
+  filteredVariables: function filteredVariables(state) {
+    if (state.searchVariable.length >= 2) {
+      return state.variables.filter(function (v) {
+        return v.field_name.toLowerCase().search(state.searchVariable.toLowerCase()) >= 0 || v.label.toLowerCase().search(state.searchVariable.toLowerCase()) >= 0;
+      });
+    } else {
+      return state.variables;
+    }
+  },
+  getMetaFields: function getMetaFields(state, getters) {
+    var ep = getters.selectedEndpoint;
+    var m = ep ? JSON.parse(ep.json) : [];
+    return m.filter(function (e) {
+      return e.meta == true;
+    });
+  }
+});
+
+var actions = {
+  storeAction: function storeAction(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit, action;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              action = {
+                product_id: state.productId,
+                event_id: state.eventId,
+                delay: state.delay,
+                delay_type: state.delayType,
+                api_endpoint_id: state.endpointId,
+                data: JSON.stringify(state.actionData),
+                active: state.active
+              };
+
+              if (!state.actionId) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 5;
+              return axios.put('/actions/' + state.actionId, action).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 5:
+              _context.next = 9;
+              break;
+
+            case 7:
+              _context.next = 9;
+              return axios.post('/actions', action).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  loadAction: function loadAction(_ref2, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit, dispatch;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, dispatch = _ref2.dispatch;
+              _context2.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/actions/' + id).then(function (r) {
+                if (r.status === 200) {
+                  console.log(r.data);
+                  dispatch('selectProduct', r.data.product_id);
+                  commit('setEventId', r.data.event_id);
+                  dispatch('selectApi', r.data.api_endpoint.api_id);
+                  commit('setEndpointId', r.data.api_endpoint_id);
+                  commit('setDelay', r.data.delay);
+                  commit('setDelayType', r.data.delay_type);
+                  commit('setActionData', JSON.parse(r.data.data));
+                  commit('setActive', r.data.active);
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  loadProducts: function loadProducts(_ref3) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+              commit('setProductLoading', true);
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/products').then(function (r) {
+                commit('setProducts', r.data);
+                commit('setProductLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  },
+  loadEvents: function loadEvents(_ref4, product) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit;
+              commit('setEventLoading', true);
+              _context4.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/events/product/' + product).then(function (r) {
+                commit('setEvents', r.data);
+                commit('setEventLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  },
+  loadApis: function loadApis(_ref5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit;
+              commit('setApiLoading', true);
+              _context5.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/apis').then(function (r) {
+                commit('setApis', r.data);
+                commit('setApiLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
+  loadEndpoints: function loadEndpoints(_ref6, api) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              commit = _ref6.commit;
+              commit('setEndpointLoading', true);
+              _context6.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/api_endpoints/api/' + api).then(function (r) {
+                commit('setEndpoints', r.data);
+                commit('setEndpointLoading', false);
+              });
+
+            case 4:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }))();
+  },
+  loadVariables: function loadVariables(_ref7) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              commit = _ref7.commit;
+              _context7.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/fields/all').then(function (r) {
+                commit('setVariables', r.data);
+              });
+
+            case 3:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }))();
+  },
+  selectProduct: function selectProduct(_ref8, id) {
+    var commit = _ref8.commit,
+        dispatch = _ref8.dispatch;
+    commit('setProductId', id);
+    dispatch('loadEvents', id);
+  },
+  selectApi: function selectApi(_ref9, id) {
+    var commit = _ref9.commit,
+        dispatch = _ref9.dispatch;
+    commit('setApiId', id);
+    dispatch('loadEndpoints', id);
+  }
+};
+
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], (_objectSpread2 = {
+  setProductId: function setProductId(state, payload) {
+    state.productId = payload;
+  },
+  setEventId: function setEventId(state, payload) {
+    state.eventId = payload;
+  },
+  setApiId: function setApiId(state, payload) {
+    state.apiId = payload;
+  },
+  setEndpointId: function setEndpointId(state, payload) {
+    state.endpointId = payload;
+  },
+  setActionData: function setActionData(state, payload) {
+    state.actionData = payload;
+  },
+  setActive: function setActive(state, payload) {
+    state.active = payload;
+  },
+  setDelay: function setDelay(state, payload) {
+    state.delay = payload;
+  },
+  setDelayType: function setDelayType(state, payload) {
+    state.delayType = payload;
+  },
+  setProducts: function setProducts(state, payload) {
+    state.products = payload;
+  },
+  setEvents: function setEvents(state, payload) {
+    state.events = payload;
+  },
+  setApis: function setApis(state, payload) {
+    state.apis = payload;
+  },
+  setEndpoints: function setEndpoints(state, payload) {
+    state.endpoints = payload;
+  },
+  setVariables: function setVariables(state, payload) {
+    state.variables = payload;
+  },
+  setTriggerData: function setTriggerData(state, payload) {
+    state.triggerData = payload;
+  },
+  setSearchVariable: function setSearchVariable(state, payload) {
+    state.searchVariable = payload;
+  },
+  setProductLoading: function setProductLoading(state, payload) {
+    state.productLoading = payload;
+  },
+  setEventLoading: function setEventLoading(state, payload) {
+    state.eventLoading = payload;
+  },
+  setApiLoading: function setApiLoading(state, payload) {
+    state.apitLoading = payload;
+  },
+  setEndpointLoading: function setEndpointLoading(state, payload) {
+    state.endpointLoading = payload;
+  }
+}, _defineProperty(_objectSpread2, "setActionData", function setActionData(state, payload) {
+  state.actionData = payload;
+}), _defineProperty(_objectSpread2, "setActionId", function setActionId(state, payload) {
+  state.actionId = payload;
+}), _objectSpread2));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/apis/index.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/apis/index.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/validation */ "./resources/js/mixins/validation.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var state = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationState"], {
+  apiId: null,
+  name: '',
+  baseUrl: '',
+  authentication: 'none',
+  token: '',
+  username: '',
+  password: '',
+  authentications: [{
+    name: 'none',
+    label: 'Desabilitada'
+  }, {
+    name: 'token',
+    label: 'Token'
+  }
+  /* ainda não implementado */
+
+  /* {
+      name: 'jwt',
+      label: 'JWT'
+  }, */
+  ]
+});
+
+var getters = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationGetters"]);
+
+var actions = {
+  storeApi: function storeApi(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit, api;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              api = {
+                name: state.name,
+                base_url: state.baseUrl,
+                auth_method: state.authentication,
+                token: state.token,
+                username: state.username,
+                password: state.password
+              };
+
+              if (!state.apiId) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 5;
+              return axios.put('/apis/' + state.apiId, api).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 5:
+              _context.next = 9;
+              break;
+
+            case 7:
+              _context.next = 9;
+              return axios.post('/apis', api).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  loadApi: function loadApi(_ref2, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              _context2.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/apis/' + id).then(function (r) {
+                if (r.status === 200) {
+                  commit('setApiId', r.data.id);
+                  commit('setName', r.data.name);
+                  commit('setBaseUrl', r.data.base_url);
+                  commit('setAuthentication', r.data.auth_method);
+                  commit('setToken', r.data.token);
+                  commit('setUsername', r.data.username);
+                  commit('setPassword', r.data.password);
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  }
+};
+
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], {
+  setApiId: function setApiId(state, payload) {
+    state.apiId = payload;
+  },
+  setName: function setName(state, payload) {
+    state.name = payload;
+  },
+  setBaseUrl: function setBaseUrl(state, payload) {
+    state.baseUrl = payload;
+  },
+  setAuthentication: function setAuthentication(state, payload) {
+    state.authentication = payload;
+  },
+  setToken: function setToken(state, payload) {
+    state.token = payload;
+  },
+  setUsername: function setUsername(state, payload) {
+    state.username = payload;
+  },
+  setPassword: function setPassword(state, payload) {
+    state.password = payload;
+  }
+});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
 
 /***/ }),
 
@@ -16506,15 +17677,38 @@ var actions = {
               _context3.next = 5;
               return axios.put('/api_endpoints/' + state.apiEndpointId, endpoint).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -16527,15 +17721,38 @@ var actions = {
               _context3.next = 9;
               return axios.post('/api_endpoints', endpoint).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -16556,8 +17773,7 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref4.commit;
-              console.log(id);
-              _context4.next = 4;
+              _context4.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/api_endpoint/' + id).then(function (r) {
                 if (r.status === 200) {
                   commit('setApiEndpointId', r.data.id);
@@ -16573,7 +17789,7 @@ var actions = {
                 }
               });
 
-            case 4:
+            case 3:
             case "end":
               return _context4.stop();
           }
@@ -16583,7 +17799,7 @@ var actions = {
   }
 };
 
-var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], {
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2__["validationMutations"], _defineProperty({
   setName: function setName(state, payload) {
     state.name = payload;
   },
@@ -16629,7 +17845,9 @@ var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_2_
   setCodeOk: function setCodeOk(state, payload) {
     state.codeOk = payload;
   }
-});
+}, "setSearchVariable", function setSearchVariable(state, payload) {
+  state.searchVariable = payload;
+}));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
@@ -16670,13 +17888,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var state = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonState"], {
+var state = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonState"], _defineProperty({
+  eventId: null,
   name: '',
   conditions: [],
   webhookId: null,
-  webhooks: [],
-  eventId: null
-});
+  webhooks: []
+}, "eventId", null));
 
 var getters = {
   getWebhooks: function getWebhooks(state) {
@@ -16694,15 +17912,19 @@ var getters = {
 var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonActions"], {
   loadWebhooks: function loadWebhooks(_ref) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var commit;
+      var commit, dispatch, state;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              commit = _ref.commit;
+              commit = _ref.commit, dispatch = _ref.dispatch, state = _ref.state;
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/webhooks').then(function (r) {
                 commit('setWebhooks', r.data);
+
+                if (state.eventId) {
+                  dispatch('loadEvent', state.eventId);
+                }
               });
 
             case 3:
@@ -16733,56 +17955,126 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
                 webhook_id: state.webhookId,
                 conditions: JSON.stringify(state.conditions)
               };
-              console.log(event);
 
               if (!state.eventId) {
-                _context2.next = 8;
+                _context2.next = 7;
                 break;
               }
 
-              _context2.next = 6;
+              _context2.next = 5;
               return axios.put('/events/' + state.eventId, event).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
 
-            case 6:
-              _context2.next = 10;
+            case 5:
+              _context2.next = 9;
               break;
 
-            case 8:
-              _context2.next = 10;
+            case 7:
+              _context2.next = 9;
               return axios.post('/events', event).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
 
-            case 10:
+            case 9:
             case "end":
               return _context2.stop();
           }
         }
       }, _callee2);
+    }))();
+  },
+  loadEvent: function loadEvent(_ref4, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var commit, dispatch;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref4.commit, dispatch = _ref4.dispatch;
+              _context3.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/events/' + id).then(function (r) {
+                if (r.status === 200) {
+                  dispatch('selectWebhook', r.data.webhook_id);
+                  commit('setName', r.data.name);
+                  commit('setConditions', JSON.parse(r.data.conditions));
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
     }))();
   }
 });
@@ -16802,6 +18094,429 @@ var mutations = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jso
   },
   delCondition: function delCondition(state, payload) {
     state.conditions.splice(payload, 1);
+  },
+  setConditions: function setConditions(state, payload) {
+    state.conditions = payload;
+  },
+  setEventId: function setEventId(state, payload) {
+    state.eventId = payload;
+  }
+});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/fields/index.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/fields/index.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/validation */ "./resources/js/mixins/validation.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationState"], {
+  fieldId: null,
+  name: '',
+  label: ''
+});
+
+var getters = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationGetters"]);
+
+var actions = {
+  storeField: function storeField(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit, fieldData;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              fieldData = {
+                field_name: state.name,
+                label: state.label
+              };
+
+              if (!state.fieldId) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 5;
+              return axios.put('/fields/' + state.fieldId, fieldData).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 5:
+              _context.next = 9;
+              break;
+
+            case 7:
+              _context.next = 9;
+              return axios.post('/fields', fieldData).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  loadField: function loadField(_ref2, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              _context2.next = 3;
+              return axios.get('/json/fields/' + id).then(function (r) {
+                if (r.status === 200) {
+                  commit('setFieldId', r.data.id);
+                  commit('setName', r.data.field_name);
+                  commit('setLabel', r.data.label);
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  }
+};
+
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationMutations"], {
+  setFieldId: function setFieldId(state, payload) {
+    state.fieldId = payload;
+  },
+  setName: function setName(state, payload) {
+    state.name = payload;
+  },
+  setLabel: function setLabel(state, payload) {
+    state.label = payload;
+  }
+});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/products/index.js":
+/*!******************************************************!*\
+  !*** ./resources/js/store/modules/products/index.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/validation */ "./resources/js/mixins/validation.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var state = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationState"], {
+  productId: null,
+  name: '',
+  webhookId: null,
+  productCode: '',
+  webhooks: []
+});
+
+var getters = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationGetters"]);
+
+var actions = {
+  loadWebhooks: function loadWebhooks(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              _context.next = 3;
+              return axios.get('/json/webhooks').then(function (r) {
+                commit('setWebhooks', r.data);
+              });
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  storeProduct: function storeProduct(_ref2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit, product;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              product = {
+                name: state.name,
+                webhook_id: state.webhookId,
+                product_code: state.productCode
+              };
+
+              if (!state.productId) {
+                _context2.next = 7;
+                break;
+              }
+
+              _context2.next = 5;
+              return axios.put('/products/' + state.productId, product).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 5:
+              _context2.next = 9;
+              break;
+
+            case 7:
+              _context2.next = 9;
+              return axios.post('/products', product).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  loadProduct: function loadProduct(_ref3, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+              _context3.next = 3;
+              return axios.get('/json/products/' + id).then(function (r) {
+                if (r.status === 200) {
+                  commit('setProductId', r.data.id);
+                  commit('setName', r.data.name);
+                  commit('setWebhookId', r.data.webhook_id);
+                  commit('setProductCode', r.data.product_code);
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  }
+};
+
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationMutations"], {
+  setProductId: function setProductId(state, payload) {
+    state.productId = payload;
+  },
+  setProductCode: function setProductCode(state, payload) {
+    state.productCode = payload;
+  },
+  setName: function setName(state, payload) {
+    state.name = payload;
+  },
+  setWebhookId: function setWebhookId(state, payload) {
+    state.webhookId = payload;
+  },
+  setWebhooks: function setWebhooks(state, payload) {
+    state.webhooks = payload;
   }
 });
 
@@ -16928,15 +18643,38 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               _context.next = 5;
               return axios.put('/webhooks/' + state.webhookId, webhook).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -16949,15 +18687,38 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               _context.next = 9;
               return axios.post('/webhooks', webhook).then(function (r) {
                 if (r.status === 200) {
-                  window.location = r.data.redirect;
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro incluído.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    window.location = r.data.redirect;
+                  });
                 }
               })["catch"](function (e) {
                 switch (e.response.status) {
                   case 422:
-                    commit('setHttpErrors', e.response.data.errors);
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
                     break;
 
                   default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
                     break;
                 }
               });
@@ -17038,7 +18799,7 @@ var mutations = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jso
 
 /***/ }),
 
-/***/ 4:
+/***/ 7:
 /*!****************************************!*\
   !*** multi ./resources/js/products.js ***!
   \****************************************/

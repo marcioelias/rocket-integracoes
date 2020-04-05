@@ -6,6 +6,7 @@ use App\DataTables\ProductsDataTable;
 use App\Product;
 use App\Webhook;
 use Illuminate\Http\Request;
+use Symfony\Component\Process\Process;
 
 class ProductController extends Controller
 {
@@ -26,8 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $webhooks = Webhook::orderBy('name', 'asc')->get();
-        return View('products.create')->withWebhooks($webhooks);
+        return View('products.create');
     }
 
     /**
@@ -39,16 +39,20 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'product_code' => 'required',
-            'name' => 'required',
+            'product_code' => "required|unique:products,product_code,NULL,NULL,webhook_id,$request->webhook_id",
+            'name' => "required|unique:products,name,NULL,NULL,webhook_id,$request->webhook_id",
             'webhook_id' => 'required'
         ]);
 
-        $product = new Product($request->all());
+        $product = new Product([
+            'webhook_id' => $request->webhook_id,
+            'product_code' => $request->product_code,
+            'name' => $request->name
+        ]);
 
         $product->save();
 
-        return redirect()->action('ProductController@index');
+        return response()->json(['redirect' => route('products.index')]);
     }
 
     /**
@@ -70,8 +74,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $webhooks = Webhook::EmOrdem()->get();
-        return View('products.edit')->withModel($product)->withWebhooks($webhooks);
+        return View('products.edit')->withModel($product);
     }
 
     /**
@@ -83,7 +86,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
+        $this->validate($request, [
+            'product_code' => "required|unique:products,product_code,$product->id,id,webhook_id,$request->webhook_id",
+            'name' => "required|unique:products,name,$product->id,id,webhook_id,$request->webhook_id",
+            'webhook_id' => 'required'
+        ]);
+
+        $product->fill([
+            'webhook_id' => $request->webhook_id,
+            'product_code' => $request->product_code,
+            'name' => $request->name
+        ]);
+
+        $product->save();
+
+        return response()->json(['redirect' => route('products.index')]);
     }
 
     /**
@@ -95,12 +113,13 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         return response()->json($product->delete());
-
-        //return response()->json(Product::all());
-        //return redirect()->action('ProductController@index');
     }
 
     public function getProducts() {
         return response()->json(Product::Ordered()->get());
+    }
+
+    public function getProduct(Product $product) {
+        return response()->json($product);
     }
 }

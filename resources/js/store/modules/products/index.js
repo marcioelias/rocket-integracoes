@@ -2,9 +2,11 @@ import { validationState, validationGetters, validationMutations } from '../../.
 
 const state = {
     ...validationState,
-    fieldId: null,
+    productId: null,
     name: '',
-    label: ''
+    webhookId: null,
+    productCode: '',
+    webhooks: []
 }
 
 const getters = {
@@ -12,14 +14,22 @@ const getters = {
 }
 
 const actions = {
-    async storeField({commit}) {
-        let fieldData = {
-            field_name: state.name,
-            label: state.label
+    async loadWebhooks({commit}) {
+        await axios.get('/json/webhooks')
+            .then(r => {
+                commit('setWebhooks', r.data)
+            }
+        )
+    },
+    async storeProduct({commit}) {
+        let product = {
+            name: state.name,
+            webhook_id: state.webhookId,
+            product_code: state.productCode
         }
 
-        if (state.fieldId) {
-            await axios.put('/fields/'+state.fieldId, fieldData)
+        if (state.productId) {
+            await axios.put('/products/'+state.productId, product)
                 .then(r => {
                     if (r.status === 200) {
                         swal({
@@ -59,7 +69,7 @@ const actions = {
                     }
                 })
         } else {
-            await axios.post('/fields', fieldData)
+            await axios.post('/products', product)
                 .then(r => {
                     if (r.status === 200) {
                         swal({
@@ -100,13 +110,14 @@ const actions = {
                 })
         }
     },
-    async loadField({commit}, id) {
-        await axios.get('/json/fields/'+id)
+    async loadProduct({commit}, id) {
+        await axios.get('/json/products/'+id)
             .then(r => {
                 if (r.status === 200) {
-                    commit('setFieldId', r.data.id)
-                    commit('setName', r.data.field_name)
-                    commit('setLabel', r.data.label)
+                    commit('setProductId', r.data.id)
+                    commit('setName', r.data.name)
+                    commit('setWebhookId', r.data.webhook_id)
+                    commit('setProductCode', r.data.product_code)
                 }
             }
         )
@@ -115,14 +126,20 @@ const actions = {
 
 const mutations = {
     ...validationMutations,
-    setFieldId(state, payload) {
-        state.fieldId = payload
+    setProductId(state, payload) {
+        state.productId = payload
+    },
+    setProductCode(state, payload) {
+        state.productCode = payload
     },
     setName(state, payload) {
         state.name = payload
     },
-    setLabel(state, payload) {
-        state.label =  payload
+    setWebhookId(state, payload) {
+        state.webhookId = payload
+    },
+    setWebhooks(state, payload) {
+        state.webhooks = payload
     }
 }
 

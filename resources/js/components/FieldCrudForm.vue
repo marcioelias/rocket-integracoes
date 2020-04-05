@@ -17,7 +17,6 @@
             </div>
         </div>
         <div class="mt-3">
-            <!-- <button class="btn mt-3 mr-3">Cancelar</button> -->
             <a href="/fields" class="btn mt-3 mr-3">Cancelar</a>
             <button type="button" class="btn btn-secondary mt-3" data-toggle="tooltip" titlte="Salvar" @click.prevent="storeField">Salvar</button>
         </div>
