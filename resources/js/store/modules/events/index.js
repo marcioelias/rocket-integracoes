@@ -3,6 +3,7 @@ import { jsonState, jsonActions, jsonMutations } from '../../../mixins/json'
 
 const state = {
     ...jsonState,
+    eventId: null,
     name: '',
     conditions: [],
     webhookId: null,
@@ -21,11 +22,15 @@ const getters = {
 
 const actions = {
     ...jsonActions,
-    async loadWebhooks({commit}) {
+    async loadWebhooks({commit, dispatch, state}) {
         await Axios.get('/json/webhooks')
             .then(r => {
                 commit('setWebhooks', r.data)
-            })
+                if (state.eventId) {
+                    dispatch('loadEvent', state.eventId)
+                }
+            }
+        )
     },
     selectWebhook({commit, dispatch, getters}, id) {
         commit('setWebhookId', id);
@@ -38,7 +43,6 @@ const actions = {
             conditions: JSON.stringify(state.conditions)
         }
 
-        console.log(event)
         if (state.eventId) {
             await axios.put('/events/'+state.eventId, event)
                 .then(r => {
@@ -120,6 +124,17 @@ const actions = {
                 }
             })
         }
+    },
+    async loadEvent({commit, dispatch}, id) {
+        await Axios.get('/json/events/'+id)
+            .then(r => {
+                if (r.status === 200) {
+                    dispatch('selectWebhook', r.data.webhook_id)
+                    commit('setName', r.data.name)
+                    commit('setConditions', JSON.parse(r.data.conditions))
+                }
+            }
+        )
     }
 }
 
@@ -139,6 +154,12 @@ const mutations = {
     },
     delCondition(state, payload) {
         state.conditions.splice(payload, 1)
+    },
+    setConditions(state, payload) {
+        state.conditions = payload
+    },
+    setEventId(state, payload) {
+        state.eventId = payload
     }
 }
 

@@ -5,6 +5,8 @@ import webhooks from './store/modules/webhooks'
 import events from './store/modules/events'
 import endpoints from './store/modules/endpoints'
 import actions from './store/modules/actions'
+import apis from './store/modules/apis'
+import fields from './store/modules/fields'
 
 Vue.use(Vuex)
 
@@ -13,6 +15,8 @@ export default new Vuex.Store({
         webhooks,
         events,
         endpoints,
-        actions
+        actions,
+        apis,
+        fields
     }
 })

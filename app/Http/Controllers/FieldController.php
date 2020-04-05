@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\FieldsDataTable;
 use App\Field;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FieldController extends Controller
 {
@@ -36,14 +37,21 @@ class FieldController extends Controller
      */
     public function store(Request $request)
     {
+        Log::debug($request);
+
         $this->validate($request, [
-            'label' => 'string|required|unique:fields',
-            'field_name' => 'string|required|unique:fields'
+            'label' => 'required|unique:fields',
+            'field_name' => 'required|unique:fields'
         ]);
 
-        $field = new Field($request->all());
+        $field = new Field([
+            'field_name' => $request->field_name,
+            'label' => $request->label
+        ]);
+
         $field->save();
-        return redirect()->action('FieldController@index');
+
+        return response()->json(['redirect' => route('fields.index')]);
     }
 
     /**
@@ -65,7 +73,7 @@ class FieldController extends Controller
      */
     public function edit(Field $field)
     {
-        return View('fields.edit')->withField($field)->withModel($field);
+        return View('fields.edit')->withModel($field);
     }
 
     /**
@@ -78,13 +86,18 @@ class FieldController extends Controller
     public function update(Request $request, Field $field)
     {
         $this->validate($request, [
-            'label' => 'string|required|unique:fields,id,'.$field->id,
-            'field_name' => 'string|required|unique:fields,id,'.$field->id
+            'label' => "required|unique:fields,label,$field->id,id",
+            'field_name' => "required|unique:fields,field_name,$field->id,id"
         ]);
 
-        $field->fill($request->all());
+        $field->fill([
+            'field_name' => $request->field_name,
+            'label' => $request->label
+        ]);
+
         $field->save();
-        return redirect()->action('FieldController@index');
+
+        return response()->json(['redirect' => route('fields.index')]);
     }
 
     /**
@@ -95,7 +108,7 @@ class FieldController extends Controller
      */
     public function destroy(Field $field)
     {
-        //
+        return response()->json($field->delete());
     }
 
     /* retorna somente os campos não reservados */
@@ -112,5 +125,9 @@ class FieldController extends Controller
         return response()->json(
             Field::orderBy('label', 'asc')
                 ->get());
+    }
+
+    public function getField(Field $field) {
+        return response()->json($field);
     }
 }

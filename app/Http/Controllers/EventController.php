@@ -53,9 +53,6 @@ class EventController extends Controller
             'conditions' => $request->conditions
         ]);
 
-        Log::debug($event);
-
-
         $event->save();
 
         return response()->json(['redirect' => route('events.index')]);
@@ -112,5 +109,9 @@ class EventController extends Controller
                         ->orderBy('name', 'asc')
                         ->get();
         return response()->json($events);
+    }
+
+    public function getEvent(Event $event) {
+        return response()->json($event);
     }
 }

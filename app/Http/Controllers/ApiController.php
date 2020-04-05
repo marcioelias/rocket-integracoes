@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Api;
 use App\DataTables\ApiDataTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -37,14 +38,22 @@ class ApiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'string|required|unique:apis',
-            'base_url' => 'string|url|unique:apis',
+            'name' => 'required|unique:apis',
+            'base_url' => 'required|url|unique:apis',
         ]);
 
-        $api = new Api($request->all());
+        $api = new Api([
+            'name' => $request->name,
+            'base_url' => $request->base_url,
+            'auth_method' => $request->auth_method,
+            'token' => $request->token,
+            'username' => $request->username,
+            'password' => $request->password
+        ]);
+
         $api->save();
 
-        return redirect()->action('ApiController@index');
+        return response()->json(['redirect' => route('apis.index')]);
     }
 
     /**
@@ -66,7 +75,7 @@ class ApiController extends Controller
      */
     public function edit(Api $api)
     {
-        return View('apis.edit')->withApi($api)->withModel($api);
+        return View('apis.edit')->withModel($api);
     }
 
     /**
@@ -78,15 +87,25 @@ class ApiController extends Controller
      */
     public function update(Request $request, Api $api)
     {
+         //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
+        Log::debug($api);
         $this->validate($request, [
-            'name' => 'string|required|unique:apis,id,'.$api->id,
-            'base_url' => 'string|url|unique:apis,id,'.$api->id,
+            'name' => "required|unique:apis,name,$api->id,id",
+            'base_url' => "required|url|unique:apis,base_url,$api->id,id",
         ]);
 
-        $api->fill($request->all());
+        $api->fill([
+            'name' => $request->name,
+            'base_url' => $request->base_url,
+            'auth_method' => $request->auth_method,
+            'token' => $request->token,
+            'username' => $request->username,
+            'password' => $request->password
+        ]);
+
         $api->save();
 
-        return redirect()->action('ApiController@index');
+        return response()->json(['redirect' => route('apis.index')]);
     }
 
     /**
@@ -97,12 +116,15 @@ class ApiController extends Controller
      */
     public function destroy(Api $api)
     {
-        $api->delete();
-        return redirect()->action('ApiController@index');
+        return response()->json($api->delete());
     }
 
     public function getApis() {
         $api = Api::orderBy('name', 'asc')->get();
+        return response()->json($api);
+    }
+
+    public function getApi(Api $api) {
         return response()->json($api);
     }
 }

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1911,10 +1911,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FieldCrudForm.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FieldCrudForm.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1953,327 +1953,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      fieldName: '',
-      fieldValue: '',
-      metaField: false,
-      curPos: 0,
-      fieldErrors: {
-        fieldName: '',
-        fieldValue: ''
-      }
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    $(this.$refs['modalVariables']).on('shown.bs.modal', function () {
-      return $(_this.$refs['searchVariableCtrl'].focus());
-    });
-    this.loadApis();
-    this.loadVariables();
-
-    if (this.apiEndpointId) {
-      this.loadApiEndpoint(this.apiEndpointId);
-    }
-  },
   props: {
-    apiEndpointId: {
+    fieldId: {
       type: Number,
       "default": null
     }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('endpoints', ['loadApis', 'storeApiEndpoint', 'loadApiEndpoint', 'loadVariables']), {
-    initSearch: function initSearch() {
-      this.searchVariable = '';
-      this.curPos = this.$refs['inputSearch'].selectionStart;
-    },
-    addField: function addField() {
-      if (!this.validateFields()) {
-        return;
-      }
-
-      var field = {
-        name: this.fieldName,
-        value: this.metaField ? "{ ".concat(this.fieldName, " }") : this.fieldValue,
-        meta: this.metaField
-      };
-      this.$store.commit('endpoints/addField', field);
-      this.clearFieldsForm();
-    },
-    delField: function delField(index) {
-      this.$store.commit('endpoints/delField', index);
-    },
-    addVariable: function addVariable(variable) {
-      this.fieldValue = '{ ' + variable + ' }';
-    },
-    validateFields: function validateFields() {
-      this.fieldErrors.fieldName = !this.fieldName ? 'Campo não informado' : '';
-      this.fieldErrors.fieldValue = !this.fieldValue && !this.metaField ? 'Valor não informado' : '';
-      return this.fieldErrors.fieldName == '' && this.fieldErrors.fieldValue == '';
-    },
-    clearFieldsForm: function clearFieldsForm() {
-      this.fieldName = '';
-      this.fieldValue = '';
-      this.metaField = false;
-      this.fieldErrors = {
-        fieldName: '',
-        fieldValue: ''
-      };
+  mounted: function mounted() {
+    if (this.fieldId) {
+      this.loadField(this.fieldId);
     }
-  }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('endpoints', ['getHttpErrors', 'filteredVariables']), {
-    apis: function apis() {
-      return this.$store.state.endpoints.apis;
-    },
-    httpMethods: function httpMethods() {
-      return this.$store.state.endpoints.httpMethods;
-    },
-    formBodys: function formBodys() {
-      return this.$store.state.endpoints.formBodys;
-    },
-    fields: function fields() {
-      return this.$store.state.endpoints.fields;
-    },
-    searchVariable: {
-      get: function get() {
-        return this.$store.state.endpoints.searchVariable;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setSearchVariable', value);
-      }
-    },
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('fields', ['loadField', 'storeField'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('fields', ['getHttpErrors']), {
     name: {
       get: function get() {
-        return this.$store.state.endpoints.name;
+        return this.$store.state.fields.name;
       },
       set: function set(value) {
-        this.$store.commit('endpoints/setName', value);
+        this.$store.commit('fields/setName', value);
       }
     },
-    apiId: {
+    label: {
       get: function get() {
-        return this.$store.state.endpoints.apiId;
+        return this.$store.state.fields.label;
       },
       set: function set(value) {
-        this.$store.commit('endpoints/setApiId', value);
-      }
-    },
-    relativeUrl: {
-      get: function get() {
-        return this.$store.state.endpoints.relativeUrl;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setRelativeUrl', value);
-      }
-    },
-    httpMethod: {
-      get: function get() {
-        return this.$store.state.endpoints.httpMethod;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setHttpMethod', value);
-      }
-    },
-    formBody: {
-      get: function get() {
-        return this.$store.state.endpoints.formBody;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setFormBody', value);
-      }
-    },
-    formDataField: {
-      get: function get() {
-        return this.$store.state.endpoints.formDataField;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setFormDataField', value);
-      }
-    },
-    fieldOk: {
-      get: function get() {
-        return this.$store.state.endpoints.fieldOk;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setFieldOk', value);
-      }
-    },
-    codeOk: {
-      get: function get() {
-        return this.$store.state.endpoints.codeOk;
-      },
-      set: function set(value) {
-        this.$store.commit('endpoints/setCodeOk', value);
+        this.$store.commit('fields/setLabel', value);
       }
     }
   })
@@ -3489,10 +3197,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FieldCrudForm.vue?vue&type=template&id=f995143e&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FieldCrudForm.vue?vue&type=template&id=f995143e& ***!
+  \****************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3506,63 +3214,54 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "api" } }, [_vm._v("API")]),
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "label" } }, [_vm._v("Rótulo")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.label,
+              expression: "label"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "label", id: "label" },
+          domProps: { value: _vm.label },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.label = $event.target.value
+            }
+          }
+        }),
         _vm._v(" "),
         _c(
-          "select",
+          "span",
           {
             directives: [
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.apiId,
-                expression: "apiId"
+                name: "show",
+                rawName: "v-show",
+                value: _vm.getHttpErrors.hasOwnProperty("label"),
+                expression: "getHttpErrors.hasOwnProperty('label')"
               }
             ],
-            staticClass: "form-control",
-            attrs: { id: "api" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.apiId = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
+            staticClass: "invalid-feedback",
+            staticStyle: { display: "block" }
           },
-          _vm._l(_vm.apis, function(api) {
-            return _c("option", { key: api.id, domProps: { value: api.id } }, [
-              _vm._v(_vm._s(api.name))
-            ])
+          _vm._l(_vm.getHttpErrors.label, function(error, index) {
+            return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
           }),
           0
-        ),
-        _vm._v(" "),
-        _vm.getHttpErrors.api_id
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
-              },
-              _vm._l(_vm.getHttpErrors.api_id, function(error, index) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
+        )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "name" } }, [_vm._v("Nome")]),
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "name" } }, [_vm._v("Nome do Campo")]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -3593,589 +3292,25 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.getHttpErrors.hasOwnProperty("name"),
-                expression: "getHttpErrors.hasOwnProperty('name')"
+                value: _vm.getHttpErrors.hasOwnProperty("field_name"),
+                expression: "getHttpErrors.hasOwnProperty('field_name')"
               }
             ],
             staticClass: "invalid-feedback",
             staticStyle: { display: "block" }
           },
-          _vm._l(_vm.getHttpErrors.name, function(error, index) {
+          _vm._l(_vm.getHttpErrors.field_name, function(error, index) {
             return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
           }),
           0
         )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "relative_url" } }, [
-          _vm._v("URL Relativa")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.relativeUrl,
-              expression: "relativeUrl"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "relative_url", name: "relative_url", type: "text" },
-          domProps: { value: _vm.relativeUrl },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.relativeUrl = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.getHttpErrors.hasOwnProperty("relative_url")
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
-              },
-              _vm._l(_vm.getHttpErrors.relative_url, function(error, index) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "method" } }, [_vm._v("Método")]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.httpMethod,
-                expression: "httpMethod"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { id: "method" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.httpMethod = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          _vm._l(_vm.httpMethods, function(m, index) {
-            return _c("option", { key: index, domProps: { value: m } }, [
-              _vm._v(_vm._s(m))
-            ])
-          }),
-          0
-        ),
-        _vm._v(" "),
-        _vm.getHttpErrors.hasOwnProperty("method")
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
-              },
-              _vm._l(_vm.getHttpErrors.method, function(error, index) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "body" } }, [_vm._v("Corpo")]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.formBody,
-                expression: "formBody"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { id: "body" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.formBody = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          _vm._l(_vm.formBodys, function(f, index) {
-            return _c("option", { key: index, domProps: { value: f } }, [
-              _vm._v(_vm._s(f))
-            ])
-          }),
-          0
-        ),
-        _vm._v(" "),
-        _vm.getHttpErrors.hasOwnProperty("body")
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
-              },
-              _vm._l(_vm.getHttpErrors.body, function(error, index) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "data_field" } }, [
-          _vm._v("Campo de Dados")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formDataField,
-              expression: "formDataField"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "data_field", name: "data_field", type: "text" },
-          domProps: { value: _vm.formDataField },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.formDataField = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.getHttpErrors.hasOwnProperty("data_field")
-          ? _c(
-              "span",
-              {
-                staticClass: "invalid-feedback",
-                staticStyle: { display: "block" }
-              },
-              _vm._l(_vm.getHttpErrors.data_field, function(error, index) {
-                return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-              }),
-              0
-            )
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-body" },
-        [
-          _c("div", { staticClass: "form-row" }, [
-            _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", { attrs: { for: "field" } }, [_vm._v("Campo")]),
-              _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group" }, [
-                _c("div", { staticClass: "input-group-prepend" }, [
-                  _c("div", { staticClass: "input-group-text" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "switch s-success mb-0",
-                        attrs: { "data-toggle": "tooltip", title: "Meta campo" }
-                      },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.metaField,
-                              expression: "metaField"
-                            }
-                          ],
-                          attrs: { type: "checkbox" },
-                          domProps: {
-                            checked: Array.isArray(_vm.metaField)
-                              ? _vm._i(_vm.metaField, null) > -1
-                              : _vm.metaField
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a = _vm.metaField,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = null,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 && (_vm.metaField = $$a.concat([$$v]))
-                                } else {
-                                  $$i > -1 &&
-                                    (_vm.metaField = $$a
-                                      .slice(0, $$i)
-                                      .concat($$a.slice($$i + 1)))
-                                }
-                              } else {
-                                _vm.metaField = $$c
-                              }
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "slider round" })
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.fieldName,
-                      expression: "fieldName"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { id: "field", name: "field", type: "text" },
-                  domProps: { value: _vm.fieldName },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.fieldName = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.fieldErrors.fieldName != ""
-                ? _c(
-                    "span",
-                    {
-                      staticClass: "invalid-feedback",
-                      staticStyle: { display: "block" }
-                    },
-                    [_c("strong", [_vm._v(_vm._s(_vm.fieldErrors.fieldName))])]
-                  )
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", { attrs: { for: "value" } }, [_vm._v("Valor")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.fieldValue,
-                      expression: "fieldValue"
-                    }
-                  ],
-                  ref: "inputSearch",
-                  staticClass: "form-control",
-                  attrs: {
-                    id: "value",
-                    name: "value",
-                    type: "text",
-                    tabindex: "1",
-                    disabled: this.metaField
-                  },
-                  domProps: { value: _vm.fieldValue },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.fieldValue = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "input-group-append",
-                    attrs: {
-                      "data-toggle": "modal",
-                      "data-target": "#modalVariables"
-                    }
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning",
-                        attrs: {
-                          type: "button",
-                          "data-toggle": "tooltip",
-                          title: "Variáveis",
-                          disabled: this.metaField
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.initSearch()
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fas fa-ellipsis-h" })]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-group-append" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: {
-                        type: "button",
-                        "data-toggle": "tooltip",
-                        title: "Adicionar"
-                      },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.addField($event)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fas fa-plus" })]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _vm.fieldErrors.fieldValue != ""
-                ? _c(
-                    "span",
-                    {
-                      staticClass: "invalid-feedback",
-                      staticStyle: { display: "block" }
-                    },
-                    [_c("strong", [_vm._v(_vm._s(_vm.fieldErrors.fieldValue))])]
-                  )
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _vm._l(_vm.fields, function(field, index) {
-            return _c(
-              "div",
-              { key: index, staticClass: "form-row mb-0 mt-2" },
-              [
-                _c("div", { staticClass: "form-group col-md-6 mb-0" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("div", { staticClass: "input-group-prepend" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "input-group-text",
-                          class: {
-                            "text-success": field.meta,
-                            "text-secondary": !field.meta
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fas",
-                            class: {
-                              "fa-check-square": field.meta,
-                              "fa-square": !field.meta
-                            }
-                          })
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-control" }, [
-                      _c("small", [_vm._v(_vm._s(field.name))])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-md-6 mb-0" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("div", { staticClass: "form-control" }, [
-                      _c("small", [_vm._v(_vm._s(field.value))])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group-append" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "tooltip",
-                            title: "Remover"
-                          },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.delField(index)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-trash-alt" })]
-                      )
-                    ])
-                  ])
-                ])
-              ]
-            )
-          })
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card mt-3" }, [
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "form-row mb-0" }, [
-          _c("div", { staticClass: "form-group col-md-6 mb-0" }, [
-            _c("label", { attrs: { for: "field_ok" } }, [_vm._v("Campo")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.fieldOk,
-                  expression: "fieldOk"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { id: "field_ok", name: "field_ok", type: "text" },
-              domProps: { value: _vm.fieldOk },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.fieldOk = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.getHttpErrors.hasOwnProperty("field_ok")
-              ? _c(
-                  "span",
-                  {
-                    staticClass: "invalid-feedback",
-                    staticStyle: { display: "block" }
-                  },
-                  _vm._l(_vm.getHttpErrors.field_ok, function(error, index) {
-                    return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-                  }),
-                  0
-                )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-6 mb-0" }, [
-            _c("label", { attrs: { for: "code_ok" } }, [
-              _vm._v("Código de Retorno")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _vm._m(3),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.codeOk,
-                    expression: "codeOk"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { id: "code_ok", name: "code_ok", type: "text" },
-                domProps: { value: _vm.codeOk },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.codeOk = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.getHttpErrors.hasOwnProperty("code_ok")
-              ? _c(
-                  "span",
-                  {
-                    staticClass: "invalid-feedback",
-                    staticStyle: { display: "block" }
-                  },
-                  _vm._l(_vm.getHttpErrors.code_ok, function(error, index) {
-                    return _c("strong", { key: index }, [_vm._v(_vm._s(error))])
-                  }),
-                  0
-                )
-              : _vm._e()
-          ])
-        ])
       ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "mt-3" }, [
-      _c(
-        "a",
-        { staticClass: "btn mt-3 mr-3", attrs: { href: "/api_endpoints" } },
-        [_vm._v("Cancelar")]
-      ),
+      _c("a", { staticClass: "btn mt-3 mr-3", attrs: { href: "/fields" } }, [
+        _vm._v("Cancelar")
+      ]),
       _vm._v(" "),
       _c(
         "button",
@@ -4185,171 +3320,16 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.storeApiEndpoint($event)
+              return _vm.storeField($event)
             }
           }
         },
         [_vm._v("Salvar")]
       )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        ref: "modalVariables",
-        staticClass: "modal fade",
-        attrs: {
-          id: "modalVariables",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "modalVariablesLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.searchVariable,
-                      expression: "searchVariable"
-                    }
-                  ],
-                  ref: "searchVariableCtrl",
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    name: "searchVar",
-                    id: "searchVar",
-                    placeholder: "Pesquisar..."
-                  },
-                  domProps: { value: _vm.searchVariable },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.searchVariable = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c(
-                  "div",
-                  { staticStyle: { "overflow-y": "scroll", height: "400px" } },
-                  [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c("table", { staticClass: "table mb-4" }, [
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.filteredVariables, function(variable) {
-                            return _c("tr", { key: variable.id }, [
-                              _c("td", [
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "badge shadow-none",
-                                    class: {
-                                      "outline-badge-secondary":
-                                        variable.system_field,
-                                      "outline-badge-primary": !variable.system_field
-                                    },
-                                    staticStyle: {
-                                      cursor: "pointer",
-                                      "user-select": "none"
-                                    },
-                                    attrs: { "data-dismiss": "modal" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.addVariable(
-                                          variable.field_name
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "{ " + _vm._s(variable.field_name) + " }"
-                                    )
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(variable.label))])
-                            ])
-                          }),
-                          0
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+    ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", { staticClass: "mb-0" }, [_vm._v("Campos")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", [
-      _vm._v("("),
-      _c("i", { staticClass: "fas fa-toggle-on" }),
-      _vm._v(" Meta campo?)")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", { staticClass: "mb-0" }, [
-        _vm._v("Retorno OK "),
-        _c("small", [_vm._v("(Condição para validar a chamada a API)")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "input-group-prepend",
-        attrs: { "data-toggle": "modal", "data-target": "#modalVariables" }
-      },
-      [
-        _c("span", { staticClass: "input-group-text" }, [
-          _c("i", { staticClass: "fas fa-equals" })
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -17552,44 +16532,17 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./resources/js/apiEndpoints.js":
-/*!**************************************!*\
-  !*** ./resources/js/apiEndpoints.js ***!
-  \**************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
-/* harmony import */ var _components_ApiEndpointsCrudForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ApiEndpointsCrudForm.vue */ "./resources/js/components/ApiEndpointsCrudForm.vue");
-
-
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$csrf_token = $('meta[name="csrf-token"]').attr('content');
-new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#api-endpoints',
-  store: _store__WEBPACK_IMPORTED_MODULE_1__["default"],
-  components: {
-    ApiEndpointsCrudForm: _components_ApiEndpointsCrudForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/components/ApiEndpointsCrudForm.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/components/ApiEndpointsCrudForm.vue ***!
-  \**********************************************************/
+/***/ "./resources/js/components/FieldCrudForm.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/FieldCrudForm.vue ***!
+  \***************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ApiEndpointsCrudForm_vue_vue_type_template_id_74ca23b1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1& */ "./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1&");
-/* harmony import */ var _ApiEndpointsCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ApiEndpointsCrudForm.vue?vue&type=script&lang=js& */ "./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _FieldCrudForm_vue_vue_type_template_id_f995143e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FieldCrudForm.vue?vue&type=template&id=f995143e& */ "./resources/js/components/FieldCrudForm.vue?vue&type=template&id=f995143e&");
+/* harmony import */ var _FieldCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FieldCrudForm.vue?vue&type=script&lang=js& */ "./resources/js/components/FieldCrudForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -17599,9 +16552,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ApiEndpointsCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ApiEndpointsCrudForm_vue_vue_type_template_id_74ca23b1___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ApiEndpointsCrudForm_vue_vue_type_template_id_74ca23b1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _FieldCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FieldCrudForm_vue_vue_type_template_id_f995143e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FieldCrudForm_vue_vue_type_template_id_f995143e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -17611,40 +16564,67 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/ApiEndpointsCrudForm.vue"
+component.options.__file = "resources/js/components/FieldCrudForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/FieldCrudForm.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/FieldCrudForm.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiEndpointsCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ApiEndpointsCrudForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiEndpointsCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FieldCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FieldCrudForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FieldCrudForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FieldCrudForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/components/FieldCrudForm.vue?vue&type=template&id=f995143e&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/FieldCrudForm.vue?vue&type=template&id=f995143e& ***!
+  \**********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiEndpointsCrudForm_vue_vue_type_template_id_74ca23b1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ApiEndpointsCrudForm.vue?vue&type=template&id=74ca23b1&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiEndpointsCrudForm_vue_vue_type_template_id_74ca23b1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FieldCrudForm_vue_vue_type_template_id_f995143e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FieldCrudForm.vue?vue&type=template&id=f995143e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FieldCrudForm.vue?vue&type=template&id=f995143e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FieldCrudForm_vue_vue_type_template_id_f995143e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiEndpointsCrudForm_vue_vue_type_template_id_74ca23b1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FieldCrudForm_vue_vue_type_template_id_f995143e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/fields.js":
+/*!********************************!*\
+  !*** ./resources/js/fields.js ***!
+  \********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var _components_FieldCrudForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/FieldCrudForm.vue */ "./resources/js/components/FieldCrudForm.vue");
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$csrf_token = $('meta[name="csrf-token"]').attr('content');
+new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+  el: '#field-crud',
+  store: _store__WEBPACK_IMPORTED_MODULE_1__["default"],
+  components: {
+    FieldCrudForm: _components_FieldCrudForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }
+});
 
 /***/ }),
 
@@ -19507,14 +18487,14 @@ var mutations = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jso
 
 /***/ }),
 
-/***/ 3:
-/*!********************************************!*\
-  !*** multi ./resources/js/apiEndpoints.js ***!
-  \********************************************/
+/***/ 6:
+/*!**************************************!*\
+  !*** multi ./resources/js/fields.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/7EDAA7EFDAA7A1BF/Desenvolvimento/Web/integracao-api/resources/js/apiEndpoints.js */"./resources/js/apiEndpoints.js");
+module.exports = __webpack_require__(/*! /mnt/7EDAA7EFDAA7A1BF/Desenvolvimento/Web/integracao-api/resources/js/fields.js */"./resources/js/fields.js");
 
 
 /***/ })

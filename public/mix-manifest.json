@@ -1,8 +1,10 @@
 {
     "/js/actions.js": "/js/actions.js",
     "/js/apiEndpoints.js": "/js/apiEndpoints.js",
+    "/js/apis.js": "/js/apis.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/fields.js": "/js/fields.js",
     "/js/jsonAnaliser.js": "/js/jsonAnaliser.js",
     "/js/webhookEvents.js": "/js/webhookEvents.js"
 }

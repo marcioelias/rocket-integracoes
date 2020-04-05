@@ -110,12 +110,12 @@
                                     <i class="fas" :class="{'fa-check-square': field.meta, 'fa-square': !field.meta, }"></i>
                                 </div>
                             </div>
-                            <div class="form-control">{{ field.name }}</div>
+                            <div class="form-control"><small>{{ field.name }}</small></div>
                         </div>
                     </div>
                     <div class="form-group col-md-6 mb-0">
                         <div class="input-group">
-                            <div class="form-control">{{ field.value }}</div>
+                            <div class="form-control"><small>{{ field.value }}</small></div>
                             <div class="input-group-append">
                                 <button class="btn btn-danger" type="button" @click.prevent="delField(index)" data-toggle="tooltip" title="Remover">
                                     <i class="fas fa-trash-alt"></i>

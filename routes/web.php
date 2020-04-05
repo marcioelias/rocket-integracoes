@@ -53,15 +53,18 @@ Route::middleware(['auth:web'])->group(function() {
     Route::put('/alterar_senha/{user}', 'UserController@changePassword')->name('user.change.password');
 
     Route::get('/json/fields', 'FieldController@getFields');
+    Route::get('/json/fields/{field}', 'FieldController@getField');
     Route::get('/json/fields/all', 'FieldController@getAllFields');
     Route::get('/json/webhooks', 'WebhookController@getWebhooks');
     Route::get('/json/webhook/{webhook}', 'WebhookController@getWebhook');
     Route::get('/json/api_endpoint/{api_endpoint}', 'ApiEndpointController@getApiEndpoint');
     Route::get('/json/apis', 'ApiController@getApis');
+    Route::get('/json/apis/{api}', 'ApiController@getApi');
     Route::get('/json/products', 'ProductController@getProducts');
     Route::get('/json/api_endpoints/api/{api}', 'ApiEndpointController@getApiEndpointsByApi');
     Route::get('/json/actions/{action}', 'ActionController@getAction');
     Route::get('/json/events/product/{product}', 'EventController@getEventsByProduct');
+    Route::get('/json/events/{event}', 'EventController@getEvent');
 
     Route::post('/json/actions/{action}/active/toggle', 'ActionController@toggleActive');
 

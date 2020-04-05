@@ -3,8 +3,8 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <!-- name -->
-                <label for="name">Webhook</label>
-                <select id="json_field" class="form-control" v-model="webhookId">
+                <label for="webhook_id">Webhook</label>
+                <select id="json_field" name="webhook_id" class="form-control" v-model="webhookId">
                     <option v-for="wh in getWebhooks" :key="wh.id" :value="wh.id">{{ wh.name }}</option>
                 </select>
             </div>
@@ -22,17 +22,17 @@
                 <div class="form-row">
                     <div class="form-group col-md-2" v-if="conditions.length > 0">
                         <!-- value -->
-                        <label for="name">Agrupar</label>
-                        <select id="json_field" class="form-control" v-model="logicOperation">
+                        <label for="group_condition">Agrupar</label>
+                        <select id="group_condition" name="group_condition" class="form-control" v-model="logicOperation">
                             <option v-for="lp in logicOperations" :key="lp.value" :value="lp">{{ lp.label }}</option>
                         </select>
                     </div>
                     <div class="form-group" :class="{'col-md-4': conditions.length > 0, 'col-md-6': conditions.length == 0}">
                         <!-- field -->
-                        <label for="json_field">Campo</label>
+                        <label for="field">Campo</label>
 
                         <div class="input-group">
-                            <select id="json_field" class="form-control" v-model="field">
+                            <select id="field" name="field" class="form-control" v-model="field">
                                 <option v-for="(item, index) in remoteFields" :key="index" :value="item.field">{{ item.field }}</option>
                             </select>
                         </div>
@@ -42,16 +42,16 @@
                     </div>
                     <div class="form-group col-md-2">
                         <!-- operation -->
-                        <label for="name">Operação</label>
-                        <select id="json_field" class="form-control" v-model="operation">
+                        <label for="operation">Operação</label>
+                        <select id="operation" name="operation" class="form-control" v-model="operation">
                                 <option v-for="op in opterations" :key="op.value" :value="op">{{ op.label }}</option>
                             </select>
                     </div>
                     <div class="form-group col-md-4">
                         <!-- operation -->
-                        <label for="name">Valor</label>
+                        <label for="value">Valor</label>
                         <div class="input-group">
-                            <input id="name" name="name" type="text" class="form-control" v-model="value">
+                            <input id="value" name="value" type="text" class="form-control" v-model="value">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button" @click.prevent="addCondition">
                                     <i class="fas fa-plus"></i>
@@ -144,13 +144,13 @@ export default {
     },
     mounted() {
         //this.loadWebhook(this.webhookId)
-        this.loadWebhooks()
         if (this.eventId) {
-            //load the current event
+            this.$store.commit('events/setEventId', this.eventId)
         }
+        this.loadWebhooks()
     },
     methods: {
-        ...mapActions('events', ['loadWebhooks', 'storeEvent']),
+        ...mapActions('events', ['loadWebhooks', 'storeEvent', 'loadEvent']),
         addCondition() {
             let condition = {
                 field: this.field,
@@ -162,7 +162,6 @@ export default {
             this.$store.commit('events/addCondition', condition)
         },
         delCondition(id) {
-            console.log('apaganod: '+id)
             this.$store.commit('events/delCondition', id)
         }
     },
