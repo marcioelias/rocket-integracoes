@@ -20,4 +20,6 @@ mix.js('resources/js/app.js', 'public/js')
    .js('resources/js/fields.js', 'public/js')
    .js('resources/js/products.js', 'public/js')
    .js('resources/js/users.js', 'public/js')
+   .js('resources/js/userProfiles.js', 'public/js')
+   .js('resources/js/resetPassword.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');

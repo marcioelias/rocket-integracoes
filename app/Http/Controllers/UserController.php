@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
+use App\Rules\OldPasswordValidation;
 use App\traits\UtilsTrait;
 use App\User;
 use Illuminate\Http\Request;
@@ -70,7 +71,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return View('users.profile')->withModel($user);
     }
 
     /**
@@ -134,5 +135,16 @@ class UserController extends Controller
             $user->active = !$user->active;
             $user->save();
         }
+    }
+
+    public function changePassword(Request $request, User $user) {
+        $this->validate($request, [
+            'old_password' => ['required', new OldPasswordValidation($user->password)],
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->password = bcrypt($request->password);
+
+        return response()->json($user->save());
     }
 }

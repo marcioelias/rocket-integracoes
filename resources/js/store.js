@@ -9,6 +9,7 @@ import apis from './store/modules/apis'
 import fields from './store/modules/fields'
 import products from './store/modules/products'
 import users from './store/modules/users'
+import profiles from './store/modules/profiles'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         apis,
         fields,
         products,
-        users
+        users,
+        profiles
     }
 })

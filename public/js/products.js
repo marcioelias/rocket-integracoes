@@ -16847,6 +16847,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_modules_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/modules/fields */ "./resources/js/store/modules/fields/index.js");
 /* harmony import */ var _store_modules_products__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store/modules/products */ "./resources/js/store/modules/products/index.js");
 /* harmony import */ var _store_modules_users__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store/modules/users */ "./resources/js/store/modules/users/index.js");
+/* harmony import */ var _store_modules_profiles__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./store/modules/profiles */ "./resources/js/store/modules/profiles/index.js");
+
 
 
 
@@ -16867,7 +16869,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     apis: _store_modules_apis__WEBPACK_IMPORTED_MODULE_6__["default"],
     fields: _store_modules_fields__WEBPACK_IMPORTED_MODULE_7__["default"],
     products: _store_modules_products__WEBPACK_IMPORTED_MODULE_8__["default"],
-    users: _store_modules_users__WEBPACK_IMPORTED_MODULE_9__["default"]
+    users: _store_modules_users__WEBPACK_IMPORTED_MODULE_9__["default"],
+    profiles: _store_modules_profiles__WEBPACK_IMPORTED_MODULE_10__["default"]
   }
 }));
 
@@ -18520,6 +18523,186 @@ var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1_
   },
   setWebhooks: function setWebhooks(state, payload) {
     state.webhooks = payload;
+  }
+});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/profiles/index.js":
+/*!******************************************************!*\
+  !*** ./resources/js/store/modules/profiles/index.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/validation */ "./resources/js/mixins/validation.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var state = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationState"], {
+  userId: null,
+  active: false,
+  name: '',
+  email: '',
+  username: '',
+  currentPassword: '',
+  newPassword: '',
+  newPasswordConfirmation: '',
+  changePassword: false
+});
+
+var getters = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationGetters"]);
+
+var actions = {
+  loadUserProfile: function loadUserProfile(_ref, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              _context.next = 3;
+              return axios.get('/json/users/' + id).then(function (r) {
+                if (r.status == 200) {
+                  commit('setUserId', r.data.id);
+                  commit('setName', r.data.name);
+                  commit('setEmail', r.data.email);
+                  commit('setUsername', r.data.username);
+                  commit('setActive', r.data.active);
+                }
+              });
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  changeUserPassword: function changeUserPassword(_ref2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit, dispatch, user;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, dispatch = _ref2.dispatch;
+              user = {
+                password: state.newPassword,
+                password_confirmation: state.newPasswordConfirmation,
+                old_password: state.currentPassword
+              };
+              _context2.next = 4;
+              return axios.put('/json/users/' + state.userId + '/change_password', user).then(function (r) {
+                if (r.status === 200) {
+                  swal({
+                    title: 'Sucesso!',
+                    text: 'Registro alterado.',
+                    type: 'success',
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                  }).then(function (result) {
+                    dispatch('clearForm');
+                  });
+                }
+              })["catch"](function (e) {
+                switch (e.response.status) {
+                  case 422:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    }).then(function (result) {
+                      commit('setHttpErrors', e.response.data.errors);
+                    });
+                    break;
+
+                  default:
+                    swal({
+                      title: 'Ooops!',
+                      text: 'Algo deu errado.',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      padding: '2em'
+                    });
+                    break;
+                }
+              });
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  clearForm: function clearForm(_ref3) {
+    var commit = _ref3.commit;
+    commit('setChangePassword', false);
+    commif('setCurrentPassword', '');
+    commit('setNewPassword', '');
+    commit('setNewPasswordConfirmation', '');
+  }
+};
+
+var mutations = _objectSpread({}, _mixins_validation__WEBPACK_IMPORTED_MODULE_1__["validationMutations"], {
+  setUserId: function setUserId(state, payload) {
+    state.userId = payload;
+  },
+  setActive: function setActive(state, payload) {
+    state.active = payload;
+  },
+  setName: function setName(state, payload) {
+    state.name = payload;
+  },
+  setEmail: function setEmail(state, payload) {
+    state.email = payload;
+  },
+  setUsername: function setUsername(state, payload) {
+    state.username = payload;
+  },
+  setCurrentPassword: function setCurrentPassword(state, payload) {
+    state.currentPassword = payload;
+  },
+  setNewPassword: function setNewPassword(state, payload) {
+    state.newPassword = payload;
+  },
+  setNewPasswordConfirmation: function setNewPasswordConfirmation(state, payload) {
+    state.newPasswordConfirmation = payload;
+  },
+  setChangePassword: function setChangePassword(state, payload) {
+    state.changePassword = payload;
   }
 });
 

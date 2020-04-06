@@ -41,12 +41,14 @@ Route::middleware(['auth:web'])->group(function() {
 
     Route::post('/json/actions/{action}/active/toggle', 'ActionController@toggleActive');
     Route::post('/json/users/{user}/active/toggle', 'UserController@toggleActive');
+    Route::put('/json/users/{user}/change_password', 'UserController@changePassword');
 
+
+    Route::get('/user/{user}/profile', 'UserController@show')->name('users.profile');
     Route::resource('/users', 'UserController');
     Route::resource('/webhooks', 'WebhookController');
     Route::resource('/apis', 'ApiController');
     Route::resource('/api_endpoints', 'ApiEndpointController');
-    Route::resource('/integrations', 'IntegrationController');
     Route::resource('/actions', 'ActionController');
     Route::resource('/fields', 'FieldController');
     Route::resource('/products', 'ProductController');

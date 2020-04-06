@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="division"></div>
-                            <a href="auth_pass_recovery_boxed.html" class="forgot-pass-link float-right">Esqueceu a senha?</a>
+                            <a href="{{ route('password.request') }}" class="forgot-pass-link float-right">Esqueceu a senha?</a>
                         </form>
 
                     </div>

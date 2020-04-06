@@ -179,3 +179,14 @@ Breadcrumbs::for('users.edit', function ($trail, $model) {
     $trail->parent('users.index');
     $trail->push($model->name, route('users.edit', $model->id));
 });
+
+// Usuário
+Breadcrumbs::for('user', function ($trail, $model) {
+    $trail->push($model->name);
+});
+
+// Perfil
+Breadcrumbs::for('users.profile', function ($trail, $model) {
+    $trail->parent('user', $model);
+    $trail->push('Profile');
+});

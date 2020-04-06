@@ -116,7 +116,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        return $this->destroyModel($product)
+        return $this->destroyModel($product);
     }
 
     public function getProducts() {
