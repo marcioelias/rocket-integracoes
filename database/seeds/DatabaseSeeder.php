@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(FieldsTableSeeder::class);
         $this->call(EventsTableSeeder::class);
+        $this->call(ShortUrlConfigTableSeeder::class);
     }
 }

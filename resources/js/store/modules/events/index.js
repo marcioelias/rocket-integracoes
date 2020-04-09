@@ -7,8 +7,19 @@ const state = {
     name: '',
     conditions: [],
     webhookId: null,
+    triggerSystemEvent: null,
     webhooks: [],
-    eventId: null
+    eventId: null,
+    triggerSystemEvents: [
+        {
+            value: 'billet_pending',
+            label: 'Boleto em Gerado/Em Aberto'
+        },
+        {
+            value: 'billet_paid',
+            label: 'Boleto Pago'
+        }
+    ]
 }
 
 const getters = {
@@ -40,7 +51,8 @@ const actions = {
         let event = {
             name: state.name,
             webhook_id: state.webhookId,
-            conditions: JSON.stringify(state.conditions)
+            conditions: JSON.stringify(state.conditions),
+            trigger_system_event: state.triggerSystemEvent
         }
 
         if (state.eventId) {
@@ -131,7 +143,8 @@ const actions = {
                 if (r.status === 200) {
                     dispatch('selectWebhook', r.data.webhook_id)
                     commit('setName', r.data.name)
-                    commit('setConditions', JSON.parse(r.data.conditions))
+                    commit('setConditions', JSON.parse(r.data.conditions),
+                    commit('setTriggerSystemEvent', r.data.trigger_system_event))
                 }
             }
         )
@@ -160,6 +173,9 @@ const mutations = {
     },
     setEventId(state, payload) {
         state.eventId = payload
+    },
+    setTriggerSystemEvent(state, payload) {
+        state.triggerSystemEvent = payload
     }
 }
 

@@ -84,7 +84,7 @@ var d_2options1 = {
           right: 0,
           bottom: -40,
           left: 0
-        }, 
+        },
     },
 }
 
@@ -124,7 +124,7 @@ var d_2options2 = {
       right: 0,
       bottom: 36,
       left: 0
-    }, 
+    },
   },
   fill: {
       type:"gradient",
@@ -306,7 +306,7 @@ var options1 = {
         lines: {
             show: true
         }
-    },   
+    },
     yaxis: {
         lines: {
             show: false,
@@ -317,8 +317,8 @@ var options1 = {
       right: 0,
       bottom: 0,
       left: -10
-    }, 
-  }, 
+    },
+  },
   legend: {
     position: 'top',
     horizontalAlign: 'right',
@@ -335,7 +335,7 @@ var options1 = {
       onClick: undefined,
       offsetX: 0,
       offsetY: 0
-    },    
+    },
     itemMargin: {
       horizontal: 0,
       vertical: 20
@@ -428,9 +428,13 @@ var options = {
               label: 'Total',
               color: '#888ea8',
               formatter: function (w) {
-                return w.globals.seriesTotals.reduce( function(a, b) {
-                  return a + b
-                }, 0)
+                  if (w.length > 0) {
+                    return w.globals.seriesTotals.reduce( function(a, b) {
+                        return a + b
+                      }, 0)
+                  } else {
+                      return 0
+                  }
               }
             }
           }
@@ -442,8 +446,11 @@ var options = {
       width: 25,
       colors: '#0e1726'
     },
-    series: [985, 737, 270],
-    labels: ['Apparel', 'Electronic', 'Others'],
+    series: [],
+    noData: {
+        text: 'Loading...'
+    },
+    labels: ['Sucesso', 'Falha'],
     responsive: [{
         breakpoint: 1599,
         options: {
@@ -524,6 +531,13 @@ var chart = new ApexCharts(
 
 chart.render();
 
+/* $.getJSON('/json/graph/api_calls', function(response) {
+    chart.updateSeries([{
+      name: 'Sales',
+      data: response.series
+    }])
+  });
+ */
 /*
     =============================================
         Perfect Scrollbar | Recent Activities

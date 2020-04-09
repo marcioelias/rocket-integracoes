@@ -110,7 +110,13 @@ class FieldController extends Controller
      */
     public function destroy(Field $field)
     {
-        return $this->destroyModel($field);
+        if ($field->can_delete) {
+            return $this->destroyModel($field);
+        } else {
+            return response()
+                ->json(['message' => 'Este registro não pode ser removido.'])
+                ->setStatusCode(500);
+        }
     }
 
     /* retorna somente os campos não reservados */

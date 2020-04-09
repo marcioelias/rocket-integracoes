@@ -178,11 +178,16 @@ class WebhookController extends Controller
         try {
             $mapped_data = $this->mapWebhookCallData($webhook, $data);
 
+            Log::debug($mapped_data);
+
             $webhookCall = new WebhookCall([
                 'webhook_id' => $webhook->id,
                 'data' => json_encode($data),
-                'mapped_data' => $mapped_data
+                'mapped_data' => $mapped_data,
+                'transaction_code' => json_decode($mapped_data, true)['webhook_transaction_code']
             ]);
+
+            Log::debug($webhookCall);
 
             //se houver produto novo, cadastra o mesmo
 
@@ -190,10 +195,10 @@ class WebhookController extends Controller
             //se houver boleto, cadastra o mesmo
 
             $webhookCall->save();
+
+            event(new NewWebhookCall($webhookCall));
         } catch (\Exception $e) {
             Log::emergency($e);
-        } finally {
-            event(new NewWebhookCall($webhookCall));
         }
     }
 
@@ -204,13 +209,19 @@ class WebhookController extends Controller
         foreach ($mappings as $mapping) {
             $aux = $this->parseStdAttr($data, $mapping['remoteField']);
             if ($mapping['function']) {
+                Log::debug($mapping['function']);
                 switch ($mapping['function']) {
                     case 'firstName':
                         $result[$mapping['localField']['field_name']] = $this->firstName($aux);
                         break;
 
-                    case 'shortUrl':
-                        $result[$mapping['localField']['field_name']] = $this->shortUrl($aux);
+                    case 'shortURL':
+                        if ($aux) {
+                            $result[$mapping['localField']['field_name']] = $this->shortUrl($aux);
+                        } else {
+                            $result[$mapping['localField']['field_name']] = '';
+                        }
+
                         break;
                 }
             } else {
@@ -225,7 +236,7 @@ class WebhookController extends Controller
     }
 
     private function shortURL(String $url) {
-        return (string)URLShortener::shorten($url);
+        return (new ShortUrlController)->shortUrl($url);
     }
 
     private function parseStdAttr(StdClass $data, String $stdAttr) {
@@ -236,11 +247,6 @@ class WebhookController extends Controller
         }
 
         return $res;
-
-        /* return array_reduce($attrs, function($res, $item) {
-            $res .= '->{'.$item.'}';
-            return $res;
-        }); */
     }
 
     public function getWebhook(Webhook $webhook) {

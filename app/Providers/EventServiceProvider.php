@@ -20,7 +20,17 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\NewWebhookCall' => [
             'App\Listeners\CallWebhookActions'
-        ]
+        ],
+        'App\Events\NewApiRequest' => [
+            'App\Listeners\StoreApiRequest'
+        ],
+        'App\Events\NewBillet' => [
+            'App\Listeners\StoreBillet'
+        ],
+        'App\Events\BilletPaid' => [
+            'App\Listeners\UpdateBilletPay'
+        ],
+
     ];
 
     /**

@@ -4,10 +4,12 @@
     "/js/apis.js": "/js/apis.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/dashboard.js": "/js/dashboard.js",
     "/js/fields.js": "/js/fields.js",
     "/js/jsonAnaliser.js": "/js/jsonAnaliser.js",
     "/js/products.js": "/js/products.js",
     "/js/resetPassword.js": "/js/resetPassword.js",
+    "/js/shortUrlConfig.js": "/js/shortUrlConfig.js",
     "/js/userProfiles.js": "/js/userProfiles.js",
     "/js/users.js": "/js/users.js",
     "/js/webhookEvents.js": "/js/webhookEvents.js"

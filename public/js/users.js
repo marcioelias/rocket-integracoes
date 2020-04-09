@@ -17365,7 +17365,7 @@ var actions = {
             case 0:
               commit = _ref7.commit;
               _context7.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/fields/all').then(function (r) {
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/all/fields').then(function (r) {
                 commit('setVariables', r.data);
               });
 
@@ -17789,7 +17789,7 @@ var actions = {
             case 0:
               commit = _ref2.commit;
               _context2.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/fields/all').then(function (r) {
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/json/all/fields').then(function (r) {
                 commit('setVariables', r.data);
               });
 
@@ -18027,6 +18027,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/json */ "./resources/js/mixins/json.js");
 
 
+var _objectSpread2;
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -18040,13 +18042,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var state = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonState"], _defineProperty({
+var state = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonState"], (_objectSpread2 = {
   eventId: null,
   name: '',
   conditions: [],
   webhookId: null,
+  triggerSystemEvent: null,
   webhooks: []
-}, "eventId", null));
+}, _defineProperty(_objectSpread2, "eventId", null), _defineProperty(_objectSpread2, "triggerSystemEvents", [{
+  value: 'billet_pending',
+  label: 'Boleto em Gerado/Em Aberto'
+}, {
+  value: 'billet_paid',
+  label: 'Boleto Pago'
+}]), _objectSpread2));
 
 var getters = {
   getWebhooks: function getWebhooks(state) {
@@ -18105,7 +18114,8 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
               event = {
                 name: state.name,
                 webhook_id: state.webhookId,
-                conditions: JSON.stringify(state.conditions)
+                conditions: JSON.stringify(state.conditions),
+                trigger_system_event: state.triggerSystemEvent
               };
 
               if (!state.eventId) {
@@ -18217,7 +18227,7 @@ var actions = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jsonA
                 if (r.status === 200) {
                   dispatch('selectWebhook', r.data.webhook_id);
                   commit('setName', r.data.name);
-                  commit('setConditions', JSON.parse(r.data.conditions));
+                  commit('setConditions', JSON.parse(r.data.conditions), commit('setTriggerSystemEvent', r.data.trigger_system_event));
                 }
               });
 
@@ -18252,6 +18262,9 @@ var mutations = _objectSpread({}, _mixins_json__WEBPACK_IMPORTED_MODULE_2__["jso
   },
   setEventId: function setEventId(state, payload) {
     state.eventId = payload;
+  },
+  setTriggerSystemEvent: function setTriggerSystemEvent(state, payload) {
+    state.triggerSystemEvent = payload;
   }
 });
 

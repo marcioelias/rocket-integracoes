@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WebhookCall extends Model
 {
     protected $fillable = [
-        'webhook_id', 'data', 'mapped_data'
+        'webhook_id', 'data', 'mapped_data', 'transaction_code'
     ];
 
     protected function webhook() {

@@ -94,7 +94,7 @@
                 <div class="form-row mt-1" v-for="item in mappings" :key="item.localField.field_name">
                     <div class="col-md-4">
                         <div class="input-group">
-                            <div class="form-control">{{ item.localField.label }}</div>
+                            <div class="form-control"><small>{{ item.localField.label }}</small></div>
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon5">
                                     <i class="fas fa-equals"></i>
@@ -109,7 +109,7 @@
                                     <i class="fas fa-code-branch"></i>
                                 </span>
                             </div>
-                            <div class="form-control">{{ item.function ? item.function : 'Nenhum' }}</div>
+                            <div class="form-control"><small>{{ item.function ? item.function : 'Nenhum' }}</small></div>
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -119,7 +119,7 @@
                                     <i class="fas fa-code"></i>
                                 </span>
                             </div>
-                            <div class="form-control">{{ item.remoteField }}</div>
+                            <div class="form-control"><small>{{ item.remoteField }}</small></div>
                             <div class="input-group-append">
                                 <button class="btn btn-danger" @click="deleteFieldMapping(item)">
                                     <i class="fas fa-trash-alt"></i>

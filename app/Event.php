@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     protected $fillable = [
-        'name', 'conditions', 'webhook_id'
+        'name', 'conditions', 'webhook_id', 'trigger_system_event'
     ];
 
     public function webhook() {

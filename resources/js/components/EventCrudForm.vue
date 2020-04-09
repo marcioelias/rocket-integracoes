@@ -4,7 +4,7 @@
             <div class="form-group col-md-6">
                 <!-- name -->
                 <label for="webhook_id">Webhook</label>
-                <select id="json_field" name="webhook_id" class="form-control" v-model="webhookId">
+                <select id="webhook_id" name="webhook_id" class="form-control" v-model="webhookId">
                     <option v-for="wh in getWebhooks" :key="wh.id" :value="wh.id">{{ wh.name }}</option>
                 </select>
             </div>
@@ -12,6 +12,15 @@
                 <!-- name -->
                 <label for="name">Evento</label>
                 <input id="name" name="name" type="text" class="form-control" v-model="name">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <!-- trigger system events -->
+                <label for="trigger_system_event">Disparar Evento Interno</label>
+                <select id="trigger_system_event" name="trigger_system_event" class="form-control" v-model="triggerSystemEvent">
+                    <option v-for="ste in triggerSystemEvents" :key="ste.value" :value="ste.value">{{ ste.label }}</option>
+                </select>
             </div>
         </div>
         <div class="card">
@@ -160,9 +169,17 @@ export default {
             };
 
             this.$store.commit('events/addCondition', condition)
+
+            this.clearEventConditionForm()
         },
         delCondition(id) {
             this.$store.commit('events/delCondition', id)
+        },
+        clearEventConditionForm() {
+            this.logicOperation = ''
+            this.field = ''
+            this.operation = ''
+            this.value = ''
         }
     },
     computed: {
@@ -172,6 +189,17 @@ export default {
         },
         conditions() {
             return this.$store.state.events.conditions
+        },
+        triggerSystemEvents() {
+            return this.$store.state.events.triggerSystemEvents
+        },
+        triggerSystemEvent: {
+            get() {
+                return this.$store.state.events.triggerSystemEvent
+            },
+            set(value) {
+                this.$store.commit('events/setTriggerSystemEvent', value)
+            }
         },
         webhookId: {
             get() {

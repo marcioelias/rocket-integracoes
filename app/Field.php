@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Field extends Model
 {
     protected $fillable = [
-        'label', 'field_name', 'system_field'
+        'label', 'field_name', 'system_field', 'can_delete'
     ];
 
     public function scopeNonSystem($query) {

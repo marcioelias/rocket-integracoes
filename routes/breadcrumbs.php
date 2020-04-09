@@ -162,6 +162,12 @@ Breadcrumbs::for('actions.edit', function ($trail, $model) {
     $trail->push($model->product->name.' - '.$model->event->name, route('actions.edit', $model->id));
 });
 
+// Configurações > Encurtador de URL
+Breadcrumbs::for('short_url_configs.edit', function ($trail) {
+    $trail->parent('configuracoes');
+    $trail->push('Short URL', route('short_url_configs.edit'));
+});
+
 // Acesso > Users
 Breadcrumbs::for('users.index', function ($trail) {
     $trail->parent('acesso');

@@ -39,7 +39,7 @@ const actions = {
             })
     },
     async loadVariables({commit}) {
-        await Axios.get('/json/fields/all')
+        await Axios.get('/json/all/fields')
             .then(r => {
                 commit('setVariables', r.data)
             })

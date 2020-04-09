@@ -4,9 +4,17 @@ namespace App\Listeners;
 
 use App\Action;
 use App\Api;
+use App\ApiCall;
 use App\ApiEndpoint;
+use App\ApiRequest;
+use App\ApiResponse;
 use App\Event;
+use App\Events\BilletPaid;
+use App\Events\NewApiRequest;
+use App\Events\NewApiResponse;
+use App\Events\NewBillet;
 use App\Events\NewWebhookCall;
+use App\Jobs\ProcessApiCall;
 use App\Webhook;
 use App\WebhookCall;
 use Illuminate\Support\Facades\Http;
@@ -14,6 +22,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use stdClass;
+
+use function GuzzleHttp\json_decode;
 
 class CallWebhookActions
 {
@@ -36,18 +46,17 @@ class CallWebhookActions
     public function handle(NewWebhookCall $event)
     {
         $call = json_decode(json_encode($event->webhookCall));
-        $webhookCall = $event->webhookCall;
 
         //obter a webhook com todos os eventos cadastrados para esta chamada
         $webhook = Webhook::with('events')->find($event->webhookCall->webhook_id);
 
         //verifica se existe algum evento a ser tratado por esta chamada
-        foreach ($webhook->events as $event) {
+        foreach ($webhook->events as $callEvent) {
             /* nenhum evento é disparado até que as condições sejam checadas */
             $dispatch = false;
 
             /* obtem as condições para disparo do evento e processa cada uma */
-            $conditions = json_decode($event->conditions);
+            $conditions = json_decode($callEvent->conditions);
             foreach ($conditions as $condition) {
                 /* se o evento tiver mais de uma condição a satisfazer, considera o agrupamento por AND ou OR */
                 if (is_object($condition->logic)) {
@@ -63,8 +72,11 @@ class CallWebhookActions
             }
 
             if ($dispatch) {
+                /* verifica associação de eventos internos e dispara caso existam */
+                $this->dispachSystemEvents($callEvent, $event->webhookCall);
+
                 /* se todas as condições foram satisfeitas, processa o disparo do evento */
-                $this->callActionsForEvent($webhook, $webhookCall, $event);
+                $this->callActionsForEvent($webhook, $event->webhookCall, $callEvent);
             } else {
                 /* caso algum condição não tenha sido satisfeita, o evento não é disparado */
             }
@@ -131,8 +143,38 @@ class CallWebhookActions
 
             }
 
-            $this->callApi($endpoint, $req);
+            ProcessApiCall::dispatch($endpoint, $req)->delay(now()->addMinutes($action->delay));
+            //ProcessApiCall::dispatch($endpoint, $req);
+
+            /* try {
+                $apiCall = New ApiCall([
+                    'api_endpoint_id' => $endpoint->id,
+                    'request' => json_encode($req)
+                ]);
+
+                $response = $this->callApi($endpoint, $req);
+
+                $apiCall->response = json_encode($response->json());
+
+                $apiCall->success = $this->successfulResponse($endpoint, $response);
+
+            } catch (\Exception $e) {
+                Log::emergency($e);
+            } finally {
+                event(new NewApiRequest($apiCall));
+            } */
         }
+    }
+
+    private function successfulResponse(ApiEndpoint $apiEndpoint, $response) {
+        $field = $apiEndpoint->field_ok;
+        $value = $apiEndpoint->code_ok;
+
+        $val = array_filter(json_decode($response, true), function ($val, $key) use ($field, $value) {
+            return ($key == $field && $val == $value);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        return count($val) > 0;
     }
 
     private function callApi(ApiEndpoint $endpoint, array $data) {
@@ -158,6 +200,7 @@ class CallWebhookActions
                 $response = Http::delete($url, $data);
                 break;
         }
+        return $response;
     }
 
     private function replaceVar($data, $variables) {
@@ -184,5 +227,26 @@ class CallWebhookActions
         }
 
         return $result;
+    }
+
+    public function dispachSystemEvents(Event $event, WebhookCall $webhookCall) {
+        Log::info('disparar evento do sistema');
+        switch ($event->trigger_system_event) {
+            case 'billet_pending':
+                // Novo boleto gerado aguardando pagamento
+                Log::info('Novo boleto gerado');
+                event(new NewBillet($webhookCall));
+                break;
+
+            case 'billet_paid':
+                // Boleto pago
+                Log::info('Boleto pago');
+                event(new BilletPaid($webhookCall));
+                break;
+
+            default:
+                // Não há eventos de sistema vinculados, nada a fazer
+                break;
+        }
     }
 }

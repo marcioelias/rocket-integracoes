@@ -53,7 +53,8 @@ class EventController extends Controller
         $event = new Event([
             'name' => $request->name,
             'webhook_id' => $request->webhook_id,
-            'conditions' => $request->conditions
+            'conditions' => $request->conditions,
+            'trigger_system_event' => $request->trigger_system_event
         ]);
 
         $event->save();
@@ -102,7 +103,8 @@ class EventController extends Controller
         $event->fill([
             'name' => $request->name,
             'webhook_id' => $request->webhook_id,
-            'conditions' => $request->conditions
+            'conditions' => $request->conditions,
+            'trigger_system_event' => $request->trigger_system_event
         ]);
 
         $event->save();

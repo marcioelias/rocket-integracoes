@@ -18,6 +18,10 @@ class ApiEndpoint extends Model
         return $this->hasMany(Action::class);
     }
 
+    public function api_calls() {
+        return $this->hasMany(ApiCall::class);
+    }
+
     public function scopeOrdered($query) {
         return $query->orderBy('name', 'asc');
     }
