@@ -22,6 +22,18 @@ class FieldsTableSeeder extends Seeder
                 'can_delete' => false
             ],
             [
+                'label' => 'Webhook Código do Produto',
+                'field_name' => 'product_code',
+                'system_field' => false,
+                'can_delete' => false
+            ],
+            [
+                'label' => 'Webhook Nome do Produto',
+                'field_name' => 'product_name',
+                'system_field' => false,
+                'can_delete' => false
+            ],
+            [
                 'label' => 'Boleto - Linha Digitável',
                 'field_name' => 'billet_number',
                 'system_field' => false,

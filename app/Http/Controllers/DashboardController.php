@@ -29,6 +29,6 @@ class DashboardController extends Controller
     }
 
     public function getApiLastCalls() {
-        return response()->json(ApiCall::with('api_endpoint.api')->orderBy('id', 'desc')->limit(7)->get());
+        return response()->json(ApiCall::with('api_endpoint.api')->whereNotNull('success')->orderBy('id', 'desc')->limit(7)->get());
     }
 }

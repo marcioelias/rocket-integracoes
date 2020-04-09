@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Billet extends Model
 {
     protected $fillable = [
-        'billet_number', 'url', 'amount', 'expiration_date', 'webhook_call_id', 'transaction_code', 'date_approved'
+        'billet_number', 'url', 'amount', 'expiration_date', 'webhook_call_id', 'product_id', 'transaction_code', 'date_approved'
     ];
 
     public function webhook_call() {

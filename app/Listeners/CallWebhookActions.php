@@ -143,7 +143,15 @@ class CallWebhookActions
 
             }
 
-            ProcessApiCall::dispatch($endpoint, $req)->delay(now()->addMinutes($action->delay));
+            $apiCall = New ApiCall([
+                'api_endpoint_id' => $endpoint->id,
+                'request' => json_encode($req)
+            ]);
+
+            $apiCall->save();
+
+            ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
+
             //ProcessApiCall::dispatch($endpoint, $req);
 
             /* try {

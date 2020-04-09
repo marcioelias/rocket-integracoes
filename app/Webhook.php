@@ -14,7 +14,7 @@ class Webhook extends Model
         return $query->orderBy('name', 'asc');
     }
 
-    public function webhookCalls() {
+    public function webhook_calls() {
         return $this->hasMany(WebhookCall::class);
     }
 

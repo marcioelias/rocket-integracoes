@@ -54,7 +54,7 @@ class ActionController extends Controller
         //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
         $this->validate($request, [
             'product_id' => 'required',
-            'event_id' => "required|unique:actions,event_id,NULL,NULL,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
+            'event_id' => "required", //|unique:actions,event_id,NULL,NULL,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
             'delay' =>  'required|integer|min:0',
             'delay_type' => 'required',
             'api_endpoint_id' => 'required',
@@ -68,7 +68,8 @@ class ActionController extends Controller
             'delay_type' => $request->delay_type,
             'api_endpoint_id' => $request->api_endpoint_id,
             'data' => $request->data,
-            'active' => $request->active
+            'active' => $request->active,
+            'trigger_data' => $request->trigger_data
         ]);
 
         $action->save();
@@ -124,7 +125,8 @@ class ActionController extends Controller
             'delay_type' => $request->delay_type,
             'api_endpoint_id' => $request->api_endpoint_id,
             'data' => $request->data,
-            'active' => $request->active
+            'active' => $request->active,
+            'trigger_data' => $request->trigger_data
         ]);
 
         $action->save();

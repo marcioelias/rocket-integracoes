@@ -18,6 +18,7 @@ class ProcessApiCall implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $apiCall;
     protected $endpoint;
     protected $data;
 
@@ -26,8 +27,9 @@ class ProcessApiCall implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(ApiEndpoint $endpoint, array $data)
+    public function __construct(ApiCall $apiCall, ApiEndpoint $endpoint, array $data)
     {
+        $this->apiCall = $apiCall;
         $this->endpoint = $endpoint;
         $this->data = $data;
     }
@@ -40,23 +42,15 @@ class ProcessApiCall implements ShouldQueue
     public function handle()
     {
         Redis::throttle('apiCall')->allow(1)->every(10)->block(10)->then(function () {
-            info('Lock obtained...');
-
-            // Handle job...
-            Log::info('rodando o job...');
-            $apiCall = New ApiCall([
-                'api_endpoint_id' => $this->endpoint->id,
-                'request' => json_encode($this->data)
-            ]);
 
             $response = $this->callApi($this->endpoint, $this->data);
 
-            $apiCall->response = json_encode($response->json());
-            $apiCall->success = $this->successfulResponse($this->endpoint, $response);
+            $this->apiCall->response = json_encode($response->json());
+            $this->apiCall->success = $this->successfulResponse($this->endpoint, $response);
+
+            $this->apiCall->save();
 
         }, function () {
-            // Could not obtain lock...
-
             return $this->release(5);
         });
     }

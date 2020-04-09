@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Action extends Model
 {
     protected $fillable = [
-        'product_id', 'event_id', 'api_endpoint_id', 'delay', 'data', 'active'
+        'product_id', 'event_id', 'api_endpoint_id', 'delay', 'data', 'active', 'trigger_data'
     ];
 
     public function scopeActive($query) {

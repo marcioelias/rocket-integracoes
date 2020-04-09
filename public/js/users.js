@@ -17134,6 +17134,7 @@ var actions = {
                 delay_type: state.delayType,
                 api_endpoint_id: state.endpointId,
                 data: JSON.stringify(state.actionData),
+                trigger_data: state.triggerData,
                 active: state.active
               };
 
@@ -17253,6 +17254,7 @@ var actions = {
                   commit('setDelayType', r.data.delay_type);
                   commit('setActionData', JSON.parse(r.data.data));
                   commit('setActive', r.data.active);
+                  commit('setTriggerData', r.data.trigger_data);
                 }
               });
 
