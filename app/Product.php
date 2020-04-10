@@ -21,4 +21,8 @@ class Product extends Model
     public function scopeOrdered($query) {
         return $query->orderBy('name', 'asc');
     }
+
+    public function api_calls() {
+        return $this->hasMany(ApiCall::class);
+    }
 }

@@ -20,6 +20,7 @@ use App\Webhook;
 use App\WebhookCall;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use stdClass;
@@ -48,7 +49,14 @@ class CallWebhookActions
     {
         $call = json_decode(json_encode($event->webhookCall));
 
-        //obter a webhook com todos os eventos cadastrados para esta chamada
+        // obter a webhook com todos os eventos cadastrados para esta chamada,
+        // que tenham uma ação com um produto relacionado.
+        /* $webhook = Webhook::with(['events' => function($q) use ($event){
+                $q->whereHas('actions', function($query) use ($event) {
+                    $query->where('product_id', $event->product->id);
+                });
+            }])->find($event->webhookCall->webhook_id); */
+
         $webhook = Webhook::with('events')->find($event->webhookCall->webhook_id);
 
         //verifica se existe algum evento a ser tratado por esta chamada
@@ -77,7 +85,7 @@ class CallWebhookActions
                 $this->dispachSystemEvents($callEvent, $event->webhookCall, $event->product);
 
                 /* se todas as condições foram satisfeitas, processa o disparo do evento */
-                $this->callActionsForEvent($webhook, $event->webhookCall, $callEvent);
+                $this->callActionsForEvent($webhook, $event->webhookCall, $callEvent, $event->product);
             } else {
                 /* caso algum condição não tenha sido satisfeita, o evento não é disparado */
             }
@@ -131,9 +139,11 @@ class CallWebhookActions
         return $res;
     }
 
-    public function callActionsForEvent(Webhook $webhook, WebhookCall $webhookCall, Event $event) {
-        $actions = $event->actions()->Active()->get();
+    public function callActionsForEvent(Webhook $webhook, WebhookCall $webhookCall, Event $event, Product $product) {
+        $actions = $event->actions()->where('product_id', $product->id)->Active()->get();
+
         foreach ($actions as $action) {
+
             $endpoint = ApiEndpoint::with('api')->find($action->api_endpoint_id);
             $reqFields = json_decode($endpoint->json, true);
             $variables = $this->loadVars($webhook, $endpoint->api, $webhookCall, $action);
@@ -144,52 +154,29 @@ class CallWebhookActions
 
             }
 
-            $apiCall = New ApiCall([
-                'api_endpoint_id' => $endpoint->id,
-                'request' => json_encode($req)
-            ]);
+            /* Antes de continuar o processamento, verifica por entradas de
+            chamadas a API já feitas para o mesmo endpoint, pelo mesno evento,
+            com o mesmo produto e o mesmo código de transacao. Caso não exista
+            nenhum registro processe para as chamadas a API */
+            if (ApiCall::where('api_endpoint_id', $endpoint->id)
+                ->where('event_id', $event->id)
+                ->where('product_id', $product->id)
+                ->where('transaction_code', $webhookCall->transaction_code)
+                ->doesntExist()) {
 
-            $apiCall->save();
+                $apiCall = New ApiCall([
+                    'api_endpoint_id' => $endpoint->id,
+                    'event_id' => $event->id,
+                    'product_id' => $product->id,
+                    'transaction_code' => $webhookCall->transaction_code,
+                    'request' => json_encode($req)
+                ]);
 
-            ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
+                $apiCall->save();
+
+                ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
+            }
         }
-    }
-
-    private function successfulResponse(ApiEndpoint $apiEndpoint, $response) {
-        $field = $apiEndpoint->field_ok;
-        $value = $apiEndpoint->code_ok;
-
-        $val = array_filter(json_decode($response, true), function ($val, $key) use ($field, $value) {
-            return ($key == $field && $val == $value);
-        }, ARRAY_FILTER_USE_BOTH);
-
-        return count($val) > 0;
-    }
-
-    private function callApi(ApiEndpoint $endpoint, array $data) {
-        $url = $endpoint->api->base_url . '/' . $endpoint->relative_url;
-        switch ($endpoint->method) {
-            case 'GET':
-                $response = Http::get($url, $data);
-                break;
-
-            case 'POST':
-                $response = Http::post($url, $data);
-                break;
-
-            case 'PUT':
-                $response = Http::put($url, $data);
-                break;
-
-            case 'PATCH':
-                $response = Http::patch($url, $data);
-                break;
-
-            case 'DELETE':
-                $response = Http::delete($url, $data);
-                break;
-        }
-        return $response;
     }
 
     private function replaceVar($data, $variables) {
@@ -199,6 +186,15 @@ class CallWebhookActions
         }, $data);
     }
 
+    /**
+     * Carrega variáveis para substituição de valores
+     *
+     * @param Webhook $webhook
+     * @param Api $api
+     * @param WebhookCall $webhookCall
+     * @param Action $action
+     * @return void
+     */
     private function loadVars(Webhook $webhook, Api $api, WebhookCall $webhookCall, Action $action) {
         $result['webhook_name'] = $webhook->name;
         $result['webhook_url'] = $webhook->relative_url;
@@ -218,6 +214,14 @@ class CallWebhookActions
         return $result;
     }
 
+    /**
+     * Dispara eventos para controle de boletos, internamente
+     *
+     * @param Event $event
+     * @param WebhookCall $webhookCall
+     * @param Product $product
+     * @return void
+     */
     public function dispachSystemEvents(Event $event, WebhookCall $webhookCall, Product $product) {
         switch ($event->trigger_system_event) {
             case 'billet_pending':
