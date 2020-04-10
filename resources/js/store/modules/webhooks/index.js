@@ -181,6 +181,11 @@ const mutations = {
         },
         setWebhookId(state, payload) {
             state.webhookId = payload
+        },
+        updateFieldMapping(state, payload) {
+            state.mappings[payload.id].localField = payload.localField
+            state.mappings[payload.id].function = payload.function
+            state.mappings[payload.id].remoteField = payload.remoteField
         }
     }
 

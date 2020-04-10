@@ -48,6 +48,11 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'username' => 'required|string|max:60|unique:users',
             'password' => 'required|min:8|confirmed'
+        ], [], [
+            'name' => 'Nome',
+            'email' => 'Email',
+            'username' => 'Usuário',
+            'password' => 'Senha'
         ]);
 
         $user = new User([
@@ -97,6 +102,11 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|string|email|max:255|unique:users,id,'.$user->id,
+        ], [], [
+            'name' => 'Nome',
+            'email' => 'Email',
+            'username' => 'Usuário',
+            'password' => 'Senha'
         ]);
 
         $user->fill([

@@ -36,8 +36,6 @@ class UpdateBilletPay
                 ->where('billet_status', 'pending')
                 ->first();
 
-            Log::debug($billet);
-
             if ($billet) {
                 $billet->billet_status = 'paid';
                 $billet->date_approved = $data['date_approved'];

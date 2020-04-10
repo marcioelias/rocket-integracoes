@@ -207,6 +207,11 @@ const mutations = {
     },
     setSearchVariable(state, payload) {
         state.searchVariable = payload
+    },
+    updateField(state, payload) {
+        state.fields[payload.id].name = payload.name
+        state.fields[payload.id].value = payload.value
+        state.fields[payload.id].meta = payload.meta
     }
 
 }

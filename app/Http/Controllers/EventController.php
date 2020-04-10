@@ -48,6 +48,10 @@ class EventController extends Controller
             'name' => "required|unique:events,name,NULL,NULL,webhook_id,$request->webhook_id",
             'webhook_id' => 'required',
             'conditions' => 'required|json'
+        ], [], [
+            'name' => 'Evento',
+            'webhook_id' => 'Webhook',
+            'conditions' => 'Condições'
         ]);
 
         $event = new Event([
@@ -98,6 +102,10 @@ class EventController extends Controller
             'name' => "required|unique:events,name,$event->id,id,webhook_id,$request->webhook_id",
             'webhook_id' => 'required',
             'conditions' => 'required|json'
+        ], [], [
+            'name' => 'Evento',
+            'webhook_id' => 'Webhook',
+            'conditions' => 'Condições'
         ]);
 
         $event->fill([

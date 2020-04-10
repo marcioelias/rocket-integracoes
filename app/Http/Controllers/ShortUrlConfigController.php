@@ -35,6 +35,9 @@ class ShortUrlConfigController extends Controller
                 new FQDN()
             ],
             'api_key' => 'required_unless:short_url_api,local',
+        ], [], [
+            'short_domain' => 'Domínio Encurtado',
+            'api_key' => 'API Key'
         ]);
 
         $shortUrlConfig->fill([

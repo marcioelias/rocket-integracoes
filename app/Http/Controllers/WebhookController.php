@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\DataTables\WebhooksDataTable;
 use App\Events\NewWebhookCall;
 use App\Field;
+use App\Product;
 use App\Webhook;
 use App\WebhookCall;
-use ArieTimmerman\Laravel\URLShortener\URLShortener;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use stdClass;
 
 class WebhookController extends Controller
 {
@@ -49,6 +47,11 @@ class WebhookController extends Controller
             'relative_url' => 'required|string|unique:webhooks|max:60|min:3',
             'json' => 'required|json',
             'json_mapping' => 'required|json'
+        ], [], [
+            'name' => 'Nome',
+            'relative_url' => 'URL',
+            'json' => 'JSON',
+            'json_mapping' => 'Mapeamento de Dados'
         ]);
 
         $webhook = new Webhook([
@@ -102,6 +105,11 @@ class WebhookController extends Controller
             'name' => 'required|unique:webhooks,id,'.$webhook->id,
             'relative_url' => 'required|string|max:60|min:3|unique:webhooks,id,'.$webhook->id,
             //'json' => 'required|json'
+        ], [], [
+            'name' => 'Nome',
+            'relative_url' => 'URL',
+            'json' => 'JSON',
+            'json_mapping' => 'Mapeamento de Dados'
         ]);
 
         $webhook->fill([
@@ -136,11 +144,10 @@ class WebhookController extends Controller
         if ($webhook) {
             /* se a webhook for protegida por token, verifica se o mesmo é válido */
             if ($webhook->token) {
-                $data = json_decode(json_encode($request->json()->all()));
                 /* se o token bater, processa a requisição */
-                if ($webhook->token == $data->token) {
+                if ($webhook->token == $request->token) {
                     /* armazena a chamada a webhook */
-                    $this->storeWebhookCall($webhook, $data);
+                    $this->storeWebhookCall($webhook, $request->all());
 
                     return response()->json([
                         'code' => 200,
@@ -155,7 +162,7 @@ class WebhookController extends Controller
                 }
             }
             /* se a webhook não for protegida por token, processa a requisição */
-            $this->storeWebhookCall($webhook, $data);
+            $this->storeWebhookCall($webhook, $request->all());
 
             return response()->json([
                 'code' => 200,
@@ -174,42 +181,42 @@ class WebhookController extends Controller
         return Webhook::where('relative_url', $url)->first();
     }
 
-    private function storeWebhookCall(Webhook $webhook, stdClass $data) {
+    private function storeWebhookCall(Webhook $webhook, array $data) {
         try {
             $mapped_data = $this->mapWebhookCallData($webhook, $data);
 
-            Log::debug($mapped_data);
+            $aux = json_decode($mapped_data, true);
 
             $webhookCall = new WebhookCall([
                 'webhook_id' => $webhook->id,
                 'data' => json_encode($data),
                 'mapped_data' => $mapped_data,
-                'transaction_code' => json_decode($mapped_data, true)['webhook_transaction_code']
+                'transaction_code' => $aux['webhook_transaction_code']
             ]);
 
-            Log::debug($webhookCall);
-
             //se houver produto novo, cadastra o mesmo
-
+            $product = Product::FirstOrCreate(
+                ['product_code' => $aux['product_code'], 'webhook_id' => $webhook->id],
+                ['name' => $aux['product_name']]
+            );
 
             //se houver boleto, cadastra o mesmo
 
             $webhookCall->save();
 
-            event(new NewWebhookCall($webhookCall));
+            event(new NewWebhookCall($webhookCall, $product));
         } catch (\Exception $e) {
             Log::emergency($e);
         }
     }
 
-    private function mapWebhookCallData(Webhook $webhook, stdClass $data) {
+    private function mapWebhookCallData(Webhook $webhook, array $data) {
         $result = [];
 
         $mappings = json_decode($webhook->json_mapping, true);
         foreach ($mappings as $mapping) {
             $aux = $this->parseStdAttr($data, $mapping['remoteField']);
             if ($mapping['function']) {
-                Log::debug($mapping['function']);
                 switch ($mapping['function']) {
                     case 'firstName':
                         $result[$mapping['localField']['field_name']] = $this->firstName($aux);
@@ -239,11 +246,15 @@ class WebhookController extends Controller
         return (new ShortUrlController)->shortUrl($url);
     }
 
-    private function parseStdAttr(StdClass $data, String $stdAttr) {
+    private function parseStdAttr(array $data, String $stdAttr) {
         $attrs = explode('.', $stdAttr);
         $res = $data;
         foreach ($attrs as $attr) {
-            $res = $res->$attr;
+            if (isset($res[$attr])) {
+                $res = $res[$attr];
+            } else {
+                return '';
+            }
         }
 
         return $res;

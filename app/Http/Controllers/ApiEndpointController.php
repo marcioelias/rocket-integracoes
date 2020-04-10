@@ -51,6 +51,14 @@ class ApiEndpointController extends Controller
             'api_id' => 'required',
             'field_ok' => 'required',
             'code_ok' => 'required'
+        ], [], [
+            'name' => 'Nome',
+            'relative_url' => 'URL Relativa',
+            'method' => 'Método',
+            'json' => '',
+            'api_id' => 'API',
+            'field_ok' => 'Campo',
+            'code_ok' => 'Código de Retorno'
         ]);
 
         $apiEndpoint = new ApiEndpoint([
@@ -110,6 +118,14 @@ class ApiEndpointController extends Controller
             'api_id' => 'required',
             'field_ok' => 'required',
             'code_ok' => 'required'
+        ], [], [
+            'name' => 'Nome',
+            'relative_url' => 'URL Relativa',
+            'method' => 'Método',
+            'json' => '',
+            'api_id' => 'API',
+            'field_ok' => 'Campo',
+            'code_ok' => 'Código de Retorno'
         ]);
 
         $apiEndpoint->fill([

@@ -92,8 +92,14 @@
                                 </button>
                             </div>
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button" @click.prevent="addField" data-toggle="tooltip" title="Adicionar">
+                                <button  v-show="!editing" class="btn btn-primary" type="button"  data-toggle="tooltip" title="Adicionar" @click.prevent="addField">
                                     <i class="fas fa-plus"></i>
+                                </button>
+                                <button  v-show="editing" class="btn" type="button"  data-toggle="tooltip" title="Cancelar" @click.prevent="clearFieldsForm">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button  v-show="editing" class="btn btn-primary" type="button"  data-toggle="tooltip" title="Salvar" @click.prevent="updateField">
+                                    <i class="fas fa-check"></i>
                                 </button>
                             </div>
                         </div>
@@ -116,6 +122,11 @@
                     <div class="form-group col-md-6 mb-0">
                         <div class="input-group">
                             <div class="form-control"><small>{{ field.value }}</small></div>
+                            <div class="input-group-append">
+                                <button class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" title="Editar" @click.prevent="editField(index)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
                             <div class="input-group-append">
                                 <button class="btn btn-danger" type="button" @click.prevent="delField(index)" data-toggle="tooltip" title="Remover">
                                     <i class="fas fa-trash-alt"></i>
@@ -197,6 +208,8 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data() {
         return {
+            editing: false,
+            index: null,
             fieldName: '',
             fieldValue: '',
             metaField: false,
@@ -243,6 +256,28 @@ export default {
 
             this.clearFieldsForm()
         },
+        editField(id) {
+            this.fieldName = this.fields[id].name
+            this.fieldValue = this.fields[id].value
+            this.metaField = this.fields[id].meta
+            this.editing = true
+            this.index = id
+        },
+        updateField() {
+            if (!this.validateFields()) {
+                return
+            }
+
+            let field = {
+                name: this.fieldName,
+                value: this.metaField ? `{ ${this.fieldName} }` : this.fieldValue,
+                meta: this.metaField,
+                id: this.index
+            }
+            this.$store.commit('endpoints/updateField', field)
+
+            this.clearFieldsForm()
+        },
         delField(index) {
             this.$store.commit('endpoints/delField', index)
         },
@@ -259,6 +294,8 @@ export default {
             this.fieldName = ''
             this.fieldValue = ''
             this.metaField = false
+            this.index = null
+            this.editing = false
             this.fieldErrors = {
                 fieldName: '',
                 fieldValue: ''

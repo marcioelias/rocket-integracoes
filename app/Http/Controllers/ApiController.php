@@ -43,6 +43,9 @@ class ApiController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:apis',
             'base_url' => 'required|url|unique:apis',
+        ], [], [
+            'name' => 'Nome',
+            'base_url' => 'Base URL'
         ]);
 
         $api = new Api([
@@ -94,6 +97,9 @@ class ApiController extends Controller
         $this->validate($request, [
             'name' => "required|unique:apis,name,$api->id,id",
             'base_url' => "required|url|unique:apis,base_url,$api->id,id",
+        ], [], [
+            'name' => 'Nome',
+            'base_url' => 'Base URL'
         ]);
 
         $api->fill([

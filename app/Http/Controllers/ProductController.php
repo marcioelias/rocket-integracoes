@@ -46,6 +46,10 @@ class ProductController extends Controller
             'product_code' => "required|unique:products,product_code,NULL,NULL,webhook_id,$request->webhook_id",
             'name' => "required|unique:products,name,NULL,NULL,webhook_id,$request->webhook_id",
             'webhook_id' => 'required'
+        ], [], [
+            'product_code' => 'Código',
+            'name' => 'Nome',
+            'webhook_id' => 'Webhook'
         ]);
 
         $product = new Product([
@@ -95,6 +99,10 @@ class ProductController extends Controller
             'product_code' => "required|unique:products,product_code,$product->id,id,webhook_id,$request->webhook_id",
             'name' => "required|unique:products,name,$product->id,id,webhook_id,$request->webhook_id",
             'webhook_id' => 'required'
+        ], [], [
+            'product_code' => 'Código',
+            'name' => 'Nome',
+            'webhook_id' => 'Webhook'
         ]);
 
         $product->fill([

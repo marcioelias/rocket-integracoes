@@ -59,6 +59,12 @@ class ActionController extends Controller
             'delay_type' => 'required',
             'api_endpoint_id' => 'required',
             'data' => 'required|json'
+        ], [], [
+            'product_id' => 'Produto',
+            'event_id' => 'Evento',
+            'delay' => 'Atraso',
+            'delay_type' => 'Unidade de Atraso',
+            'api_endpoint_id' => 'Endpoint',
         ]);
 
         $action = new Action([
@@ -111,11 +117,17 @@ class ActionController extends Controller
         //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
         $this->validate($request, [
             'product_id' => 'required',
-            'event_id' => "required|unique:actions,event_id,$action->id,id,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
+            'event_id' => "required", //|unique:actions,event_id,$action->id,id,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
             'delay' =>  'required|integer|min:0',
             'delay_type' => 'required',
             'api_endpoint_id' => 'required',
             'data' => 'required|json'
+        ], [], [
+            'product_id' => 'Produto',
+            'event_id' => 'Evento',
+            'delay' => 'Atraso',
+            'delay_type' => 'Unidade de Atraso',
+            'api_endpoint_id' => 'Endpoint',
         ]);
 
         $action->fill([

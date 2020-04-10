@@ -15,6 +15,7 @@ use App\Events\NewApiResponse;
 use App\Events\NewBillet;
 use App\Events\NewWebhookCall;
 use App\Jobs\ProcessApiCall;
+use App\Product;
 use App\Webhook;
 use App\WebhookCall;
 use Illuminate\Support\Facades\Http;
@@ -73,7 +74,7 @@ class CallWebhookActions
 
             if ($dispatch) {
                 /* verifica associação de eventos internos e dispara caso existam */
-                $this->dispachSystemEvents($callEvent, $event->webhookCall);
+                $this->dispachSystemEvents($callEvent, $event->webhookCall, $event->product);
 
                 /* se todas as condições foram satisfeitas, processa o disparo do evento */
                 $this->callActionsForEvent($webhook, $event->webhookCall, $callEvent);
@@ -151,26 +152,6 @@ class CallWebhookActions
             $apiCall->save();
 
             ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
-
-            //ProcessApiCall::dispatch($endpoint, $req);
-
-            /* try {
-                $apiCall = New ApiCall([
-                    'api_endpoint_id' => $endpoint->id,
-                    'request' => json_encode($req)
-                ]);
-
-                $response = $this->callApi($endpoint, $req);
-
-                $apiCall->response = json_encode($response->json());
-
-                $apiCall->success = $this->successfulResponse($endpoint, $response);
-
-            } catch (\Exception $e) {
-                Log::emergency($e);
-            } finally {
-                event(new NewApiRequest($apiCall));
-            } */
         }
     }
 
@@ -237,18 +218,15 @@ class CallWebhookActions
         return $result;
     }
 
-    public function dispachSystemEvents(Event $event, WebhookCall $webhookCall) {
-        Log::info('disparar evento do sistema');
+    public function dispachSystemEvents(Event $event, WebhookCall $webhookCall, Product $product) {
         switch ($event->trigger_system_event) {
             case 'billet_pending':
                 // Novo boleto gerado aguardando pagamento
-                Log::info('Novo boleto gerado');
-                event(new NewBillet($webhookCall));
+                event(new NewBillet($webhookCall, $product));
                 break;
 
             case 'billet_paid':
                 // Boleto pago
-                Log::info('Boleto pago');
                 event(new BilletPaid($webhookCall));
                 break;
 

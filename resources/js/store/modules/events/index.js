@@ -1,8 +1,10 @@
 import Axios from 'axios'
 import { jsonState, jsonActions, jsonMutations } from '../../../mixins/json'
+import { validationState, validationGetters, validationMutations } from '../../../mixins/validation'
 
 const state = {
     ...jsonState,
+    ...validationState,
     eventId: null,
     name: '',
     conditions: [],
@@ -23,6 +25,7 @@ const state = {
 }
 
 const getters = {
+    ...validationGetters,
     getWebhooks: (state) => {
         return state.webhooks
     },
@@ -153,6 +156,7 @@ const actions = {
 
 const mutations = {
     ...jsonMutations,
+    ...validationMutations,
     setWebhooks(state, payload) {
         state.webhooks = payload
     },
@@ -176,6 +180,14 @@ const mutations = {
     },
     setTriggerSystemEvent(state, payload) {
         state.triggerSystemEvent = payload
+    },
+    updateCondition(state, payload) {
+        console.log(payload)
+        console.log(state.conditions[payload.id])
+        state.conditions[payload.id].field = payload.field
+        state.conditions[payload.id].logic = payload.logic
+        state.conditions[payload.id].value = payload.value
+        state.conditions[payload.id].operation = payload.operation
     }
 }
 

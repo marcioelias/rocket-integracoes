@@ -57,6 +57,7 @@
                         <!-- campos locais -->
                         <label for="local_field">Campo Local</label>
                         <select id="local_field" class="form-control" v-model="localFieldName">
+                            <option v-if="editing" :value="editingField.field_name">{{ editingField.label }}</option>
                             <option v-for="field in localFields" :key="field.field_name" :value="field.field_name">{{ field.label }}</option>
                         </select>
                         <span v-if="errors.localField != ''" class="invalid-feedback" style="display: block">
@@ -81,8 +82,14 @@
                                 <option v-for="(item, index) in remoteFields" :key="index" :value="item.field">{{ item.field }}</option>
                             </select>
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button" @click.prevent="addNewMapping">
+                                <button v-show="!editing" class="btn btn-primary" type="button" @click.prevent="addNewMapping">
                                     <i class="fas fa-plus"></i>
+                                </button>
+                                <button  v-show="editing" class="btn" type="button"  data-toggle="tooltip" title="Cancelar" @click.prevent="clearForm">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button  v-show="editing" class="btn btn-primary" type="button"  data-toggle="tooltip" title="Salvar" @click.prevent="updateMapping">
+                                    <i class="fas fa-check"></i>
                                 </button>
                             </div>
                         </div>
@@ -91,7 +98,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-row mt-1" v-for="item in mappings" :key="item.localField.field_name">
+                <div class="form-row mt-1" v-for="(item, index) in mappings" :key="item.localField.field_name">
                     <div class="col-md-4">
                         <div class="input-group">
                             <div class="form-control"><small>{{ item.localField.label }}</small></div>
@@ -121,7 +128,12 @@
                             </div>
                             <div class="form-control"><small>{{ item.remoteField }}</small></div>
                             <div class="input-group-append">
-                                <button class="btn btn-danger" @click="deleteFieldMapping(item)">
+                                <button class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" title="Editar" @click.prevent="editFieldMapping(index)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" data-toggle="tooltip" title="Remover" @click="deleteFieldMapping(item)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -148,6 +160,9 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
     data() {
         return {
+            editing: false,
+            index: null,
+            editingField: null,
             localFieldName: '',
             remoteFieldName: '',
             localFunction: '',
@@ -238,6 +253,28 @@ export default {
             }
 
         },
+        editFieldMapping(id) {
+            this.editing = true
+            this.index = id
+            this.editingField = this.mappings[id].localField
+            this.localFieldName = this.mappings[id].localField.field_name
+            this.remoteFieldName = this.mappings[id].remoteField
+            this.localFunction = this.mappings[id].function
+        },
+        updateMapping() {
+            let mapping = {
+                localField: this.getLocalFieldByName(this.localFieldName),
+                function: this.localFunction,
+                remoteField: this.remoteFieldName,
+                id: this.index
+            }
+            this.clearValidation()
+
+            if (this.validateMapping()) {
+                this.$store.commit('webhooks/updateFieldMapping', mapping)
+                this.clearForm()
+            }
+        },
         validateMapping() {
             let valid = true
 
@@ -257,6 +294,8 @@ export default {
             this.localFieldName = '',
             this.localFunction = '',
             this.remoteFieldName = ''
+            this.editing = false
+            this.index = null
         },
         clearValidation() {
             this.errors = {

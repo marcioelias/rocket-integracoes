@@ -44,6 +44,9 @@ class FieldController extends Controller
         $this->validate($request, [
             'label' => 'required|unique:fields',
             'field_name' => 'required|unique:fields'
+        ], [], [
+            'label' => 'Rótulo',
+            'field_name' => 'Nome do Campo'
         ]);
 
         $field = new Field([
@@ -90,6 +93,9 @@ class FieldController extends Controller
         $this->validate($request, [
             'label' => "required|unique:fields,label,$field->id,id",
             'field_name' => "required|unique:fields,field_name,$field->id,id"
+        ], [], [
+            'label' => 'Rótulo',
+            'field_name' => 'Nome do Campo'
         ]);
 
         $field->fill([

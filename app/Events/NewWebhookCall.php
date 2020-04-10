@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Product;
 use App\WebhookCall;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -16,15 +17,17 @@ class NewWebhookCall
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $webhookCall;
+    public $product;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(WebhookCall $webhookCall)
+    public function __construct(WebhookCall $webhookCall, Product $product)
     {
         $this->webhookCall = $webhookCall;
+        $this->product = $product;
     }
 
     /**
