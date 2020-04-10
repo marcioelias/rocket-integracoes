@@ -47,6 +47,8 @@ class RunScheduler extends Command
      */
     public function handle()
     {
+        Log::info('Running command: cron:run');
+
         /* obtem todas as ações que devem notificar eventos do sistema (vencimento de boleto) */
         $actions = Action::with('product')
             ->whereHas('event', function($q) {
