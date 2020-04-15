@@ -36,7 +36,7 @@ class WebhookCallsDataTable extends DataTable
      */
     public function query(WebhookCall $model)
     {
-        return $model->with('webhook')->newQuery();
+        return $model->with('webhook')->orderBy('id', 'desc')->newQuery();
     }
 
     /**
