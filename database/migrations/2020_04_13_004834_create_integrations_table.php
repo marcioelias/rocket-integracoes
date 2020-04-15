@@ -13,6 +13,8 @@ class CreateIntegrationsTable extends Migration
      */
     public function up()
     {
+        $this->down();
+
         Schema::create('integrations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('webhook_call_id');
