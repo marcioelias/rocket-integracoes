@@ -12,5 +12,6 @@
     "/js/shortUrlConfig.js": "/js/shortUrlConfig.js",
     "/js/userProfiles.js": "/js/userProfiles.js",
     "/js/users.js": "/js/users.js",
+    "/js/webhookCall.js": "/js/webhookCall.js",
     "/js/webhookEvents.js": "/js/webhookEvents.js"
 }

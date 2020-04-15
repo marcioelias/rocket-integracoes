@@ -196,3 +196,15 @@ Breadcrumbs::for('users.profile', function ($trail, $model) {
     $trail->parent('user', $model);
     $trail->push('Profile');
 });
+
+// Integrações > Postbacks
+Breadcrumbs::for('webhook_calls.index', function ($trail) {
+    $trail->parent('integracoes');
+    $trail->push('Postbacks', route('webhook_calls.index'));
+});
+
+// Integrações > Postbacks > postback > show
+Breadcrumbs::for('webhook_calls.show', function ($trail, $model) {
+    $trail->parent('webhook_calls.index');
+    $trail->push($model->transaction_code, route('webhook_calls.show', $model->id));
+});

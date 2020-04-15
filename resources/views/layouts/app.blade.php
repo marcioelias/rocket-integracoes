@@ -68,10 +68,11 @@
     </script>
     {{-- <script src="{{ asset('template/plugins/highlight/highlight.pack.js') }}"></script> --}}
     <script src="{{ asset('template/assets/js/custom.js') }}" ></script>
-    {{-- <script src="{{ asset('template/assets/js/elements/tooltip.js') }}"></script> --}}
-    <script src="{{ asset('template/assets/js/elements/popovers.js') }}"></script>
+    <script src="{{ asset('template/assets/js/elements/tooltip.js') }}"></script>
+    {{-- <script src="{{ asset('template/assets/js/elements/popovers.js') }}"></script> --}}
     <script src="{{ asset('template/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('template/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
+    <script src="{{ asset('template/assets/js/components/ui-accordions.js') }}"></script>
     {{-- <script>
         $('[data-toggle="tooltip"]').tooltip();
     </script> --}}

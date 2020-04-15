@@ -24,4 +24,5 @@ mix.js('resources/js/app.js', 'public/js')
    .js('resources/js/resetPassword.js', 'public/js')
    .js('resources/js/dashboard.js', 'public/js')
    .js('resources/js/shortUrlConfig.js', 'public/js')
+   .js('resources/js/webhookCall.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');

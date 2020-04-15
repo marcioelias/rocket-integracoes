@@ -36,7 +36,9 @@ Route::middleware(['auth:web'])->group(function() {
     Route::get('/json/products/{product}', 'ProductController@getProduct');
     Route::get('/json/api_endpoints/api/{api}', 'ApiEndpointController@getApiEndpointsByApi');
     Route::get('/json/actions/{action}', 'ActionController@getAction');
+    Route::get('/json/products/{product}/actions', 'ActionController@getActionsByProduct');
     Route::get('/json/events/product/{product}', 'EventController@getEventsByProduct');
+    Route::get('/json/webhooks/{webhook}/events', 'WebhookController@getWebhookEvents');
     Route::get('/json/events/{event}', 'EventController@getEvent');
     Route::get('/json/last_api_calls', 'DashboardController@getApiLastCalls');
 
@@ -45,6 +47,9 @@ Route::middleware(['auth:web'])->group(function() {
     Route::post('/json/actions/{action}/active/toggle', 'ActionController@toggleActive');
     Route::post('/json/users/{user}/active/toggle', 'UserController@toggleActive');
     Route::put('/json/users/{user}/change_password', 'UserController@changePassword');
+
+    Route::get('/webhook_calls', 'WebhookCallController@index')->name('webhook_calls.index');
+    Route::get('/webhook_calls/{webhook_call}', 'WebhookCallController@show')->name('webhook_calls.show');
 
     Route::get('/short_url_configs', 'ShortUrlConfigController@edit')->name('short_url_configs.edit');
     Route::put('/short_url_configs/{short_url_config}', 'ShortUrlConfigController@update');

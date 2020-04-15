@@ -4,6 +4,7 @@
 <link href="{{ asset('template/assets/css/authentication/form-2.css') }}" rel="stylesheet">
 <link href="{{ asset('template/assets/css/forms/theme-checkbox-radio.css') }}" rel="stylesheet">
 <link href="{{ asset('template/assets/css/forms/switches.css') }}" rel="stylesheet">
+<link href="{{ asset('template/assets/css/forms/theme-checkbox-radio.css') }}" rel="stylesheet" type="text/css">
 @endpush
 
 @section('base-content')
@@ -41,6 +42,15 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+
+                            <div class="mb-2">
+                                <div class="n-chk">
+                                    <label class="new-control new-checkbox checkbox-success noselect">
+                                        <input type="checkbox" class="new-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                        <span class="new-control-indicator"></span>Continuar conectado
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="division"></div>

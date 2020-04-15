@@ -53,7 +53,6 @@ export default {
         async getLastApiCalls() {
             await axios.get('/json/last_api_calls')
                 .then(r => {
-                    console.log(r.data)
                     this.apiCalls = r.data
                 })
         }

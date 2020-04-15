@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Action;
 use App\DataTables\ProductsDataTable;
 use App\Product;
 use App\traits\UtilsTrait;
 use App\Webhook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use stdClass;
 use Symfony\Component\Process\Process;
 
 class ProductController extends Controller
@@ -59,6 +62,8 @@ class ProductController extends Controller
         ]);
 
         $product->save();
+
+        $this->addUpdateActions($product, $request->actions);
 
         return response()->json(['redirect' => route('products.index')]);
     }
@@ -113,6 +118,12 @@ class ProductController extends Controller
 
         $product->save();
 
+        $this->addUpdateActions($product, $request->actions);
+        if ($request->deleted_actions) {
+            $this->removeActions($request->deleted_actions);
+        }
+
+
         return response()->json(['redirect' => route('products.index')]);
     }
 
@@ -133,5 +144,35 @@ class ProductController extends Controller
 
     public function getProduct(Product $product) {
         return response()->json($product);
+    }
+
+    private function addUpdateActions(Product $product, array $actions) {
+        foreach ($actions as $action) {
+            $actData = [
+                'product_id' => $product->id,
+                'event_id' => $action['event_id'],
+                'api_endpoint_id' => $action['api_endpoint_id'],
+                'name' => $action['name'],
+                'delay' => $action['delay'],
+                'delay_type' => $action['delay_type'],
+                'data' => json_encode(json_decode($action['data'])),
+                'trigger_data' => $action['trigger_data'],
+                'active' => $action['active']
+            ];
+            if ($action['id']) {
+                //update
+                $act = Action::find($action['id']);
+                $act->fill($actData);
+            } else {
+                //insert
+                $act = new Action($actData);
+            }
+
+            $act->save();
+        }
+    }
+
+    private function removeActions(array $deletedActions) {
+        Action::whereIn('id', $deletedActions)->delete();
     }
 }

@@ -4,6 +4,7 @@ import { validationState, validationGetters, validationMutations } from '../../.
 const state = {
     ...validationState,
     actionId: null,
+    name: '',
     productId: null,
     eventId: null,
     apiId: null,
@@ -67,6 +68,7 @@ const getters = {
 const actions = {
     async storeAction({commit}) {
         let action = {
+            name: state.name,
             product_id: state.productId,
             event_id: state.eventId,
             delay: state.delay,
@@ -163,14 +165,14 @@ const actions = {
         await Axios.get('/json/actions/'+id)
             .then(r => {
                 if (r.status === 200) {
-                    console.log(r.data);
+                    commit('setName', r.data.name)
                     dispatch('selectProduct', r.data.product_id)
                     commit('setEventId', r.data.event_id)
                     dispatch('selectApi', r.data.api_endpoint.api_id)
                     commit('setEndpointId', r.data.api_endpoint_id)
                     commit('setDelay', r.data.delay)
                     commit('setDelayType', r.data.delay_type)
-                    commit('setActionData', JSON.parse(r.data.data))
+                    commit('setActionDataInit', JSON.parse(r.data.data))
                     commit('setActive', r.data.active)
                     commit('setTriggerData', r.data.trigger_data)
                 }
@@ -222,11 +224,23 @@ const actions = {
     selectApi({commit, dispatch}, id) {
         commit('setApiId', id)
         dispatch('loadEndpoints', id)
+    },
+    selectEndpoint({state, commit, getters}, id) {
+        commit('setEndpointId', id)
+        getters.getMetaFields.forEach(e => {
+            let obj = {}
+            obj.name = e.name,
+            obj.value = ''
+            commit('setInitActionData', obj)
+        });
     }
 }
 
 const mutations = {
     ...validationMutations,
+    setName(state, payload) {
+        state.name = payload
+    },
     setProductId(state, payload) {
         state.productId = payload
     },
@@ -285,10 +299,14 @@ const mutations = {
         state.endpointLoading = payload
     },
     setActionData(state, payload) {
-        state.actionData = payload
+        Vue.set(state.actionData, payload.name, payload.value)
+        //state.actionData[payload.name] = payload.value
     },
     setActionId(state, payload) {
         state.actionId = payload
+    },
+    setActionDataInit(state, payload) {
+        state.actionData = {...state.actionData, ...payload}
     }
 }
 

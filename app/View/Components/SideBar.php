@@ -86,6 +86,11 @@ class SideBar extends Component
                         'route' => route('webhooks.index'),
                         'active' => request()->is('webhooks*'),
                     ],
+                    [
+                        'name' => 'Postback\'s',
+                        'route' => route('webhook_calls.index'),
+                        'active' => request()->is('webhook_calls*'),
+                    ],
                 ]
             ],
             [
@@ -144,6 +149,7 @@ class SideBar extends Component
 
     public function integracoesActive() {
         return (request()->is('webhooks*') ||
+        (request()->is('webhook_calls*')) ||
         (request()->is('apis*')) ||
         (request()->is('api_endpoints*'))) ? $this->dataActive : '';
     }

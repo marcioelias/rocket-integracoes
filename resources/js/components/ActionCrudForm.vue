@@ -15,7 +15,18 @@
                     <div class="form-control">{{ active ? 'Sim' : 'Não' }}</div>
                 </div>
             </div>
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-10">
+                <label for="name">Ação</label>
+                <div class="input-group">
+                    <input type="text" name="name" id="name" class="form-control" v-model="name">
+                </div>
+                <span v-if="getHttpErrors.name" class="invalid-feedback" style="display: block">
+                    <strong v-for="(error, index) in getHttpErrors.name" :key="index">{{ error }}</strong>
+                </span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <!-- Produto -->
                 <label for="product">Produto</label>
                 <div class="input-group">
@@ -32,7 +43,7 @@
                     <strong v-for="(error, index) in getHttpErrors.product_id" :key="index">{{ error }}</strong>
                 </span>
             </div>
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-6">
                 <!-- Evento -->
                 <label for="event">Evento</label>
                 <div class="input-group">
@@ -120,12 +131,8 @@
                     <div class="form-group col">
                         <!-- Meta Field -->
                         <label :for="metaField.name">{{ metaField.name }}</label>
-                        <textarea :ref="metaField.name" :name="metaField.name" :id="metaField.name" cols="30" rows="2" class="form-control" v-model="actionData[metaField.name]"></textarea>
+                        <textarea :ref="metaField.name" :name="metaField.name" :id="metaField.name" cols="30" rows="2" class="form-control" :value="actionData[metaField.name]" @input="setActionData({name: metaField.name, value: $event.target.value})"></textarea>
                         <button class="badge outline-badge-warning float-right mt-1 ml-2" data-toggle="tooltip" title="Variáveis" @click="initVariablesSearch(metaField.name)"><i class="fas fa-ellipsis-h"></i></button>
-                        <!-- <span class="float-right mt-1"><div class="badge" :class="{'outline-badge-danger': actionData[metaField.name].length >= 160, 'outline-badge-success': actionData[metaField.name].length < 160}"><small>{{ actionData[metaField.name].length }}</small></div></span> -->
-                        <!-- <span v-if="getHttpErrors.message" class="invalid-feedback" style="display: block">
-                            <strong v-for="(error, index) in getHttpErrors.message" :key="index">{{ error }}</strong>
-                        </span> -->
                     </div>
                 </div>
             </div>
@@ -174,7 +181,8 @@ export default {
             messagePosition: 0,
             inputMeta: null,
             insertedVariable: '',
-            currentRef: ''
+            currentRef: '',
+            dataFields: {},
         }
     },
     props: {
@@ -198,28 +206,34 @@ export default {
         }
     },
     methods: {
+        setActionData(e) {
+            this.$store.commit('actions/setActionData', e)
+        },
         ...mapActions('actions', [
             'loadAction', 'loadProducts', 'loadApis', 'loadVariables', 'storeAction'
         ]),
         addVariable(variable) {
+            let v = `{ ${variable} } `
             this.messagePosition = this.inputMeta.selectionStart
             let txt = this.actionData[this.currentRef]
-            if(txt) {
-                this.actionData[this.currentRef] = `${txt.slice(0,this.messagePosition)}{ ${variable} }${txt.slice(this.messagePosition)}`
-                this.insertedVariable = `{ ${variable} }`
+
+            let obj = {
+                name: this.currentRef,
+                value:  txt == undefined ? v : `${txt.slice(0,this.messagePosition)}${v}${txt.slice(this.messagePosition)}`
             }
+
+            this.$store.commit('actions/setActionData', obj)
+            this.$forceUpdate()
+            this.insertedVariable = v
         },
         restoreMessageFocus() {
-            $(this.inputMeta).selectionStart = this.messagePosition + this.insertedVariable.length
+            this.inputMeta.selectionStart = this.messagePosition + this.insertedVariable.length
+            this.inputMeta.selectionEnd = this.inputMeta.selectionStart
             this.$nextTick(() => $(this.inputMeta).focus())
         },
         initVariablesSearch(refComp) {
             this.currentRef = refComp
-            this.inputMeta = this.$refs[`${refComp}`][0]
-
-            if (!this.actionData[this.currentRef]) {
-                this.actionData[this.currentRef] = ''
-            }
+            this.inputMeta = (this.$refs[refComp][0]) ? this.$refs[refComp][0] : null
 
             this.searchVariable = ''
             $(this.$refs.modalVariables).modal('show')
@@ -229,6 +243,9 @@ export default {
         ...mapGetters('actions', [
             'getHttpErrors', 'selectedEvent', 'filteredVariables', 'getMetaFields'
         ]),
+        actionData() {
+            return this.$store.state.actions.actionData
+        },
         productLoading() {
             return this.$store.state.actions.productLoading
         },
@@ -255,6 +272,14 @@ export default {
         },
         delayTypes() {
             return this.$store.state.actions.delayTypes
+        },
+        name: {
+            get() {
+                return this.$store.state.actions.name
+            },
+            set(value) {
+                this.$store.commit('actions/setName', value)
+            }
         },
         productId: {
             get() {
@@ -285,7 +310,7 @@ export default {
                 return this.$store.state.actions.endpointId
             },
             set(value) {
-                this.$store.commit('actions/setEndpointId', value)
+                this.$store.dispatch('actions/selectEndpoint', value)
             }
         },
         delay: {
@@ -326,14 +351,6 @@ export default {
             },
             set(value) {
                 this.$store.commit('actions/setSearchVariable', value)
-            }
-        },
-        actionData: {
-            get() {
-                return this.$store.state.actions.actionData
-            },
-            set(value) {
-                this.$store.commit('actions/setActionData', value)
             }
         }
     }

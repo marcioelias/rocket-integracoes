@@ -32,7 +32,6 @@ export default {
     },
     methods: {
         selectVar() {
-            console.log('selecionado')
             this.$emit('modalClose', 1);
         }
     }

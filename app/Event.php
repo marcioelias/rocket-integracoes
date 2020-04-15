@@ -22,6 +22,10 @@ class Event extends Model
         return $this->hasMany(ApiCall::class);
     }
 
+    public function integrations() {
+        return $this->hasMany(Integration::class);
+    }
+
     public function scopeOrdered($query) {
         return $query->orderBy('name', 'asc');
     }

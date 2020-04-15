@@ -10,7 +10,11 @@ class WebhookCall extends Model
         'webhook_id', 'data', 'mapped_data', 'transaction_code'
     ];
 
-    protected function webhook() {
+    public function webhook() {
         return $this->belongsTo(Webhook::class);
+    }
+
+    public function integrations() {
+        return $this->hasMany(Integration::class);
     }
 }

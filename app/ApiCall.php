@@ -21,4 +21,8 @@ class ApiCall extends Model
     public function product() {
         return $this->belongsTo(Product::class);
     }
+
+    public function integrations() {
+        return $this->hasMany(Integration::class);
+    }
 }

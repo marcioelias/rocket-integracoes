@@ -182,8 +182,6 @@ const mutations = {
         state.triggerSystemEvent = payload
     },
     updateCondition(state, payload) {
-        console.log(payload)
-        console.log(state.conditions[payload.id])
         state.conditions[payload.id].field = payload.field
         state.conditions[payload.id].logic = payload.logic
         state.conditions[payload.id].value = payload.value

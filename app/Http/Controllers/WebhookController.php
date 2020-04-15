@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\WebhooksDataTable;
+use App\Event;
 use App\Events\NewWebhookCall;
 use App\Field;
 use App\Product;
@@ -75,7 +76,7 @@ class WebhookController extends Controller
      */
     public function show(Webhook $webhook)
     {
-        return View('webhooks.show')->withWebhook($webhook);
+        return View('webhooks.show')->withModel($webhook->load('webhook_calls'));
     }
 
     /**
@@ -266,5 +267,13 @@ class WebhookController extends Controller
 
     public function getWebhooks() {
         return response()->json(Webhook::orderBy('name', 'asc')->get());
+    }
+
+    public function getWebhookEvents(Webhook $webhook) {
+        $events = Event::where('webhook_id', $webhook->id)
+                        ->orWhere('system_event', true)
+                        ->orderBy('name', 'asc')
+                        ->get();
+        return response()->json($events);
     }
 }

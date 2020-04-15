@@ -80,14 +80,33 @@ class RunScheduler extends Command
 
                 }
 
-                $apiCall = New ApiCall([
-                    'api_endpoint_id' => $endpoint->id,
-                    'request' => json_encode($req)
-                ]);
+                /* Antes de continuar o processamento, verifica por entradas de
+                chamadas a API já feitas para o mesmo endpoint, pelo mesno evento,
+                com o mesmo produto e o mesmo código de transacao. Caso não exista
+                nenhum registro processe para as chamadas a API */
+                if (ApiCall::where('api_endpoint_id', $endpoint->id)
+                    ->where('event_id', $action->event->id)
+                    ->where('product_id', $action->product->id)
+                    ->where('transaction_code', $webhookCall->transaction_code)
+                    ->doesntExist()) {
 
-                $apiCall->save();
+                    $apiCall = New ApiCall([
+                        'api_endpoint_id' => $endpoint->id,
+                        'event_id' => $action->event->id,
+                        'product_id' => $action->product->id,
+                        'transaction_code' => $webhookCall->transaction_code,
+                        'request' => json_encode($req)
+                    ]);
 
-                ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
+                    /* $apiCall = New ApiCall([
+                        'api_endpoint_id' => $endpoint->id,
+                        'request' => json_encode($req)
+                    ]); */
+
+                    $apiCall->save();
+
+                    ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
+                }
 
             }
         }

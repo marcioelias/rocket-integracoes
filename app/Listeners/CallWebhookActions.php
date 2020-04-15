@@ -14,6 +14,7 @@ use App\Events\NewApiRequest;
 use App\Events\NewApiResponse;
 use App\Events\NewBillet;
 use App\Events\NewWebhookCall;
+use App\Integration;
 use App\Jobs\ProcessApiCall;
 use App\Product;
 use App\Webhook;
@@ -173,6 +174,15 @@ class CallWebhookActions
                 ]);
 
                 $apiCall->save();
+
+                $integration = new Integration([
+                    'webhook_call_id' => $webhookCall->id,
+                    'event_id' => $event->id,
+                    'action_id' => $action->id,
+                    'api_call_id' => $apiCall->id
+                ]);
+
+                $integration->save();
 
                 ProcessApiCall::dispatch($apiCall, $endpoint, $req)->delay(now()->addMinutes($action->delay));
             }

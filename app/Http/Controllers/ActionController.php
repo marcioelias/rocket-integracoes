@@ -53,6 +53,7 @@ class ActionController extends Controller
     {
         //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
         $this->validate($request, [
+            'name' => 'required',
             'product_id' => 'required',
             'event_id' => "required", //|unique:actions,event_id,NULL,NULL,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
             'delay' =>  'required|integer|min:0',
@@ -68,6 +69,7 @@ class ActionController extends Controller
         ]);
 
         $action = new Action([
+            'name' => $request->name,
             'product_id' => $request->product_id,
             'event_id' => $request->event_id,
             'delay' => $request->delay,
@@ -116,6 +118,7 @@ class ActionController extends Controller
     {
         //unique:table[,column[,ignore value[,ignore column[,where column,where value]...]]]
         $this->validate($request, [
+            'name' => 'required',
             'product_id' => 'required',
             'event_id' => "required", //|unique:actions,event_id,$action->id,id,product_id,$request->product_id,api_endpoint_id,$request->api_endpoint_id",
             'delay' =>  'required|integer|min:0',
@@ -131,6 +134,7 @@ class ActionController extends Controller
         ]);
 
         $action->fill([
+            'name' => $request->name,
             'product_id' => $request->product_id,
             'event_id' => $request->event_id,
             'delay' => $request->delay,
@@ -164,5 +168,9 @@ class ActionController extends Controller
 
     public function getAction(Action $action) {
         return response()->json($action->load('api_endpoint', 'event'));
+
+    }
+    public function getActionsByProduct(Product $product) {
+        return response()->json(Action::with(['api_endpoint.api', 'event'])->where('product_id', $product->id)->orderBy('name', 'asc')->get());
     }
 }

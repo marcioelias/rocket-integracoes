@@ -161,6 +161,6 @@ class ApiEndpointController extends Controller
     }
 
     public function getApiEndpointsByApi(Api $api) {
-        return response()->json(ApiEndpoint::ByApi($api)->Ordered()->get());
+        return response()->json(ApiEndpoint::ByApi($api)->with('api')->Ordered()->get());
     }
 }
