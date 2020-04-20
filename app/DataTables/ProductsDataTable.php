@@ -68,6 +68,7 @@ class ProductsDataTable extends DataTable
         return [
             Column::make('id')->title('ID'),
             Column::make('name')->title('Produto'),
+            Column::make('product_code')->title('Code'),
             Column::make('webhook.name')->title('Webhook'),
             Column::computed('action')
                   ->title('Ações')
